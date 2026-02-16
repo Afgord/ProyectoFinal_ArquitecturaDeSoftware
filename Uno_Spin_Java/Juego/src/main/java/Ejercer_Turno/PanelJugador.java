@@ -6,6 +6,8 @@ package Ejercer_Turno;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,23 +21,23 @@ public class PanelJugador extends JPanel{
     private JPanel panelAvatar;
 
     public PanelJugador(String nombre, int numCartas, String urlAvatar) {
-        setPreferredSize(new Dimension(250,80));
-        setBackground(Color.YELLOW);
         setLayout(null);
-        if (nombre != null){
-            this.lbUsuario = new JLabel(nombre);
-            
-        } else {
-            this.lbUsuario = new JLabel("Jugador");
-        }
-        this.lbUsuario.setBounds(90, 14, 50, 30);
+        setPreferredSize(new Dimension(250,80));
+        setBackground(new Color(255,204,0));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        
+        lbUsuario = new JLabel(nombre != null ? nombre : "Jugador");
+        lbUsuario.setBounds(90, 10, 150, 25);
+        lbUsuario.setFont(new Font("Arial", Font.BOLD, 16));
+        lbUsuario.setForeground(Color.BLACK);
         add(lbUsuario);
-        String numCartasString = String.valueOf(numCartas);
-        this.lbNumCartas = new JLabel(numCartasString);
-        this.lbNumCartas.setBounds(90, 28, 10, 50);
+        lbNumCartas = new JLabel("Cartas: " + numCartas);
+        lbNumCartas.setBounds(90, 40, 150, 25);
+        lbNumCartas.setFont(new Font("Arial", Font.PLAIN, 14));
+        lbNumCartas.setForeground(Color.DARK_GRAY);
         add(lbNumCartas);
-        this.panelAvatar = new panelAvatar(urlAvatar);
-        this.panelAvatar.setBounds(10, 5, 70, 70);
+        panelAvatar = new panelAvatar(urlAvatar);
+        panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);
     }
 }
