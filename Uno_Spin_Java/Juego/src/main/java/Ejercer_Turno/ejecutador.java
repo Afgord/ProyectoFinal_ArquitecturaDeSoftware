@@ -9,7 +9,6 @@ package Ejercer_Turno;
  * @author lagar
  */
 public class ejecutador {
-
     /**
      * @param args the command line arguments
      */
@@ -17,5 +16,4 @@ public class ejecutador {
         // TODO code application logic here
         frame f = new frame();
     }
-    
 }
