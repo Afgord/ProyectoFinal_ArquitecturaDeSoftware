@@ -16,12 +16,13 @@ public class frame extends JFrame{
         setTitle("UNO SPIN");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-
-        PanelContenedor contenedor = new PanelContenedor();
-        add(contenedor);
-
-        pack();
+        setSize(1200,750);
         setLocationRelativeTo(null);
+        mostrar();
+    }
+    
+    private void mostrar(){
+        setVisible(true);
     }
     
 }
