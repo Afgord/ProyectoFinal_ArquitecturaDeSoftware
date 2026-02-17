@@ -19,7 +19,7 @@ public class frame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1200,750);
-        panelContenedor = new PanelContenedor();
+        panelContenedor = new panelTablero();
         add(panelContenedor);
         setLocationRelativeTo(null);
         mostrar();

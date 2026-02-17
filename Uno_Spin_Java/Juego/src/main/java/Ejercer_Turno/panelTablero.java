@@ -12,16 +12,19 @@ import javax.swing.JPanel;
  *
  * @author lagar
  */
-public class PanelContenedor extends JPanel{
+public class panelTablero extends JPanel{
     private JPanel panelJugador1;
     private JPanel panelJugador2;
     private JPanel panelJugador3;
     private JPanel panelJugador4;
+    private JPanel panelMano1;
+    private Mazo mazo;
     
-    public PanelContenedor() {
+    public panelTablero() {
         setPreferredSize(new Dimension(1200,750));
         setBackground(Color.RED);
         setLayout(null);
+        mazo = new Mazo();
         this.panelJugador1 = new PanelJugador("xrapayel",7, "/avatares/defecto.png");
         this.panelJugador1.setBounds(0, 0, 250, 80);
         add(panelJugador1);
@@ -34,6 +37,10 @@ public class PanelContenedor extends JPanel{
         this.panelJugador4 = new PanelJugador("lafayett", 8, "/avatares/defecto.png");
         this.panelJugador4.setBounds(0, 240, 250, 80);
         add(panelJugador4);
+        this.panelMano1 = new PanelMano(mazo.tomarCartas(7));
+        this.panelMano1.setBounds(200,590,800,120);
+        add(panelMano1);
+        
     }
     
 }
