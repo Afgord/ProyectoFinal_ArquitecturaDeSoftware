@@ -23,9 +23,52 @@ public class PanelMano extends JPanel{
         setBackground(Color.RED);
         setPreferredSize(new Dimension(800,120));
         setLayout(null);
-        this.cartas.get(0).setBounds(0,0,100,120);
-        add(cartas.get(0));
+        actualizarVista();
     }
-    
-    
+    private void actualizarVista() {
+        removeAll();
+
+        int anchoPanel = getWidth();
+        if (anchoPanel == 0) anchoPanel = 800;
+
+        int altoPanel = getHeight();
+        if (altoPanel == 0) altoPanel = 120;
+
+        int anchoCarta = 100;
+        int altoCarta = 120;
+
+        int n = cartas.size();
+        if (n == 0) return;
+
+        int espacio;
+
+        if (n == 1) {
+            espacio = 0;
+        } else {
+            espacio = (anchoPanel - anchoCarta) / (n - 1);
+        }
+
+        int x = 0;
+        int y = (altoPanel - altoCarta) / 2;
+
+        for (PanelCarta carta : cartas) {
+            carta.setBounds(x, y, anchoCarta, altoCarta);
+            add(carta);
+            x += espacio;
+        }
+
+        revalidate();
+        repaint();
+    }
+
+        
+    public void agregarCarta(PanelCarta carta) {
+        cartas.add(carta);
+        actualizarVista();
+    }
+
+    public void eliminarCarta(PanelCarta carta) {
+        cartas.remove(carta);
+        actualizarVista();
+    }
 }

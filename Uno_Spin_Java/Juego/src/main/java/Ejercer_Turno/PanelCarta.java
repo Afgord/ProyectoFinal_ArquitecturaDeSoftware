@@ -36,7 +36,17 @@ public class PanelCarta extends JPanel{
         this.colorExterno = colorExterno;
         this.colorInterno = colorInterno;
         this.lado = lado;
-        
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                if (getParent() instanceof PanelMano) {
+                    PanelMano mano = (PanelMano) getParent();
+                    mano.eliminarCarta(PanelCarta.this);
+                }
+
+            }
+        });  
     }
     
     @Override
@@ -50,7 +60,8 @@ public class PanelCarta extends JPanel{
         } else {
             g2d.drawImage(ladoAdelante, 0, 0, this.getWidth(), this.getHeight(), this);
         }
-            
+        
+           
     }
     
     private void cargarCarta(String adelanteImagen){

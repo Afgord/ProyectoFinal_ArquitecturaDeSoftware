@@ -30,8 +30,10 @@ public class Mazo {
         for (int i = 0; i < cantidad; i++) {
             cartasTomadas.add(baraja.remove(0)); 
         }
+        System.out.print(cartasTomadas.size());
         return cartasTomadas;
     }
+    
     private void generarMazoCompleto(List<PanelCarta> baraja){
         baraja.add(new PanelCarta("cero",Color.BLUE,"azul","/cartas/cero.png", true));
         baraja.add(new PanelCarta("cero",Color.BLUE,"azul","/cartas/cero.png", true));

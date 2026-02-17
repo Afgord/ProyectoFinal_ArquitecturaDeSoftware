@@ -26,7 +26,7 @@ public class panelTablero extends JPanel{
         setLayout(null);
         mazo = new Mazo();
         this.panelJugador1 = new PanelJugador("xrapayel",7, "/avatares/defecto.png");
-        this.panelJugador1.setBounds(0, 0, 250, 80);
+        this.panelJugador1.setBounds(200, 510, 250, 80);
         add(panelJugador1);
         this.panelJugador2 = new PanelJugador("angel",6, "/avatares/defecto.png");
         this.panelJugador2.setBounds(0, 80, 250, 80);
@@ -37,7 +37,7 @@ public class panelTablero extends JPanel{
         this.panelJugador4 = new PanelJugador("lafayett", 8, "/avatares/defecto.png");
         this.panelJugador4.setBounds(0, 240, 250, 80);
         add(panelJugador4);
-        this.panelMano1 = new PanelMano(mazo.tomarCartas(7));
+        this.panelMano1 = new PanelMano(mazo.tomarCartas(20));
         this.panelMano1.setBounds(200,590,800,120);
         add(panelMano1);
         
