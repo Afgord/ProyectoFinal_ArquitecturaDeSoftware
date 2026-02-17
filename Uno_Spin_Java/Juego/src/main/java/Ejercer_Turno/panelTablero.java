@@ -17,8 +17,10 @@ public class panelTablero extends JPanel{
     private JPanel panelJugador2;
     private JPanel panelJugador3;
     private JPanel panelJugador4;
-    private JPanel panelMano1;
+    private PanelMano panelMano1;
     private Mazo mazo;
+    private JPanel panelDescarte;
+    private PanelMazo panelMazo;
     
     public panelTablero() {
         setPreferredSize(new Dimension(1200,750));
@@ -40,6 +42,10 @@ public class panelTablero extends JPanel{
         this.panelMano1 = new PanelMano(mazo.tomarCartas(20));
         this.panelMano1.setBounds(200,590,800,120);
         add(panelMano1);
+        this.panelMazo = new PanelMazo(mazo,panelMano1);
+        this.panelMazo.setBounds(450,280,100,120);
+        add(panelMazo);
+                
         
     }
     

@@ -19,6 +19,7 @@ public class Mazo {
     public Mazo() {
         baraja = new ArrayList<>();
         generarMazoCompleto(baraja);
+        Collections.shuffle(baraja);
     }
     
     public List<PanelCarta> tomarCartas(int cantidad) {
@@ -32,6 +33,14 @@ public class Mazo {
         }
         System.out.print(cartasTomadas.size());
         return cartasTomadas;
+    }
+    
+    public PanelCarta tomarUnaCarta() {
+        if (baraja.isEmpty()) {
+            throw new IllegalStateException("El mazo está vacío");
+        }
+
+        return baraja.remove(0); 
     }
     
     private void generarMazoCompleto(List<PanelCarta> baraja){
