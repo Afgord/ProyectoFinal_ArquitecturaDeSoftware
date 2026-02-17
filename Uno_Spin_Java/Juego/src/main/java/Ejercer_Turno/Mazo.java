@@ -42,7 +42,11 @@ public class Mazo {
 
         return baraja.remove(0); 
     }
-    
+
+    public List<PanelCarta> getBaraja() {
+        return baraja;
+    }
+  
     private void generarMazoCompleto(List<PanelCarta> baraja){
         baraja.add(new PanelCarta("cero",Color.BLUE,"azul","/cartas/cero.png", true));
         baraja.add(new PanelCarta("cero",Color.BLUE,"azul","/cartas/cero.png", true));

@@ -40,4 +40,8 @@ public class PanelJugador extends JPanel{
         panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);
     }
+    
+    public void actualizarCantidad(int cantidad) {
+        lbNumCartas.setText("Cartas: " + cantidad);
+    }
 }

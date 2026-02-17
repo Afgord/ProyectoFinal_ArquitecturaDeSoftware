@@ -17,14 +17,22 @@ import javax.swing.JPanel;
  */
 public class PanelMano extends JPanel{
     private List<PanelCarta> cartas;
+    private PanelDescarte panelDescarte;
+    private PanelJugador panelJugador;
     
-    public PanelMano(List<PanelCarta> cartas) {
+    public PanelMano(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador) {
         this.cartas = cartas;
+        this.panelDescarte = panelDescarte;
+        this.panelJugador = panelJugador;
+
         setBackground(Color.RED);
         setPreferredSize(new Dimension(800,120));
         setLayout(null);
+
         actualizarVista();
+        actualizarContador();
     }
+    
     private void actualizarVista() {
         removeAll();
 
@@ -60,15 +68,21 @@ public class PanelMano extends JPanel{
         revalidate();
         repaint();
     }
-
-        
+    
     public void agregarCarta(PanelCarta carta) {
         cartas.add(carta);
         actualizarVista();
+        actualizarContador();
     }
 
     public void eliminarCarta(PanelCarta carta) {
+        panelDescarte.setNuevaCarta(carta);
         cartas.remove(carta);
         actualizarVista();
+        actualizarContador();
+    }
+    
+    private void actualizarContador() {
+        panelJugador.actualizarCantidad(cartas.size());
     }
 }

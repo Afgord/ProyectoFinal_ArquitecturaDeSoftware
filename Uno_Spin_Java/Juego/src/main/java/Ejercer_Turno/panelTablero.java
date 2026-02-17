@@ -13,13 +13,13 @@ import javax.swing.JPanel;
  * @author lagar
  */
 public class panelTablero extends JPanel{
-    private JPanel panelJugador1;
-    private JPanel panelJugador2;
-    private JPanel panelJugador3;
-    private JPanel panelJugador4;
+    private PanelJugador panelJugador1;
+    private PanelJugador panelJugador2;
+    private PanelJugador panelJugador3;
+    private PanelJugador panelJugador4;
     private PanelMano panelMano1;
     private Mazo mazo;
-    private JPanel panelDescarte;
+    private PanelDescarte panelDescarte;
     private PanelMazo panelMazo;
     
     public panelTablero() {
@@ -27,7 +27,7 @@ public class panelTablero extends JPanel{
         setBackground(Color.RED);
         setLayout(null);
         mazo = new Mazo();
-        this.panelJugador1 = new PanelJugador("xrapayel",7, "/avatares/defecto.png");
+        this.panelJugador1 = new PanelJugador("xrapayel",0, "/avatares/defecto.png");
         this.panelJugador1.setBounds(200, 510, 250, 80);
         add(panelJugador1);
         this.panelJugador2 = new PanelJugador("angel",6, "/avatares/defecto.png");
@@ -39,12 +39,16 @@ public class panelTablero extends JPanel{
         this.panelJugador4 = new PanelJugador("lafayett", 8, "/avatares/defecto.png");
         this.panelJugador4.setBounds(0, 240, 250, 80);
         add(panelJugador4);
-        this.panelMano1 = new PanelMano(mazo.tomarCartas(20));
+        this.panelDescarte = new PanelDescarte(mazo);
+        this.panelDescarte.setBounds(600, 280, 100, 120);
+        add(panelDescarte);
+        this.panelMano1 = new PanelMano(mazo.tomarCartas(7),panelDescarte,panelJugador1);
         this.panelMano1.setBounds(200,590,800,120);
         add(panelMano1);
         this.panelMazo = new PanelMazo(mazo,panelMano1);
-        this.panelMazo.setBounds(450,280,100,120);
+        this.panelMazo.setBounds(480,280,100,120);
         add(panelMazo);
+        
                 
         
     }

@@ -73,4 +73,14 @@ public class PanelCarta extends JPanel{
             System.out.println(e);
         }
     }
+
+    public Color getColorExterno() {
+        return colorExterno;
+    }
+
+    public BufferedImage getLadoAdelante() {
+        return ladoAdelante;
+    }
+    
+    
 }
