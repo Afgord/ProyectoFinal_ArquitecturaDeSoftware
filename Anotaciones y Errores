@@ -1,0 +1,8 @@
+Anotaciones de Errores 
+- No puede haber logica en la vista
+-En los observers el contexto es el modelo segregado
+- A la vista nunca se le inyecta el modelo
+- No se ocupa un mock router
+- Control habla control
+
+Objetos de presentacion:
