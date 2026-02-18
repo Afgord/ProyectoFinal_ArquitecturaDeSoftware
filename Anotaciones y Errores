@@ -4,5 +4,9 @@ Anotaciones de Errores
 - A la vista nunca se le inyecta el modelo
 - No se ocupa un mock router
 - Control habla control
+- la logica de dominio es la logica que es totalmente independiente de la vista, se podria perfectamente correr el juego en la terminal o en una vista extr¿erna con esta logica
+la logica de presentacion es la que modifica la vista.
+
+PRESENTACION BLACKBOARD PARA LA OTRA SEMANA.
 
 Objetos de presentacion:
