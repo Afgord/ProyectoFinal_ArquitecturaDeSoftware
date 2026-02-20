@@ -6,6 +6,7 @@ package Ejercer_Turno;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -24,6 +25,7 @@ public class panelTablero extends JPanel{
     private Mazo mazo;
     private PanelDescarte panelDescarte;
     private PanelMazo panelMazo;
+    private PanelCartaSeleccionada panelCartaSeleccionada;
     
     public panelTablero() {
         setPreferredSize(new Dimension(1200,750));
@@ -45,7 +47,7 @@ public class panelTablero extends JPanel{
         this.panelDescarte = new PanelDescarte(mazo);
         this.panelDescarte.setBounds(630, 280, 100, 120);
         add(panelDescarte);
-        this.panelMano1 = new PanelMano(mazo.tomarCartas(7),panelDescarte,panelJugador1);
+        this.panelMano1 = new PanelMano(mazo.tomarCartas(7),panelDescarte,panelJugador1,this);
         this.panelMano1.setBounds(200,590,800,120);
         add(panelMano1);
         this.panelMano2 = new PanelManoSecundaria(mazo.tomarCartas(7),panelDescarte,panelJugador2,"izquierda");
@@ -59,11 +61,20 @@ public class panelTablero extends JPanel{
         add(panelMano4);
         this.panelMazo = new PanelMazo(mazo,panelMano1);
         this.panelMazo.setBounds(500,280,100,120);
-        add(panelMazo);
-        
-        
-                
-        
+        add(panelMazo);          
+        panelCartaSeleccionada = new PanelCartaSeleccionada();
+        panelCartaSeleccionada.setBounds(40, 550, 100, 120);
+        add(panelCartaSeleccionada);
+        JButton btnActualizar = new JButton("Reacomodar cartas");
+            btnActualizar.setBounds(500, 450, 180, 40);
+            add(btnActualizar);
+            btnActualizar.addActionListener(e -> {
+                panelMano1.refrescarMano();
+        });
+    }
+    
+    public PanelCartaSeleccionada getPanelCartaSeleccionada() {
+        return panelCartaSeleccionada;
     }
     
 }

@@ -20,11 +20,13 @@ public class PanelMano extends JPanel{
     private PanelDescarte panelDescarte;
     private PanelJugador panelJugador;
     private PanelCarta cartaSeleccionada = null;
+    private panelTablero panelTablero;
     
-    public PanelMano(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador) {
+    public PanelMano(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador, panelTablero panelTablero) {
         this.cartas = cartas;
         this.panelDescarte = panelDescarte;
         this.panelJugador = panelJugador;
+        this.panelTablero = panelTablero;
                 
 
         setBackground(Color.RED);
@@ -91,23 +93,44 @@ public class PanelMano extends JPanel{
         panelJugador.actualizarCantidad(cartas.size());
     }
     
-    public void seleccionarOCartar(PanelCarta carta) {
-        repaint();
+   public void seleccionarOCartar(PanelCarta carta) {
+
+        // Si no hay carta seleccionada
         if (cartaSeleccionada == null) {
             cartaSeleccionada = carta;
             carta.setSeleccionada(true);
-            repaint();
+
+            panelTablero.getPanelCartaSeleccionada()
+                    .setCartaSeleccionada(
+                            carta.getSimbolo(),
+                            carta.getLadoAdelante(),
+                            carta.getColorExterno()
+                    );
             return;
-        } 
+        }
+
+        // Si hace click en la misma carta (descartar)
         if (cartaSeleccionada == carta) {
             carta.setSeleccionada(false);
+            panelTablero.getPanelCartaSeleccionada().limpiarSeleccion();
             cartaSeleccionada = null;
             eliminarCarta(carta);
             return;
         }
+
+        // Si selecciona otra carta diferente
         cartaSeleccionada.setSeleccionada(false);
         cartaSeleccionada = carta;
         carta.setSeleccionada(true);
-        repaint();
+
+        panelTablero.getPanelCartaSeleccionada()
+                .setCartaSeleccionada(
+                        carta.getSimbolo(),
+                        carta.getLadoAdelante(),
+                        carta.getColorExterno()
+                );
+    }
+    public void refrescarMano() {
+        actualizarVista();
     }
 }
