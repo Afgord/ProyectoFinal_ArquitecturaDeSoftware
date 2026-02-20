@@ -27,6 +27,7 @@ public class PanelCarta extends JPanel{
     private BufferedImage ladoAtras;
     private boolean lado;
     private final URL urlAtras = getClass().getResource("/cartas/atras.png");
+    private boolean seleccionada = false;
 
     public PanelCarta(String simbolo, Color colorExterno, String colorInterno, String ladoAdelante, boolean lado) {
         cargarCarta(ladoAdelante);
@@ -39,14 +40,13 @@ public class PanelCarta extends JPanel{
         addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-
                 if (getParent() instanceof PanelMano) {
                     PanelMano mano = (PanelMano) getParent();
-                    mano.eliminarCarta(PanelCarta.this);
+                    mano.seleccionarOCartar(PanelCarta.this);
                 }
 
             }
-        });  
+        });
     }
     
     @Override
@@ -54,13 +54,18 @@ public class PanelCarta extends JPanel{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(colorExterno);
-        if(lado == false){
-            g2d.drawImage(ladoAtras, 0, 0, this.getWidth(), this.getHeight(), this);
-        } else {
-            g2d.drawImage(ladoAdelante, 0, 0, this.getWidth(), this.getHeight(), this);
-        }
         
+            if(lado == false){
+                g2d.drawImage(ladoAtras, 0, 0, this.getWidth(), this.getHeight(), this);
+            } else {
+                g2d.drawImage(ladoAdelante, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        if (seleccionada) {
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(Color.BLUE);
+            g2.setStroke(new java.awt.BasicStroke(4));
+            g2.drawRoundRect(2, 2, getWidth() - 5, getHeight() - 5, 15, 15);
+        }
            
     }
     
@@ -73,13 +78,39 @@ public class PanelCarta extends JPanel{
             System.out.println(e);
         }
     }
+    
+    public void setSeleccionada(boolean seleccionada) {
+        this.seleccionada = seleccionada;
+        repaint();
+    }
 
+    public boolean isSeleccionada() {
+        return seleccionada;
+    }
     public Color getColorExterno() {
         return colorExterno;
     }
 
     public BufferedImage getLadoAdelante() {
         return ladoAdelante;
+    }
+
+    public void setLado(boolean lado) {
+        this.lado = lado;
+        
+        repaint();
+    }
+
+    public BufferedImage getLadoAtras() {
+        return ladoAtras;
+    }
+    
+    public boolean isLado() {
+        return lado;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
     }
     
     

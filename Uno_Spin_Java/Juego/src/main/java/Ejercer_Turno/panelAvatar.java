@@ -4,6 +4,7 @@
  */
 package Ejercer_Turno;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -22,6 +23,7 @@ public class panelAvatar extends JPanel{
 
     public panelAvatar(String url) {
         setPreferredSize(new Dimension(70,70));
+        setBackground(Color.WHITE);
         try{
             urlAvatar = getClass().getResource(url);
             avatar = ImageIO.read(urlAvatar);

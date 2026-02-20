@@ -51,7 +51,9 @@ public class PanelMazo extends JPanel {
             g.drawImage(atras, 0, 0, this.getWidth(),this.getHeight() , this);
         } else if(atras != null){
             System.out.println("ya no hay mas cartas en el mazo");
+            setBackground(Color.RED);
         } else {
+            
             System.out.println("no se cargo la imagen desde el paintcomponents");
         }
         

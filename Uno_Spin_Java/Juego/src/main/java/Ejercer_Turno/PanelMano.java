@@ -19,11 +19,13 @@ public class PanelMano extends JPanel{
     private List<PanelCarta> cartas;
     private PanelDescarte panelDescarte;
     private PanelJugador panelJugador;
+    private PanelCarta cartaSeleccionada = null;
     
     public PanelMano(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador) {
         this.cartas = cartas;
         this.panelDescarte = panelDescarte;
         this.panelJugador = panelJugador;
+                
 
         setBackground(Color.RED);
         setPreferredSize(new Dimension(800,120));
@@ -78,11 +80,34 @@ public class PanelMano extends JPanel{
     public void eliminarCarta(PanelCarta carta) {
         panelDescarte.setNuevaCarta(carta);
         cartas.remove(carta);
+        remove(carta);
         actualizarVista();
         actualizarContador();
+        revalidate();
+        repaint();
     }
     
     private void actualizarContador() {
         panelJugador.actualizarCantidad(cartas.size());
+    }
+    
+    public void seleccionarOCartar(PanelCarta carta) {
+        repaint();
+        if (cartaSeleccionada == null) {
+            cartaSeleccionada = carta;
+            carta.setSeleccionada(true);
+            repaint();
+            return;
+        } 
+        if (cartaSeleccionada == carta) {
+            carta.setSeleccionada(false);
+            cartaSeleccionada = null;
+            eliminarCarta(carta);
+            return;
+        }
+        cartaSeleccionada.setSeleccionada(false);
+        cartaSeleccionada = carta;
+        carta.setSeleccionada(true);
+        repaint();
     }
 }
