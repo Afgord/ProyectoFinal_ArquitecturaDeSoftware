@@ -6,7 +6,9 @@ package Ejercer_Turno;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -63,10 +65,15 @@ public class panelTablero extends JPanel{
         this.panelMazo.setBounds(500,280,100,120);
         add(panelMazo);          
         panelCartaSeleccionada = new PanelCartaSeleccionada();
-        panelCartaSeleccionada.setBounds(40, 550, 100, 120);
+        panelCartaSeleccionada.setBounds(800, 450, 100, 120);
         add(panelCartaSeleccionada);
+        JLabel lbTexto = new JLabel("Carta Seleccionada");
+            lbTexto.setBounds(760, 420, 200, 30);
+            lbTexto.setFont(new Font("Arial", Font.BOLD, 18));
+            lbTexto.setForeground(Color.WHITE);
+            add(lbTexto);
         JButton btnActualizar = new JButton("Reacomodar cartas");
-            btnActualizar.setBounds(500, 450, 180, 40);
+            btnActualizar.setBounds(500, 550, 180, 40);
             add(btnActualizar);
             btnActualizar.addActionListener(e -> {
                 panelMano1.refrescarMano();
