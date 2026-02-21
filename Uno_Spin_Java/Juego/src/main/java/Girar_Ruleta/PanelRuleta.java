@@ -15,8 +15,8 @@ public class PanelRuleta extends JPanel {
     private BufferedImage[] ruletas;
     private int indiceActual = 0;
     private Timer timer;
-    private int velocidad = 100; // tiempo inicial en ms entre cambios de imagen
-    private int aceleracion = -2; // cuánto se incrementa/reduce la velocidad por tick
+    private int velocidad = 100;
+    private int aceleracion = -2;
     private boolean desacelerando = false;
 
     public PanelRuleta() {
@@ -24,7 +24,6 @@ public class PanelRuleta extends JPanel {
         iniciarAnimacion();
     }
 
-    // Cargar todas las imágenes de la ruleta
     private void cargarImagenes() {
         String[] nombres = {
             "ruleta_1.png", "ruleta_2.png", "ruleta_3.png", "ruleta_4.png",
@@ -47,7 +46,6 @@ public class PanelRuleta extends JPanel {
         }
     }
 
-    // Pintar la ruleta actual
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -56,16 +54,13 @@ public class PanelRuleta extends JPanel {
         }
     }
 
-    // Iniciar animación
     private void iniciarAnimacion() {
         timer = new Timer(velocidad, e -> {
             indiceActual = (indiceActual + 1) % ruletas.length;
             repaint();
-
-            // Si estamos desacelerando, aumentar tiempo entre cambios
             if (desacelerando) {
-                velocidad += 5; // desacelerar
-                if (velocidad >= 300) { // velocidad máxima, detener ruleta
+                velocidad += 5; 
+                if (velocidad >= 300) {
                     timer.stop();
                     System.out.println("Ruleta detenida en: " + (indiceActual + 1));
                 } else {
@@ -76,27 +71,12 @@ public class PanelRuleta extends JPanel {
         timer.start();
     }
 
-    // Método para iniciar desaceleración
     public void detenerRuleta() {
         desacelerando = true;
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(200, 200); // tamaño del panel
-    }
-
-    // Prueba rápida en un JFrame
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Ruleta Animada");
-        PanelRuleta ruleta = new PanelRuleta();
-        frame.add(ruleta);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        // Detener la ruleta después de 3 segundos para probar
-        new Timer(3000, e -> ruleta.detenerRuleta()).start();
+        return new Dimension(200, 200); 
     }
 }

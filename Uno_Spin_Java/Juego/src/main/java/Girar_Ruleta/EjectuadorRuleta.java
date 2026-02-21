@@ -4,6 +4,8 @@
  */
 package Girar_Ruleta;
 
+import javax.swing.Timer;
+
 /**
  *
  * @author lagar
@@ -15,6 +17,7 @@ public class EjectuadorRuleta {
      */
     public static void main(String[] args) {
         FrameRuleta f = new FrameRuleta();
+        new Timer(3000, e -> f.getPanelRuleta().detenerRuleta()).start();
     }
     
 }

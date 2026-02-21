@@ -28,5 +28,5 @@ public class FrameTablero extends JFrame{
     
     private void mostrar(){
         setVisible(true);
-    }
+    } 
 }

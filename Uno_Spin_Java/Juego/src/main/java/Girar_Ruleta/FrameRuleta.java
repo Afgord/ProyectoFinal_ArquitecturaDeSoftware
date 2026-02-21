@@ -26,5 +26,9 @@ public class FrameRuleta extends JFrame{
     
     private void mostrar(){
         setVisible(true);
-    } 
+    }
+
+    public PanelRuleta getPanelRuleta() {
+        return panelRuleta;
+    }
 }
