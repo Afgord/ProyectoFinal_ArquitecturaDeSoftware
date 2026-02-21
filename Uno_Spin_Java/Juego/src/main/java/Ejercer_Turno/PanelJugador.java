@@ -25,7 +25,6 @@ public class PanelJugador extends JPanel{
         setPreferredSize(new Dimension(250,80));
         setBackground(new Color(255,204,0));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        
         lbUsuario = new JLabel(nombre != null ? nombre : "Jugador");
         lbUsuario.setBounds(90, 10, 150, 25);
         lbUsuario.setFont(new Font("Arial", Font.BOLD, 16));

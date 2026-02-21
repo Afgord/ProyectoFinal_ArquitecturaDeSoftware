@@ -4,10 +4,8 @@
  */
 package Ejercer_Turno;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
-
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -27,12 +25,9 @@ public class PanelMano extends JPanel{
         this.panelDescarte = panelDescarte;
         this.panelJugador = panelJugador;
         this.panelTablero = panelTablero;
-                
-
         setBackground(Color.RED);
         setPreferredSize(new Dimension(800,120));
         setLayout(null);
-
         actualizarVista();
         actualizarContador();
     }
@@ -94,12 +89,9 @@ public class PanelMano extends JPanel{
     }
     
    public void seleccionarOCartar(PanelCarta carta) {
-
-        // Si no hay carta seleccionada
         if (cartaSeleccionada == null) {
             cartaSeleccionada = carta;
             carta.setSeleccionada(true);
-
             panelTablero.getPanelCartaSeleccionada()
                     .setCartaSeleccionada(
                             carta.getSimbolo(),
@@ -108,8 +100,6 @@ public class PanelMano extends JPanel{
                     );
             return;
         }
-
-        // Si hace click en la misma carta (descartar)
         if (cartaSeleccionada == carta) {
             carta.setSeleccionada(false);
             panelTablero.getPanelCartaSeleccionada().limpiarSeleccion();
@@ -117,12 +107,9 @@ public class PanelMano extends JPanel{
             eliminarCarta(carta);
             return;
         }
-
-        // Si selecciona otra carta diferente
         cartaSeleccionada.setSeleccionada(false);
         cartaSeleccionada = carta;
         carta.setSeleccionada(true);
-
         panelTablero.getPanelCartaSeleccionada()
                 .setCartaSeleccionada(
                         carta.getSimbolo(),
@@ -130,6 +117,7 @@ public class PanelMano extends JPanel{
                         carta.getColorExterno()
                 );
     }
+   
     public void refrescarMano() {
         actualizarVista();
     }

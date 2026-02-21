@@ -46,15 +46,9 @@ public class PanelCartaSeleccionada extends JPanel {
             g2d.drawString(texto, x, y);
             return;
         }
-
-        // Fondo externo
         g2d.setColor(colorExterno);
         g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-
-        // Imagen
         g2d.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
-
-        // Borde
         g2d.setColor(Color.BLUE);
         g2d.setStroke(new BasicStroke(3));
         g2d.drawRoundRect(2, 2, getWidth() - 5, getHeight() - 5, 20, 20);

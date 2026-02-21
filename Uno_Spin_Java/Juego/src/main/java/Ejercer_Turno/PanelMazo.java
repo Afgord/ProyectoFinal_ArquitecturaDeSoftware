@@ -18,10 +18,8 @@ import javax.swing.JPanel;
  * @author lagar
  */
 public class PanelMazo extends JPanel {
-
     private BufferedImage atras;
     private URL urlAtras;
-
     private Mazo mazo;
     private PanelMano panelMano;
 

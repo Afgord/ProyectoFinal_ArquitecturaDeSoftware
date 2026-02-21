@@ -15,29 +15,20 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class PanelManoSecundaria extends JPanel {
-
     private List<PanelCarta> cartas;
     private PanelDescarte panelDescarte;
     private PanelJugador panelJugador;
-
     private URL urlRotacion;
     private BufferedImage atrasRotado;
-
     private String ubicacion;
 
-    public PanelManoSecundaria(List<PanelCarta> cartas,
-                               PanelDescarte panelDescarte,
-                               PanelJugador panelJugador,
-                               String ubicacion) {
-
+    public PanelManoSecundaria(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador, String ubicacion) {
         this.cartas = cartas;
         this.panelDescarte = panelDescarte;
         this.panelJugador = panelJugador;
         this.ubicacion = ubicacion;
-
         setBackground(Color.RED);
         setLayout(null);
-
         switch (ubicacion) {
             case "izquierda" -> {
                 setPreferredSize(new Dimension(120, 500));
@@ -52,7 +43,6 @@ public class PanelManoSecundaria extends JPanel {
                 urlRotacion = getClass().getResource("/cartas/atrasDerecha.png");
             }
         }
-
         try {
             atrasRotado = ImageIO.read(urlRotacion);
         } catch (IOException e) {
@@ -82,16 +72,11 @@ public class PanelManoSecundaria extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         if (atrasRotado == null) return;
-
         int total = cartas.size();
         if (total == 0) return;
-
         int separacion = 30;
-
         switch (ubicacion) {
-
             case "arriba" -> {
                 int anchoCarta = 100;
                 int altoCarta = 120;
@@ -99,7 +84,6 @@ public class PanelManoSecundaria extends JPanel {
                 int anchoTotal = total * separacion;
                 int xInicial = (getWidth() - anchoTotal) / 2;
                 int y = (getHeight() - altoCarta) / 2;
-
                 for (int i = 0; i < total; i++) {
                     g.drawImage(
                         atrasRotado,
@@ -111,15 +95,12 @@ public class PanelManoSecundaria extends JPanel {
                     );
                 }
             }
-
             case "izquierda", "derecha" -> {
                 int anchoCarta = 120;
                 int altoCarta = 100;
-
                 int altoTotal = total * separacion;
                 int yInicial = (getHeight() - altoTotal) / 2;
                 int x = (getWidth() - anchoCarta) / 2;
-
                 for (int i = 0; i < total; i++) {
                     g.drawImage(
                         atrasRotado,
