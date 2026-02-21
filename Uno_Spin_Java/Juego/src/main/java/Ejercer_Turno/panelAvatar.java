@@ -17,11 +17,11 @@ import javax.swing.JPanel;
  *
  * @author lagar
  */
-public class panelAvatar extends JPanel{
+public class PanelAvatar extends JPanel{
     private BufferedImage avatar;
     private URL urlAvatar;
 
-    public panelAvatar(String url) {
+    public PanelAvatar(String url) {
         setPreferredSize(new Dimension(70,70));
         setBackground(Color.WHITE);
         try{

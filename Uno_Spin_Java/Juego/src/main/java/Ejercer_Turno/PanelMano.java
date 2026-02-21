@@ -18,9 +18,9 @@ public class PanelMano extends JPanel{
     private PanelDescarte panelDescarte;
     private PanelJugador panelJugador;
     private PanelCarta cartaSeleccionada = null;
-    private panelTablero panelTablero;
+    private PanelTablero panelTablero;
     
-    public PanelMano(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador, panelTablero panelTablero) {
+    public PanelMano(List<PanelCarta> cartas, PanelDescarte panelDescarte, PanelJugador panelJugador, PanelTablero panelTablero) {
         this.cartas = cartas;
         this.panelDescarte = panelDescarte;
         this.panelJugador = panelJugador;

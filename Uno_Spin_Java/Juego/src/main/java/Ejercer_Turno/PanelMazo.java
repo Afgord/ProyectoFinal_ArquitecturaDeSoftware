@@ -13,10 +13,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/**
- *
- * @author lagar
- */
 public class PanelMazo extends JPanel {
     private BufferedImage atras;
     private URL urlAtras;
@@ -28,12 +24,14 @@ public class PanelMazo extends JPanel {
         this.panelMano = panelMano;
         setPreferredSize(new Dimension(100,120));
         setBackground(Color.BLACK);
-        try{
+
+        try {
             urlAtras = getClass().getResource("/cartas/atras.png");
             atras = ImageIO.read(urlAtras);
-        } catch (IOException e){
-            System.out.println("error al cargar la imagen del Mazo" + e);
+        } catch (IOException e) {
+            System.out.println("Error al cargar la imagen del Mazo: " + e);
         }
+
         addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -41,22 +39,20 @@ public class PanelMazo extends JPanel {
             }
         });
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (atras != null && mazo.getBaraja().isEmpty() == false){
-            g.drawImage(atras, 0, 0, this.getWidth(),this.getHeight() , this);
-        } else if(atras != null){
-            System.out.println("ya no hay mas cartas en el mazo");
-            setBackground(Color.RED);
+        if (!mazo.getBaraja().isEmpty() && atras != null) {
+            g.drawImage(atras, 0, 0, getWidth(), getHeight(), this);
         } else {
-            
-            System.out.println("no se cargo la imagen desde el paintcomponents");
+            g.setColor(Color.RED);
+            g.fillRect(0, 0, getWidth(), getHeight());
+            g.setColor(Color.WHITE);
+            g.drawString("Mazo vacío", 10, getHeight()/2);
         }
-        
     }
-    
+
     private void robarCarta() {
         try {
             PanelCarta nuevaCarta = mazo.tomarUnaCarta();
@@ -64,5 +60,6 @@ public class PanelMazo extends JPanel {
         } catch (Exception e) {
             System.out.println("No hay más cartas en el mazo");
         }
+        repaint();
     }
 }

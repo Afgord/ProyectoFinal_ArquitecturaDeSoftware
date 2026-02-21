@@ -12,35 +12,49 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
- * @author lagar
+ * Panel gráfico que representa a un jugador.
  */
-public class PanelJugador extends JPanel{
+public class PanelJugador extends JPanel {
     private JLabel lbUsuario;
     private JLabel lbNumCartas;
-    private JPanel panelAvatar;
+    private PanelAvatar panelAvatar;
 
-    public PanelJugador(String nombre, int numCartas, String urlAvatar) {
+    public PanelJugador(Jugador jugador) {
+        // Configuración del panel
         setLayout(null);
-        setPreferredSize(new Dimension(250,80));
-        setBackground(new Color(255,204,0));
+        setPreferredSize(new Dimension(250, 80));
+        setBackground(new Color(255, 204, 0));
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        lbUsuario = new JLabel(nombre != null ? nombre : "Jugador");
+
+        // Nombre del jugador
+        lbUsuario = new JLabel(jugador.getNombre() != null ? jugador.getNombre() : "Jugador");
         lbUsuario.setBounds(90, 10, 150, 25);
         lbUsuario.setFont(new Font("Arial", Font.BOLD, 16));
         lbUsuario.setForeground(Color.BLACK);
         add(lbUsuario);
-        lbNumCartas = new JLabel("Cartas: " + numCartas);
+
+        // Número de cartas
+        lbNumCartas = new JLabel("Cartas: " + jugador.getNumCartas());
         lbNumCartas.setBounds(90, 40, 150, 25);
         lbNumCartas.setFont(new Font("Arial", Font.PLAIN, 14));
         lbNumCartas.setForeground(Color.DARK_GRAY);
         add(lbNumCartas);
-        panelAvatar = new panelAvatar(urlAvatar);
+
+        // Panel de avatar
+        panelAvatar = new PanelAvatar(jugador.getUrlAvatar());
         panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);
     }
-    
+
+    // Actualizar cantidad de cartas desde el panel
     public void actualizarCantidad(int cantidad) {
         lbNumCartas.setText("Cartas: " + cantidad);
+    }
+
+    // Actualizar visualmente con un objeto Jugador
+    public void actualizarJugador(Jugador jugador) {
+        lbUsuario.setText(jugador.getNombre());
+        lbNumCartas.setText("Cartas: " + jugador.getNumCartas());
+        // Si PanelAvatar tiene un método para cambiar la imagen, aquí se puede usar
     }
 }
