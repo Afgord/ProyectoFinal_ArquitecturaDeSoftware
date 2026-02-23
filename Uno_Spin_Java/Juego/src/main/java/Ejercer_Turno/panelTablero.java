@@ -4,6 +4,7 @@
  */
 package Ejercer_Turno;
 
+import Girar_Ruleta.PanelRuleta;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -28,6 +29,7 @@ public class PanelTablero extends JPanel{
     private PanelDescarte panelDescarte;
     private PanelMazo panelMazo;
     private PanelCartaSeleccionada panelCartaSeleccionada;
+    private PanelRuleta panelRuleta;
     
     public PanelTablero(Jugador jugador1,Jugador jugador2,Jugador jugador3,Jugador jugador4,int rangoInicio, int rangoFinal,boolean masDos, boolean prohibido, boolean reversa, boolean masCuatro, boolean cambioColor,Color cambioAzul, Color cambioRojo, Color cambioAmarillo, Color cambioVerde, Color cambioNegro, int numCartas) {
         setPreferredSize(new Dimension(1200,750));
@@ -37,6 +39,9 @@ public class PanelTablero extends JPanel{
         this.panelJugador1 = new PanelJugador(jugador1);
         this.panelJugador1.setBounds(200, 510, 250, 80);
         add(panelJugador1);
+        this.panelRuleta = new PanelRuleta();
+        this.panelRuleta.setBounds(300, 200, 300, 300);
+        add(panelRuleta);
         this.panelJugador2 = new PanelJugador(jugador2);
         this.panelJugador2.setBounds(0, 0, 250, 80);
         add(panelJugador2);
@@ -47,7 +52,7 @@ public class PanelTablero extends JPanel{
         this.panelJugador4.setBounds(920, 0, 250, 80);
         add(panelJugador4);
         this.panelDescarte = new PanelDescarte(mazo);
-        this.panelDescarte.setBounds(630, 280, 100, 120);
+        this.panelDescarte.setBounds(720, 280, 100, 120);
         add(panelDescarte);
         this.panelMano1 = new PanelMano(mazo.tomarCartas(numCartas),panelDescarte,panelJugador1,this);
         this.panelMano1.setBounds(200,590,800,120);
@@ -62,7 +67,7 @@ public class PanelTablero extends JPanel{
         this.panelMano4.setBounds(1070,100,120,500);
         add(panelMano4);
         this.panelMazo = new PanelMazo(mazo,panelMano1);
-        this.panelMazo.setBounds(500,280,100,120);
+        this.panelMazo.setBounds(610,280,100,120);
         add(panelMazo);          
         panelCartaSeleccionada = new PanelCartaSeleccionada();
         panelCartaSeleccionada.setBounds(800, 450, 100, 120);
@@ -72,12 +77,6 @@ public class PanelTablero extends JPanel{
             lbTexto.setFont(new Font("Arial", Font.BOLD, 18));
             lbTexto.setForeground(Color.WHITE);
             add(lbTexto);
-        JButton btnActualizar = new JButton("Reacomodar cartas");
-            btnActualizar.setBounds(500, 550, 180, 40);
-            add(btnActualizar);
-            btnActualizar.addActionListener(e -> {
-                panelMano1.refrescarMano();
-        });
     }
     
     public PanelCartaSeleccionada getPanelCartaSeleccionada() {

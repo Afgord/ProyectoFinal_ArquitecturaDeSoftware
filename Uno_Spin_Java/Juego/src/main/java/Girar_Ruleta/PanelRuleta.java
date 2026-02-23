@@ -20,6 +20,7 @@ public class PanelRuleta extends JPanel {
     private boolean desacelerando = false;
 
     public PanelRuleta() {
+        setBackground(Color.RED);
         cargarImagenes();
         iniciarAnimacion();
     }
@@ -28,7 +29,6 @@ public class PanelRuleta extends JPanel {
         String[] nombres = {
             "ruleta_1.png", "ruleta_2.png", "ruleta_3.png", "ruleta_4.png",
             "ruleta_5.png", "ruleta_6.png", "ruleta_7.png", "ruleta_8.png",
-            "ruleta_normal.png"
         };
         ruletas = new BufferedImage[nombres.length];
 
@@ -41,7 +41,7 @@ public class PanelRuleta extends JPanel {
                     System.err.println("No se encontró la imagen: " + nombres[i]);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("error en el sprite de la ruleta");
             }
         }
     }
@@ -59,7 +59,7 @@ public class PanelRuleta extends JPanel {
             indiceActual = (indiceActual + 1) % ruletas.length;
             repaint();
             if (desacelerando) {
-                velocidad += 5; 
+                velocidad += 10; 
                 if (velocidad >= 300) {
                     timer.stop();
                     System.out.println("Ruleta detenida en: " + (indiceActual + 1));
