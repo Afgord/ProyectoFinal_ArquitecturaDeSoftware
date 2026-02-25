@@ -1,38 +1,52 @@
-package Main;
-
-import Infraestructura.MockRouter;
 import MVCMenu.ControladorMenu;
 import MVCMenu.ModeloMenuImpl;
 import MVCMenu.VistaMenu;
 
-import javax.swing.*;
+// Importaciones futuras de tu siguiente paquete
+// import MVCJuego.ControladorJuego;
+// import MVCJuego.ModeloJuegoImpl;
+// import MVCJuego.VistaTablero;
+
+import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
-        // Ejecutar en el hilo de despacho de eventos de Swing mejor practica
         SwingUtilities.invokeLater(() -> {
             
-            // Creo el modelo como primer paso
-            ModeloMenuImpl modelo = new ModeloMenuImpl();
+            // 
+            //INICIALIZAR PAQUETE MENÚ (El que ya tenemos)
+            // 
+            ModeloMenuImpl modeloMenu = new ModeloMenuImpl();
+            VistaMenu vistaMenu = new VistaMenu(modeloMenu);
+            modeloMenu.registrarObservador(vistaMenu);
+            ControladorMenu controladorMenu = new ControladorMenu(modeloMenu);
+            vistaMenu.setControlador(controladorMenu);
 
-            // creo el navegador o router y los suscribo al modelo
-            MockRouter router = MockRouter.getInstancia();
-            modelo.registrarObservador(router);
+            //
+            //INICIALIZAR PAQUETE JUEGO (El que haremos después)
+            //
+            /*
+            ModeloJuegoImpl modeloJuego = new ModeloJuegoImpl();
+            VistaTablero vistaJuego = new VistaTablero(modeloJuego);
+            modeloJuego.registrarObservador(vistaJuego);
+            ControladorJuego controladorJuego = new ControladorJuego(modeloJuego);
+            vistaJuego.setControlador(controladorJuego);
+            */
 
-            // creo la vista y le inyecto el modelo
-            VistaMenu vista = new VistaMenu(modelo); // error
-            modelo.registrarObservador(vista); // La vista también observa
-
-            // creo e controlador y le inyecto el modelo
-            ControladorMenu controlador = new ControladorMenu(modelo);
-
-            // conecto el controlador a la vista
-            vista.setControlador(controlador);
-
-            // se muestras
-            vista.setVisible(true);
+            //
+            //CONECTAR PAQUETES (Tu regla: Control habla a Control)
+            //
+            // Aquí le pasamos el Controlador del Juego al Controlador del Menú.
+            // Así, cuando el Menú termine, el ControladorMenu puede hacer algo como:
+            // controladorSiguiente.iniciarPartida(modeloMenu.getNombreJugador());
             
-            System.out.println("Aplicación iniciada correctamente.");
+            // controladorMenu.setControladorSiguiente(controladorJuego);
+
+            // 
+            // ARRANCAR LA APLICACIÓN
+            // 
+            // Empezamos mostrando solo la vista del menú
+            vistaMenu.setVisible(true);
         });
     }
 }

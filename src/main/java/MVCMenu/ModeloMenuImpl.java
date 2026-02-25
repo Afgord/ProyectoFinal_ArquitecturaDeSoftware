@@ -1,22 +1,18 @@
 package MVCMenu;
 
-import Infraestructura.Subject;
 import Infraestructura.Observer;
-import Infraestructura.EventoJuego;
-import Infraestructura.TipoEvento;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Angel Beltran
- * Implementación del Modelo del Menú.
- * Contiene el estado de la configuración inicial de la partida.
+ * Lógica de dominio pura.
+ * Cero dependencias de UI (Swing, AWT, etc.). Podría correr en terminal.
  */
 public class ModeloMenuImpl implements IModeloMenu {
-    // Infraestructura Observer
-    private List<Observer> observadores;
     
-    // Estado del Modelo
+    private List<Observer<IModeloMenu>> observadores;
+    
+    // Estado
     private String nombreJugador;
     private String mensajeError;
     private boolean listoParaJugar;
@@ -28,70 +24,60 @@ public class ModeloMenuImpl implements IModeloMenu {
         this.listoParaJugar = false;
     }
 
-    //implementacion del patron observer y sus subjects
+    // --- INFRAESTRUCTURA OBSERVER ---
 
     @Override
-    public void registrarObservador(Observer o) {
+    public void registrarObservador(Observer<IModeloMenu> o) {
         if (!observadores.contains(o)) {
             observadores.add(o);
         }
     }
 
     @Override
-    public void removerObservador(Observer o) {
+    public void removerObservador(Observer<IModeloMenu> o) {
         observadores.remove(o);
     }
 
     @Override
-    public void notificarObservadores(EventoJuego evento) {
-        for (Observer o : observadores) {
-            o.update(evento); // error
+    public void notificarObservadores() {
+        // Se envía a sí mismo (como IModeloMenu) como contexto
+        for (Observer<IModeloMenu> o : observadores) {
+            o.update(this);
         }
     }
 
-    //logica de negocio
+    // --- LÓGICA DE NEGOCIO ---
 
     @Override
     public void setNombreJugador(String nombre) {
-        // Regla de Negocio: Limpiar espacios y validar longitud básica
         this.nombreJugador = nombre != null ? nombre.trim() : "";
-        
-        // Notificamos que el dato cambió (para que la vista quizá habilite el botón o muestre el texto)
-        notificarObservadores(new EventoJuego(TipoEvento.NOMBRE_JUGADOR_ACTUALIZADO, this.nombreJugador));
+        this.mensajeError = ""; // Limpiamos errores previos al escribir
+        notificarObservadores();
     }
 
     @Override
     public void iniciarJuego() {
-        // Validación final antes de iniciar
-        if (nombreJugador.isEmpty()) {
-            this.mensajeError = "¡El nombre no puede estar vacío!";
-            notificarObservadores(new EventoJuego(TipoEvento.ERROR_VALIDACION, this.mensajeError));
-        } else if (nombreJugador.length() < 3) {
-            this.mensajeError = "El nombre es muy corto (mínimo 3 letras).";
-            notificarObservadores(new EventoJuego(TipoEvento.ERROR_VALIDACION, this.mensajeError));
+        if (this.nombreJugador.isEmpty()) {
+            this.mensajeError = "El nombre no puede estar vacío.";
+            this.listoParaJugar = false;
+        } else if (this.nombreJugador.length() < 3) {
+            this.mensajeError = "El nombre debe tener al menos 3 letras.";
+            this.listoParaJugar = false;
         } else {
-            // Todo correcto
             this.mensajeError = "";
-            this.listoParaJugar = true;
-            // Notificamos éxito. Aquí el Router u observador principal sabría que debe cambiar de pantalla
-            notificarObservadores(new EventoJuego(TipoEvento.PARTIDA_INICIADA, null));
+            this.listoParaJugar = true; // Estado de éxito
         }
+        notificarObservadores();
     }
 
-    //getters para que la vista jale los datos
-
-    @Override
-    public String getNombreJugador() {
-        return nombreJugador;
-    }
+    // --- MÉTODOS DE LECTURA ---
 
     @Override
-    public String getMensajeError() {
-        return mensajeError;
-    }
+    public String getNombreJugador() { return this.nombreJugador; }
 
     @Override
-    public boolean isListoParaJugar() {
-        return listoParaJugar;
-    }
+    public String getMensajeError() { return this.mensajeError; }
+
+    @Override
+    public boolean isListoParaJugar() { return this.listoParaJugar; }
 }

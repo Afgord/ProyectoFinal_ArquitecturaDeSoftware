@@ -1,26 +1,27 @@
 package MVCMenu;
 
-import Infraestructura.EventoJuego;
 import Infraestructura.Observer;
-import Infraestructura.TipoEvento;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class VistaMenu extends JFrame implements Observer {
+/**
+ * La Vista.
+ * Implementa Observer tipado a IModeloMenu.
+ * No contiene lógica de validación, solo dibuja el estado del modelo.
+ */
+public class VistaMenu extends JFrame implements Observer<IModeloMenu> {
 
-    // Referencias MVC
     private IControladorMenu controlador;
-    private final IModeloMenu modelo; // Referencia para el PULL MODEL (leer datos)
+    private final IModeloMenu modelo;
 
-    // Componentes de la GUI
     private JTextField txtNombre;
     private JButton btnJugar;
     private JLabel lblEstado;
-    private JLabel lblTitulo;
 
+    // Regla estricta: Se inyecta el modelo en el constructor para lectura
     public VistaMenu(IModeloMenu modelo) {
         this.modelo = modelo;
         configurarVentana();
@@ -33,24 +34,16 @@ public class VistaMenu extends JFrame implements Observer {
 
     private void configurarVentana() {
         setTitle("UNO Spin - Inicio");
-        setSize(400, 300);
+        setSize(350, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(5, 1, 10, 10)); // Layout simple para prototipo
-        setLocationRelativeTo(null); // Centrar en pantalla
+        setLayout(new GridLayout(4, 1, 10, 10));
+        setLocationRelativeTo(null);
     }
 
     private void inicializarComponentes() {
-        //Título
-        lblTitulo = new JLabel("Bienvenido a UNO Spin", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-        add(lblTitulo);
+        add(new JLabel("Bienvenido a UNO Spin", SwingConstants.CENTER));
 
-        //Instrucción
-        add(new JLabel("Ingresa tu nombre:", SwingConstants.CENTER));
-
-        //Campo de Texto
         txtNombre = new JTextField();
-        // Listener para enviar cada tecla al controlador
         txtNombre.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -61,13 +54,10 @@ public class VistaMenu extends JFrame implements Observer {
         });
         add(txtNombre);
 
-        // 4. Etiqueta de Estado/Error
         lblEstado = new JLabel("Esperando jugador...", SwingConstants.CENTER);
-        lblEstado.setForeground(Color.GRAY);
         add(lblEstado);
 
-        // 5. Botón de Acción
-        btnJugar = new JButton("ENTRAR AL JUEGO");
+        btnJugar = new JButton("INICIAR PARTIDA");
         btnJugar.addActionListener(e -> {
             if (controlador != null) {
                 controlador.solicitarInicio();
@@ -76,33 +66,26 @@ public class VistaMenu extends JFrame implements Observer {
         add(btnJugar);
     }
 
-    //IMPLEMENTACIÓN DEL PATRÓN OBSERVER la vista reacciona
-
+    // --- PATRÓN OBSERVER: PULL MODEL ---
     @Override
-    public void update(EventoJuego evento) { // error va en el modelo 
-        switch (evento.getTipo()) {
-            case NOMBRE_JUGADOR_ACTUALIZADO:
-                // Ejemplo: Podríamos habilitar/deshabilitar el botón si está vacío
-                String nombreActual = modelo.getNombreJugador(); // PULL data
-                // Solo para debug visual en este prototipo:
-                lblEstado.setText("Escribiendo: " + nombreActual);
-                lblEstado.setForeground(Color.BLUE);
-                break;
-
-            case ERROR_VALIDACION:
-                String error = modelo.getMensajeError(); // PULL data
-                lblEstado.setText("Error: " + error);
-                lblEstado.setForeground(Color.RED);
-                JOptionPane.showMessageDialog(this, error, "Error de Validación", JOptionPane.ERROR_MESSAGE);
-                break;
-
-            case PARTIDA_INICIADA:
-                lblEstado.setText("¡Partida Iniciada!");
-                lblEstado.setForeground(Color.GREEN);
-                break;
-                
-            default:
-                break;
+    public void update(IModeloMenu modeloActualizado) {
+        // La vista SOLO mapea el estado del modelo a la UI. No toma decisiones de negocio.
+        
+        if (modeloActualizado.isListoParaJugar()) {
+            lblEstado.setText("¡Partida lista para comenzar!");
+            lblEstado.setForeground(Color.GREEN);
+            btnJugar.setEnabled(false); // Bloquea interacción adicional
+            txtNombre.setEnabled(false);
+            
+            // Aquí el controlador (si hablara con otros controles) 
+            // o un orquestador tomaría el relevo.
+            
+        } else if (!modeloActualizado.getMensajeError().isEmpty()) {
+            lblEstado.setText(modeloActualizado.getMensajeError());
+            lblEstado.setForeground(Color.RED);
+        } else {
+            lblEstado.setText("Jugador: " + modeloActualizado.getNombreJugador());
+            lblEstado.setForeground(Color.BLUE);
         }
     }
 }

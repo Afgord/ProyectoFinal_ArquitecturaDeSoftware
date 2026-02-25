@@ -1,21 +1,18 @@
 package MVCMenu;
 
-import Infraestructura.Observer;
 import Infraestructura.Subject;
 
 /**
- * @author Angel Beltran
- * INTERFAZ DEL MODELO (MENU)
- * Define qué datos puede consultar la vista y qué acciones permite el modelo.
- * Extiende Subject para obligar a que sea observable.
+ * Interfaz del Modelo.
+ * Extiende Subject tipado para que la Vista reciba esta misma interfaz como contexto.
  */
-public interface IModeloMenu extends Subject {
-    // metodos de lectura
+public interface IModeloMenu extends Subject<IModeloMenu> {
+    // Métodos para que la Vista consulte el estado (Pull Model)
     String getNombreJugador();
     String getMensajeError();
     boolean isListoParaJugar();
 
-    // metodos de escritura que usa el controlador
+    // Métodos para que el Controlador modifique el estado
     void setNombreJugador(String nombre);
-    void iniciarJuego(); // valida y cambia al estado
+    void iniciarJuego();
 }

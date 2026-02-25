@@ -1,11 +1,10 @@
 package Infraestructura;
 
 /**
- * @author Angel Beltran
- * Interfaz para los Modelos (Sujetos observables).
+ * Interfaz genérica para los Sujetos (Modelos).
  */
-public interface Subject {
-    void registrarObservador(Observer o);
-    void removerObservador(Observer o);
-    void notificarObservadores(EventoJuego evento);
+public interface Subject<T> {
+    void registrarObservador(Observer<T> o);
+    void removerObservador(Observer<T> o);
+    void notificarObservadores();
 }
