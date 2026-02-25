@@ -5,10 +5,10 @@
 package Ejercer_Turno;
 
 import Girar_Ruleta.PanelRuleta;
-import audio.SoundManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,7 +28,9 @@ public class PanelTablero extends JPanel {
     private PanelCartaSeleccionada panelCartaSeleccionada;
     private PanelRuleta panelRuleta;
     private PanelUno panelUno;
-    private SoundManager sound;
+
+    private JButton btnMute;
+    private boolean isMuted = false;
 
     public PanelTablero(
             Jugador jugador1,
@@ -53,17 +55,15 @@ public class PanelTablero extends JPanel {
         setBackground(Color.RED);
         setLayout(null);
 
-        sound = ejecutador.getSound();
-
         mazo = new Mazo(rangoInicio, rangoFinal, masDos, prohibido, reversa,
                 masCuatro, cambioColor, cambioAzul, cambioRojo,
                 cambioAmarillo, cambioVerde, cambioNegro);
-        
+
         panelUno = new PanelUno(this);
         panelUno.setBounds(1040, 600, 150, 100);
         add(panelUno);
-        
-        this.panelJugador1 = new PanelJugador(jugador1,panelUno);
+
+        this.panelJugador1 = new PanelJugador(jugador1, panelUno);
         this.panelJugador1.setBounds(200, 510, 250, 80);
         add(panelJugador1);
 
@@ -126,52 +126,39 @@ public class PanelTablero extends JPanel {
         panelCartaSeleccionada = new PanelCartaSeleccionada();
         panelCartaSeleccionada.setBounds(800, 450, 100, 120);
         add(panelCartaSeleccionada);
-        
+
         JLabel lbTexto = new JLabel("Carta Seleccionada");
         lbTexto.setBounds(760, 420, 200, 30);
         lbTexto.setFont(new Font("Arial", Font.BOLD, 18));
         lbTexto.setForeground(Color.WHITE);
         add(lbTexto);
-        
     }
 
     public PanelCartaSeleccionada getPanelCartaSeleccionada() {
         return panelCartaSeleccionada;
     }
-
+    
     public void reproducirTirar() {
-        sound.playEffect("tirar");
+        AudioController.playEffect("tirar");
     }
 
     public void reproducirJalar() {
-        sound.playEffect("jalar");
+        AudioController.playEffect("jalar");
     }
 
     public void reproducirUno() {
-        sound.playEffect("uno");
+        AudioController.playEffect("uno");
     }
-    
-    void reproducirAlerta() {
-        sound.playEffect("alerta");
+
+    public void reproducirAlerta() {
+        AudioController.playEffect("alerta");
     }
-    
+
     public void reproducirMusica() {
-        if (sound != null) {
-            sound.playMusicLoop();
-        }
+        AudioController.playMusic();
     }
 
     public void detenerMusica() {
-        if (sound != null) {
-            sound.stopMusic();
-        }
-    }
-
-    public void cambiarMusica(String ruta) {
-        if (sound != null) {
-            sound.stopMusic();
-            sound.loadMusic(ruta);
-            sound.playMusicLoop();
-        }
+        AudioController.stopMusic();
     }
 }
