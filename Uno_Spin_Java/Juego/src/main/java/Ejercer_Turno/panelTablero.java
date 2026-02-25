@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ejercer_Turno;
-
 import Girar_Ruleta.PanelRuleta;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,6 +10,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import audio.AudioController;
 
 public class PanelTablero extends JPanel {
 
