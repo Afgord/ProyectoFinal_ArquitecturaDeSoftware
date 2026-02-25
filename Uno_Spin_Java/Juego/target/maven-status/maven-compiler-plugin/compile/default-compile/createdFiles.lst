@@ -1,4 +1,5 @@
 Ejercer_Turno\Jugador.class
+Ejercer_Turno\PanelUno$1.class
 Girar_Ruleta\EjectuadorRuleta.class
 Ejercer_Turno\PanelJugador.class
 Ejercer_Turno\PanelMazo$1.class
@@ -15,4 +16,5 @@ Girar_Ruleta\PanelRuleta.class
 Ejercer_Turno\PanelMazo.class
 Ejercer_Turno\PanelDescarte.class
 Ejercer_Turno\PanelTablero.class
+Ejercer_Turno\PanelUno.class
 Ejercer_Turno\PanelAvatar.class

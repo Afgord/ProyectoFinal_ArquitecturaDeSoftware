@@ -99,14 +99,16 @@ public class PanelMano extends JPanel{
                             carta.getColorExterno()
                     );
             refrescarMano();
+            
             return;
         }
         if (cartaSeleccionada == carta) {
+            panelTablero.reproducirTirar();
+            refrescarMano();
             carta.setSeleccionada(false);
             panelTablero.getPanelCartaSeleccionada().limpiarSeleccion();
             cartaSeleccionada = null;
             eliminarCarta(carta);
-            refrescarMano();
             return;
         }
         cartaSeleccionada.setSeleccionada(false);

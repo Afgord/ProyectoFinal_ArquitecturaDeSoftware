@@ -18,8 +18,9 @@ public class PanelMazo extends JPanel {
     private URL urlAtras;
     private Mazo mazo;
     private PanelMano panelMano;
+    private PanelTablero panelTablero;
 
-    public PanelMazo(Mazo mazo, PanelMano panelMano) {
+    public PanelMazo(Mazo mazo, PanelMano panelMano, PanelTablero panelTablero) {
         this.mazo = mazo;
         this.panelMano = panelMano;
         setPreferredSize(new Dimension(100,120));
@@ -35,6 +36,7 @@ public class PanelMazo extends JPanel {
         addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
+                panelTablero.reproducirJalar();
                 robarCarta();
             }
         });

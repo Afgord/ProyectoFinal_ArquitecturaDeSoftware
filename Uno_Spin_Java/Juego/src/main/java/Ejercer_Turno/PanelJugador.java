@@ -11,15 +11,53 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- * Panel gráfico que representa a un jugador.
- */
 public class PanelJugador extends JPanel {
     private JLabel lbUsuario;
     private JLabel lbNumCartas;
     private PanelAvatar panelAvatar;
+    private PanelUno panelUno;
+    private Jugador jugador;
+
+    public PanelJugador(Jugador jugador, PanelUno panelUno) {
+        this.panelUno = panelUno;
+        this.jugador = jugador;
+        cargarJugador(jugador);
+        verificarUno();
+    }
 
     public PanelJugador(Jugador jugador) {
+        this.jugador = jugador;
+        cargarJugador(jugador);
+    }
+
+    public void actualizarCantidad(int cantidad) {
+        lbNumCartas.setText("Cartas: " + cantidad);
+        jugador.setNumCartas(cantidad);
+
+        verificarUno();
+    }
+
+    public void actualizarJugador(Jugador jugador) {
+        this.jugador = jugador;
+
+        lbUsuario.setText(jugador.getNombre());
+        lbNumCartas.setText("Cartas: " + jugador.getNumCartas());
+
+        verificarUno();
+    }
+
+    private void verificarUno() {
+        if (panelUno == null) return;
+
+        if (jugador.getNumCartas() == 2) {
+            panelUno.activarUno();
+        } else {
+            panelUno.desactivarUno();
+        }
+    }
+
+    private void cargarJugador(Jugador jugador) {
+
         setLayout(null);
         setPreferredSize(new Dimension(250, 80));
         setBackground(new Color(255, 204, 0));
@@ -40,14 +78,5 @@ public class PanelJugador extends JPanel {
         panelAvatar = new PanelAvatar(jugador.getUrlAvatar());
         panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);
-    }
-
-    public void actualizarCantidad(int cantidad) {
-        lbNumCartas.setText("Cartas: " + cantidad);
-    }
-
-    public void actualizarJugador(Jugador jugador) {
-        lbUsuario.setText(jugador.getNombre());
-        lbNumCartas.setText("Cartas: " + jugador.getNumCartas());
     }
 }
