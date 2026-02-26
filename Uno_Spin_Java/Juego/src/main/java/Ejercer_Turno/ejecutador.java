@@ -12,14 +12,14 @@ import java.awt.Color;
  */
 public class ejecutador {
     public static void main(String[] args) {
-        Color cambioAzul = Color.RED;
-        Color cambioRojo = Color.CYAN;
-        Color cambioAmarillo = Color.ORANGE;
-        Color cambioVerde = Color.magenta;
-        Color cambioNegro = Color.DARK_GRAY;
-        int numCartas = 9;
-        int rangoInicio = 3;
-        int rangoFinal = 7;
+        Color cambioAzul = Color.BLUE;
+        Color cambioRojo = Color.RED;
+        Color cambioAmarillo = Color.YELLOW;
+        Color cambioVerde = Color.GREEN;
+        Color cambioNegro = Color.BLACK;
+        int numCartas = 7;
+        int rangoInicio = 0;
+        int rangoFinal = 9;
         boolean masDos = true;
         boolean prohibido = false;
         boolean reversa = true;

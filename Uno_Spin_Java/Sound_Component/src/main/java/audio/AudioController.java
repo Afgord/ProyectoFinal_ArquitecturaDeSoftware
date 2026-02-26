@@ -8,7 +8,7 @@ package audio;
  * @author lagar
  */
 public class AudioController {
-    private static SoundManager sound;
+    private static ISoundManager sound;
     public static void init() {
         sound = new SoundManager();
         sound.loadMusic("/sound/s.wav");

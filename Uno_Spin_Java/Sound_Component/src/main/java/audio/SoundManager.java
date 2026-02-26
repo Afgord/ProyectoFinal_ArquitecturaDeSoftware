@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SoundManager {
+public class SoundManager implements ISoundManager {
 
     private static class SoundPool {
         private Clip[] clips;
