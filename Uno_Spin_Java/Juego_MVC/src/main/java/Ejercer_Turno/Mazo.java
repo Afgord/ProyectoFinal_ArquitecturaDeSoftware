@@ -19,7 +19,6 @@ public class Mazo implements IMazoReadOnly {
                 Color cAzul, Color cRojo, Color cAmarillo, Color cVerde, Color cNegro) {
         
         this.baraja = new ArrayList<>();
-        // Llenamos el mazo usando los colores elegidos
         generarCartas(rangoInicio, rangoFinal, masDos, prohibido, reversa, 
                       masCuatro, cambioColor, cAzul, cRojo, cAmarillo, cVerde, cNegro);
         
@@ -29,31 +28,20 @@ public class Mazo implements IMazoReadOnly {
     private void generarCartas(int rI, int rF, boolean m2, boolean pro, boolean rev, 
                            boolean m4, boolean cc, Color cAzul, Color cRojo, 
                            Color cAmarillo, Color cVerde, Color cNegro) {
-    
-        // Arrays para iterar sobre los 4 colores principales
         Color[] coloresAwt = {cAzul, cRojo, cAmarillo, cVerde};
         String[] nombresColores = {"azul", "rojo", "amarillo", "verde"};
-
-        // Mapa de nombres de archivos según tu captura de Resources
         String[] nombresArchivos = {"cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"};
-
-        // 1. Generar Cartas Numéricas
         for (int n = rI; n <= rF; n++) {
             for (int i = 0; i < 4; i++) {
-                // Usamos el nombre del número (ej: "uno.png")
                 String ruta = "/cartas/" + nombresArchivos[n] + ".png";
                 baraja.add(new Carta(String.valueOf(n), coloresAwt[i], nombresColores[i], ruta));
             }
         }
-
-        // 2. Generar Cartas Especiales (Si están activas)
         for (int i = 0; i < 4; i++) {
             if (m2) baraja.add(new Carta("+2", coloresAwt[i], nombresColores[i], "/cartas/mas_dos.png"));
             if (rev) baraja.add(new Carta("REV", coloresAwt[i], nombresColores[i], "/cartas/reversa.png"));
             if (pro) baraja.add(new Carta("PRO", coloresAwt[i], nombresColores[i], "/cartas/prohibido.png"));
         }
-
-        // 3. Comodines (Color Negro)
         if (m4) {
             for (int i = 0; i < 4; i++) 
                 baraja.add(new Carta("+4", cNegro, "negro", "/cartas/mas_cuatro.png"));
@@ -63,16 +51,11 @@ public class Mazo implements IMazoReadOnly {
                 baraja.add(new Carta("CC", cNegro, "negro", "/cartas/cambio_color.png"));
         }
     }
-    
-    // En Mazo.java
     public Carta sacarCartaInicialValida() {
         for (int i = 0; i < baraja.size(); i++) {
             Carta c = baraja.get(i);
-
-            // Filtramos para que sea número del 0 al 9 y no sea negro
             if (!c.getColorInterno().equalsIgnoreCase("negro") && 
-                 c.getSimbolo().matches("[0-9]")) {
-
+                c.getSimbolo().matches("[0-9]")) {
                 return baraja.remove(i); 
             }
         }

@@ -8,8 +8,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class PanelJugador extends JPanel implements IJugadorObserver {
-    private final IJugadorReadOnly jugador; // Solo lectura para seguridad
-    private final PanelUno panelUno; // Referencia opcional para activar alerta
+    private final IJugadorReadOnly jugador; 
+    private final PanelUno panelUno;
     
     private JLabel lbUsuario;
     private JLabel lbNumCartas;
@@ -21,7 +21,7 @@ public class PanelJugador extends JPanel implements IJugadorObserver {
         jugador.addObserver(this);
         configurarPanel();
         inicializarComponentes();
-        actualizar(); // Carga inicial de datos
+        actualizar();
     }
 
     private void configurarPanel() {

@@ -16,20 +16,16 @@ public class PanelSelectorColor extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         setBackground(new Color(50, 50, 50)); 
-
         JLabel titulo = new JLabel("Elije el color:", SwingConstants.CENTER);
         titulo.setForeground(Color.WHITE);
         titulo.setFont(new Font("Arial", Font.BOLD, 14));
         add(titulo, BorderLayout.NORTH);
-
         JPanel botonesPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         botonesPanel.setOpaque(false);
-
         botonesPanel.add(crearBoton("Azul", azul));
         botonesPanel.add(crearBoton("Rojo", rojo));
         botonesPanel.add(crearBoton("Amarillo", amarillo));
         botonesPanel.add(crearBoton("Verde", verde));
-
         add(botonesPanel, BorderLayout.CENTER);
     }
 

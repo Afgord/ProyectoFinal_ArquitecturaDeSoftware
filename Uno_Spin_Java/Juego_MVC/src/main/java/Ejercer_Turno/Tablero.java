@@ -25,8 +25,6 @@ public class Tablero {
         this.turnoActual = 0;
         this.mazo = new Mazo(rangoInicio, rangoFinal, masDos, prohibido, reversa, 
                              masCuatro, cambioColor, cAzul, cRojo, cAmarillo, cVerde, cNegro);
-        
-        // Inicializamos el descarte con la primera carta del mazo
         this.descarte = new Descarte(mazo.tomarUnaCarta());
     }
 

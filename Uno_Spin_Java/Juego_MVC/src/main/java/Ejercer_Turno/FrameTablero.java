@@ -23,19 +23,15 @@ public class FrameTablero extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1200, 750);
-
         List<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(j1);
         listaJugadores.add(j2);
         listaJugadores.add(j3);
         listaJugadores.add(j4);
-
         tableroEntidad = new Tablero(listaJugadores, rangoInicio, rangoFinal, 
                                      masDos, prohibido, reversa, masCuatro, cambioColor, 
                                      cAzul, cRojo, cAmarillo, cVerde, cNegro);
-
         panelContenedor = new PanelTablero(tableroEntidad, j1, j2, j3, j4, numCartas);
-        
         add(panelContenedor);
         setLocationRelativeTo(null);
         setVisible(true);

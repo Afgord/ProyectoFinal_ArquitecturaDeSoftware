@@ -11,15 +11,10 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/**
- * VISTA: PanelAvatar
- * Solo se encarga de renderizar la imagen del perfil del jugador.
- */
 public class PanelAvatar extends JPanel {
     private BufferedImage imagenPerfil;
 
     public PanelAvatar(String rutaImagen) {
-        // Configuramos que sea transparente para que luzca bien sobre el PanelJugador
         setOpaque(false);
         cargarImagen(rutaImagen);
     }
@@ -40,7 +35,6 @@ public class PanelAvatar extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
         if (imagenPerfil != null) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

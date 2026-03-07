@@ -3,10 +3,6 @@ package Ejercer_Turno;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * MODELO: Mano
- * Clase encargada de la lógica de almacenamiento de cartas de un jugador.
- */
 public class Mano implements IManoReadOnly {
     private final List<Carta> cartas;
 
@@ -27,7 +23,6 @@ public class Mano implements IManoReadOnly {
 
     @Override
     public List<ICartaReadOnly> getCartasParaVista() {
-        // Creamos una nueva lista para evitar que la vista modifique la lista original
         return new ArrayList<>(cartas); 
     }
 

@@ -15,17 +15,15 @@ public class PanelCarta extends JPanel {
 
     public PanelCarta(ICartaReadOnly carta) {
         this.modelo = carta;
-        
         setPreferredSize(new Dimension(100, 120));
-        setOpaque(false); // Para que se vea el redondeado
+        setOpaque(false);
         cargarImagenes();
     }
 
     private void cargarImagenes() {
         try {
             URL urlAtras = getClass().getResource("/cartas/atras.png");
-            URL urlAdelante = getClass().getResource(modelo.getRutaImagen());
-            
+            URL urlAdelante = getClass().getResource(modelo.getRutaImagen());            
             if (urlAtras != null) imgAtras = ImageIO.read(urlAtras);
             if (urlAdelante != null) imgAdelante = ImageIO.read(urlAdelante);
         } catch (IOException e) {
@@ -38,19 +36,13 @@ public class PanelCarta extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // 1. Pintar el fondo con el color inyectado
         g2d.setColor(modelo.getColorExterno());
         g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-
-        // 2. Pintar la imagen (Adelante o Atrás)
         if (modelo.isLado() && imgAdelante != null) {
             g2d.drawImage(imgAdelante, 5, 5, getWidth()-10, getHeight()-10, this);
         } else if (imgAtras != null) {
             g2d.drawImage(imgAtras, 0, 0, getWidth(), getHeight(), this);
         }
-
-        // 3. Efecto visual de selección
         if (seleccionada) {
             g2d.setColor(new Color(255, 255, 255, 150));
             g2d.setStroke(new BasicStroke(3));

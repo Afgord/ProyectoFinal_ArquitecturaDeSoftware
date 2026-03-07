@@ -13,21 +13,18 @@ import javax.swing.*;
 
 public class PanelMazo extends JPanel implements IMazoObserver {
     private final Mazo mazoModelo;
-    private final Jugador jugadorLocal; // El que roba
+    private final Jugador jugadorLocal; 
     private final PanelTablero tablero;
     private BufferedImage imgAtras;
 
     public PanelMazo(Mazo mazo, Jugador jugador, PanelTablero tablero) {
         this.mazoModelo = mazo;
         this.jugadorLocal = jugador;
-        this.tablero = tablero;
-        
-        this.mazoModelo.addObserver(this); // Escuchar cuando se roban cartas
-        
+        this.tablero = tablero;       
+        this.mazoModelo.addObserver(this);        
         setPreferredSize(new Dimension(100, 120));
         setOpaque(false);
-        cargarImagen();
-        
+        cargarImagen();      
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

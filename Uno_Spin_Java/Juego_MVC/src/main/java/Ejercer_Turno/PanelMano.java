@@ -11,12 +11,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- * VISTA: PanelMano
- * Gestiona la visualización de las cartas del jugador y la lógica de interacción.
- */
 public class PanelMano extends JPanel implements IJugadorObserver {
-
     private final Jugador jugador;
     private final PanelDescarte panelDescarte;
     private final PanelJugador panelInfo;
@@ -27,10 +22,8 @@ public class PanelMano extends JPanel implements IJugadorObserver {
         this.jugador = jugador;
         this.panelDescarte = descarte;
         this.panelInfo = info;
-        this.tableroPrincipal = tablero;
-        
-        this.jugador.addObserver(this); 
-        
+        this.tableroPrincipal = tablero;       
+        this.jugador.addObserver(this);        
         setLayout(null);
         setOpaque(false);
     }
@@ -38,26 +31,20 @@ public class PanelMano extends JPanel implements IJugadorObserver {
     @Override
     public void actualizar() {
         removeAll();
-
         List<Carta> cartasModelo = jugador.getCartasModelo();
         int n = cartasModelo.size();
-        
         if (n == 0) {
             revalidate();
             repaint();
             return;
         }
-
-        // --- LÓGICA DE POSICIONAMIENTO ---
         int anchoPanel = getWidth() > 0 ? getWidth() : 800;
         int altoPanel = getHeight() > 0 ? getHeight() : 120;
         int anchoCarta = 100;
         int altoCarta = 120;
-
         int espacio;
         int xInicial = 0;
         int y = (altoPanel - altoCarta) / 2;
-
         if (n == 1) {
             espacio = 0;
             xInicial = (anchoPanel - anchoCarta) / 2;
@@ -78,7 +65,6 @@ public class PanelMano extends JPanel implements IJugadorObserver {
             add(pCarta, 0); 
             x += espacio;
         }
-
         revalidate();
         repaint();
     }
@@ -93,19 +79,15 @@ public class PanelMano extends JPanel implements IJugadorObserver {
     }
 
     private void seleccionarOCartar(PanelCarta pCartaClickeada) {
-        // Doble pulsación o click en carta ya seleccionada -> Intentar Tirar
         if (cartaSeleccionada != null && 
-            cartaSeleccionada.getModelo() == pCartaClickeada.getModelo()) {
-            
+            cartaSeleccionada.getModelo() == pCartaClickeada.getModelo()) {            
             intentarTirarCarta(pCartaClickeada);
         } else {
-            // Primera pulsación -> Seleccionar
             if (cartaSeleccionada != null) {
                 cartaSeleccionada.setSeleccionada(false);
             }
             cartaSeleccionada = pCartaClickeada;
-            cartaSeleccionada.setSeleccionada(true);
-            
+            cartaSeleccionada.setSeleccionada(true);           
             tableroPrincipal.getPanelCartaSeleccionada().mostrarCarta(pCartaClickeada.getModelo());
             repaint();
         }
@@ -113,34 +95,25 @@ public class PanelMano extends JPanel implements IJugadorObserver {
 
     private void intentarTirarCarta(PanelCarta pCarta) {
         Carta modelo = (Carta) pCarta.getModelo();
-        
-        // Validar reglas del juego
-        if (panelDescarte.validarJugada(modelo)) {
-            
-            // Si es Comodín o +4, abrir selector de color
+        if (panelDescarte.validarJugada(modelo)) {        
             if (modelo.getColorInterno().equalsIgnoreCase("negro")) {
                 mostrarSelectorColor(modelo);
             } else {
                 ejecutarTirada(modelo);
-            }
-            
+            }           
         } else {
             tableroPrincipal.reproducirAlerta();
         }
     }
 
     private void mostrarSelectorColor(Carta modelo) {
-        // Acceso al mazo mediante el puente de getters que creamos
         Mazo mazo = tableroPrincipal.getMazo();
-
         PanelSelectorColor selector = new PanelSelectorColor(
             mazo.getcAzul(), 
             mazo.getcRojo(), 
             mazo.getcAmarillo(), 
             mazo.getcVerde()
         );
-
-        // Mostrar el panel de botones de forma modal
         int result = JOptionPane.showConfirmDialog(
             tableroPrincipal, 
             selector, 
@@ -148,9 +121,7 @@ public class PanelMano extends JPanel implements IJugadorObserver {
             JOptionPane.DEFAULT_OPTION, 
             JOptionPane.PLAIN_MESSAGE
         );
-
         if (selector.isSeleccionRealizada()) {
-            // Aplicar el cambio de color a la carta antes de mandarla al descarte
             modelo.setColorExterno(selector.getColorSeleccionado());
             modelo.setColorNombre(selector.getNombreColorSeleccionado());
             ejecutarTirada(modelo);
@@ -159,8 +130,7 @@ public class PanelMano extends JPanel implements IJugadorObserver {
 
     private void ejecutarTirada(Carta modelo) {
         panelDescarte.recibirCarta(modelo);
-        jugador.tirarCarta(modelo); // El modelo notifica y limpia la mano automáticamente
-        
+        jugador.tirarCarta(modelo);        
         cartaSeleccionada = null;
         tableroPrincipal.getPanelCartaSeleccionada().limpiar();
         tableroPrincipal.reproducirTirar();

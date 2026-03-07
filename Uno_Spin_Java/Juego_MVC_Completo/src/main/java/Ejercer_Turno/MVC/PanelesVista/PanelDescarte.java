@@ -1,0 +1,55 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Ejercer_Turno.MVC.PanelesVista;
+
+import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.Descarte;
+import Ejercer_Turno.MVC.ModeloJuego;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class PanelDescarte extends JPanel {
+
+    private final ModeloJuego modeloJuego;
+
+    public PanelDescarte(ModeloJuego modeloJuego) {
+        this.modeloJuego = modeloJuego;
+        setPreferredSize(new Dimension(100, 120));
+        setOpaque(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        Descarte descarte = modeloJuego.getTablero().getDescarte();
+        Carta cartaCima = descarte.getCartaCima();
+
+        if (cartaCima != null) {
+            g2d.setColor(cartaCima.getColorExterno());
+            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+
+            try {
+                URL url = getClass().getResource(cartaCima.getRutaImagen());
+                if (url != null) {
+                    BufferedImage img = ImageIO.read(url);
+                    g2d.drawImage(img, 5, 5, getWidth() - 10, getHeight() - 10, this);
+                }
+            } catch (IOException e) {
+                System.err.println("Error al cargar imagen en descarte");
+            }
+
+            g2d.setColor(Color.WHITE);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 15, 15);
+        }
+    }
+}

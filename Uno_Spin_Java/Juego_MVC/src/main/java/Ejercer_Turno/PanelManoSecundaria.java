@@ -11,17 +11,11 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-/**
- * VISTA: PanelManoSecundaria
- * Muestra las cartas de los oponentes (boca abajo) con la rotación adecuada.
- */
 public class PanelManoSecundaria extends JPanel implements IJugadorObserver {
 
-    private final Jugador oponente; // Modelo a observar
+    private final Jugador oponente; 
     private final String ubicacion;
     private BufferedImage atrasRotado;
-    
-    // Constantes de diseño para las cartas de los oponentes
     private final int ANCHO_CARTA_VERT = 100;
     private final int ALTO_CARTA_VERT = 120;
     private final int ANCHO_CARTA_HORIZ = 120;
@@ -31,7 +25,6 @@ public class PanelManoSecundaria extends JPanel implements IJugadorObserver {
         this.oponente = oponente;
         this.ubicacion = ubicacion;
         this.oponente.addObserver(this);
-
         configurarDimensiones();
         cargarImagenRotada();
         setOpaque(false);
@@ -51,7 +44,6 @@ public class PanelManoSecundaria extends JPanel implements IJugadorObserver {
             case "derecha"   -> "/cartas/atrasDerecha.png";
             default          -> "/cartas/atras.png";
         };
-
         try {
             URL url = getClass().getResource(ruta);
             if (url != null) {
@@ -71,14 +63,11 @@ public class PanelManoSecundaria extends JPanel implements IJugadorObserver {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (atrasRotado == null) return;
-
         int totalCartas = oponente.getNumCartas();
         if (totalCartas == 0) return;
-
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         int separacion = 25; 
-        
         if (ubicacion.equals("arriba")) {
             int anchoTotal = (totalCartas - 1) * separacion + ANCHO_CARTA_VERT;
             int x = (getWidth() - anchoTotal) / 2;
