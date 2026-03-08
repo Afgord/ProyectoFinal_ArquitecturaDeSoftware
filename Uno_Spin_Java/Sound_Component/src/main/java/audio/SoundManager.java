@@ -10,32 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundManager implements ISoundManager {
-
-    private static class SoundPool {
-        private Clip[] clips;
-        private int index = 0;
-
-        public SoundPool(Clip[] clips) {
-            this.clips = clips;
-        }
-
-        public synchronized void play() {
-            Clip clip = clips[index];
-
-            if (clip.isRunning()) {
-                clip.stop();
-            }
-
-            clip.setFramePosition(0);
-            clip.start();
-
-            index = (index + 1) % clips.length;
-        }
-    }
-
     private final Map<String, SoundPool> soundEffects = new HashMap<>();
     private Clip backgroundMusic;
 
+    @Override
     public boolean validateWav(String path) {
 
         if (path == null || !path.toLowerCase().endsWith(".wav")) {
@@ -62,6 +40,7 @@ public class SoundManager implements ISoundManager {
         }
     }
 
+    @Override
     public void loadEffect(String name, String path, int poolSize) {
 
         if (!validateWav(path)) return;
@@ -91,12 +70,14 @@ public class SoundManager implements ISoundManager {
         }
     }
 
+    @Override
     public void playEffect(String name) {
         SoundPool pool = soundEffects.get(name);
         if (pool != null) {
             pool.play();
         }
     }
+    @Override
     public void loadMusic(String path) {
 
         if (!validateWav(path)) return;
@@ -115,6 +96,7 @@ public class SoundManager implements ISoundManager {
         }
     }
 
+    @Override
     public void playMusicLoop() {
         if (backgroundMusic == null) return;
 
@@ -127,6 +109,7 @@ public class SoundManager implements ISoundManager {
         musicThread.start();
     }
 
+    @Override
     public void stopMusic() {
         if (backgroundMusic != null && backgroundMusic.isRunning()) {
             backgroundMusic.stop();

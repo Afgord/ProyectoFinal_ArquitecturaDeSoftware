@@ -26,7 +26,7 @@ public class FrameTablero extends JFrame implements Observador {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
-        
+        AudioController.playMusic();
         this.panelTablero = new PanelTablero(control, modelo);
         add(panelTablero);
         

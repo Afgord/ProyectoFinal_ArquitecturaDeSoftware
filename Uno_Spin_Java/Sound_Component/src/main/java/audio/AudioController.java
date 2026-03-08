@@ -16,7 +16,7 @@ public class AudioController {
         sound.loadEffect("jalar", "/sound/jalar.wav", 5);
         sound.loadEffect("uno", "/sound/uno.wav", 5);
         sound.loadEffect("alerta", "/sound/alerta.wav", 5);
-        //sound.playMusicLoop();
+        sound.playMusicLoop();
     }
     public static void playMusic() {
         if (sound != null) {
