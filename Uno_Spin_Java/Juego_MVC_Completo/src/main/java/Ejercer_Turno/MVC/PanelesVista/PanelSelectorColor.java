@@ -4,77 +4,57 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
+import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.Mazo;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.ModeloJuego;
-import Ejercer_Turno.Dominio.Carta;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.*;
 
 public class PanelSelectorColor extends JPanel {
 
-    private final ControlJuego control;
-    private final ModeloJuego modelo;
-    private final Carta cartaComodin;
-    private final JDialog ventanaModal;
-
-    public PanelSelectorColor(ControlJuego control, ModeloJuego modelo, Carta carta, JDialog ventana) {
-        this.control = control;
-        this.modelo = modelo;
-        this.cartaComodin = carta;
-        this.ventanaModal = ventana;
-        
-        setLayout(new GridLayout(2, 2, 10, 10));
-        setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        setBackground(new Color(45, 45, 45));
-        inicializarBotones();
+    public PanelSelectorColor(ControlJuego control, ModeloJuego modelo, Carta carta, JDialog dialogo) {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+        setBackground(new Color(50, 50, 50));
+        JLabel titulo = new JLabel("Elije el color:", SwingConstants.CENTER);
+        titulo.setForeground(Color.WHITE);
+        titulo.setFont(new Font("Arial", Font.BOLD, 14));
+        add(titulo, BorderLayout.NORTH);
+        JPanel botonesPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        botonesPanel.setOpaque(false);
+        Mazo mazo = modelo.getTablero().getMazo();
+        botonesPanel.add(crearBoton("Azul", mazo.getcAzul(), control, carta, dialogo));
+        botonesPanel.add(crearBoton("Rojo", mazo.getcRojo(), control, carta, dialogo));
+        botonesPanel.add(crearBoton("Amarillo", mazo.getcAmarillo(), control, carta, dialogo));
+        botonesPanel.add(crearBoton("Verde", mazo.getcVerde(), control, carta, dialogo));
+        add(botonesPanel, BorderLayout.CENTER);
     }
 
-    private void inicializarBotones() {
-        agregarBotonColor("Azul", modelo.getMazo().getcAzul());
-        agregarBotonColor("Rojo", modelo.getMazo().getcRojo());
-        agregarBotonColor("Amarillo", modelo.getMazo().getcAmarillo());
-        agregarBotonColor("Verde", modelo.getMazo().getcVerde());
-    }
-
-    private void agregarBotonColor(String nombre, Color color) {
-        JPanel boton = new JPanel();
-        boton.setBackground(color);
-        boton.setPreferredSize(new Dimension(80, 80));
-        boton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    private JButton crearBoton(String nombre, Color color, ControlJuego control, Carta carta, JDialog dialogo) {
+        JButton btn = new JButton(nombre);
+        btn.setBackground(color);
+        if (color.equals(Color.WHITE) || color.equals(Color.PINK) || color.equals(Color.YELLOW)) {
+            btn.setForeground(Color.BLACK);
+        } else {
+            btn.setForeground(Color.WHITE);
+        }
         
-        boton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                control.solicitarTirarCartaNegra(cartaComodin, color, nombre.toLowerCase());
-                ventanaModal.dispose();
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                boton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                boton.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-            }
+        btn.setFocusPainted(false);
+        btn.addActionListener(e -> {
+            control.solicitarTirarCartaNegra(carta, color, nombre.toLowerCase());
+            dialogo.dispose();
         });
-
-        add(boton);
+        return btn;
     }
-    
-    public static void mostrar(Component padre, ControlJuego control, ModeloJuego modelo, Carta carta) {
-        // Buscamos el Frame principal para que el JDialog sea realmente modal y visible
-        Window owner = SwingUtilities.getWindowAncestor(padre);
-        JDialog dialog = new JDialog(owner, "Seleccionar Color", Dialog.ModalityType.APPLICATION_MODAL);
 
-        dialog.setUndecorated(true); // Estética de juego
+    public static void mostrar(Component padre, ControlJuego control, ModeloJuego modelo, Carta carta) {
+        Window parentWindow = SwingUtilities.getWindowAncestor(padre);
+        JDialog dialog = new JDialog(parentWindow, "Selecciona Color", Dialog.ModalityType.APPLICATION_MODAL);
+        dialog.setUndecorated(true);
         dialog.add(new PanelSelectorColor(control, modelo, carta, dialog));
         dialog.pack();
-        dialog.setLocationRelativeTo(owner);
+        dialog.setLocationRelativeTo(parentWindow);
         dialog.setVisible(true);
     }
 }

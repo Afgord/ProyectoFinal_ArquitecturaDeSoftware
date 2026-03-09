@@ -7,7 +7,6 @@ package Ejercer_Turno.MVC;
 import Ejercer_Turno.Interfaces.Observador;
 import Ejercer_Turno.Interfaces.ContextoEvento;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
-import audio.AudioController;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -26,7 +25,7 @@ public class FrameTablero extends JFrame implements Observador {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
-        AudioController.playMusic();
+        control.reproducirMusica();
         this.panelTablero = new PanelTablero(control, modelo);
         add(panelTablero);
         
@@ -54,16 +53,16 @@ public class FrameTablero extends JFrame implements Observador {
                 panelTablero.refrescarTurno();
                 break;
             case ALERTA_SONIDO_TIRAR:
-                AudioController.playEffect("tirar");
+                control.alertaSonidoTirar();
                 break;
             case ALERTA_SONIDO_JALAR:
-                AudioController.playEffect("jalar");
+                control.alertaSonidoJalar();
                 break;
             case ALERTA_SONIDO_UNO:
-                AudioController.playEffect("uno");
+                control.alertaSonidoUno();
                 break;
             case ALERTA_SONIDO_ERROR:
-                AudioController.playEffect("alerta");
+                control.alertaSonidoError();
                 break;
             case FIN_JUEGO:
                 String ganador = modelo.getTablero().getJugadorActual().getNombre();

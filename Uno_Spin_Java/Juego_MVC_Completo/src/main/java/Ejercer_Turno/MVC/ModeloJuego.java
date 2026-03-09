@@ -56,19 +56,14 @@ public class ModeloJuego {
         }
     }
 
-    public void tirarCartaNegra(Carta carta, Color colorElegido, String nombreColor) {
-        Jugador actual = tablero.getJugadorActual();
-        actual.tirarCarta(carta);
-        
-        carta.setColorExterno(colorElegido);
-        descarte.setColorActivo(nombreColor); 
-        descarte.recibirCarta(carta);
-
-        notificarObservadores(ContextoEvento.ALERTA_SONIDO_TIRAR);
+    public void tirarCartaNegra(Carta carta, Color nuevoColor, String nombreColor) {
+        carta.setColorExterno(nuevoColor);
+        carta.setColorNombre(nombreColor); 
+        tablero.getDescarte().recibirCarta(carta);
+        tablero.getJugadorActual().getCartasModelo().remove(carta);
         notificarObservadores(ContextoEvento.DESCARTE_ACTUALIZADO);
         notificarObservadores(ContextoEvento.MANO_JUGADOR_ACTUALIZADO);
-
-        verificarEstadoVictoria();
+        pasarTurno(); 
     }
 
     public void robarCarta() {

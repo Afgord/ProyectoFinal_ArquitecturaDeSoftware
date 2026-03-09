@@ -5,6 +5,7 @@
 package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Dominio.Carta;
+import audio.AudioController;
 import java.awt.Color;
 
 public class ControlJuego {
@@ -37,5 +38,29 @@ public class ControlJuego {
 
     public ModeloJuego getModelo() {
         return modelo;
+    }
+    
+    public void alertaSonidoTirar(){
+        AudioController.playEffect("tirar");
+    }
+    
+    public void alertaSonidoJalar(){
+        AudioController.playEffect("jalar");
+    }
+    
+    public void alertaSonidoUno(){
+        AudioController.playEffect("uno");
+    }
+    
+    public void alertaSonidoError(){
+        AudioController.playEffect("alerta");
+    }
+    
+    public void reproducirMusica(){
+        AudioController.playMusic();
+    }
+    
+    public void pararMusica(){
+        AudioController.stopMusic();
     }
 }
