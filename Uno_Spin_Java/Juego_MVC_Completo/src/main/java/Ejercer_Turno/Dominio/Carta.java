@@ -55,7 +55,6 @@ public class Carta {
     }
     
     public boolean esComodin() {
-        // Verifica que el String sea "negro" ignorando mayúsculas
         return "negro".equalsIgnoreCase(this.colorInterno);
     }
 }

@@ -17,7 +17,7 @@ public class Ejecutador {
     public static void main(String[] args) {
         Color cAzul = Color.CYAN;
         Color cRojo = Color.white;
-        Color cAmarillo =Color.PINK;
+        Color cAmarillo = Color.PINK;
         Color cVerde = Color.ORANGE;
         Color cNegro = Color.BLACK;
         List<Jugador> listaJugadores = new ArrayList<>();
@@ -25,7 +25,6 @@ public class Ejecutador {
         listaJugadores.add(new Jugador("Mondongo", "/avatares/mondongo.jpg"));
         listaJugadores.add(new Jugador("Verch", "/avatares/queHiciste.jpg"));
         listaJugadores.add(new Jugador("Gilberto", "/avatares/gilberto.jpg"));
-
         Tablero tablero = new Tablero(
             listaJugadores, 0, 9,
             true, true, true, true, true, 
@@ -44,9 +43,8 @@ public class Ejecutador {
         } catch (Exception e) {
             System.err.println("Error Audio: " + e.getMessage());
         }
-        ModeloJuego modelo = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
-        ControlJuego control = new ControlJuego(modelo);
-
-        new FrameTablero(control, modelo);
+        ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
+        ControlJuego control = new ControlJuego(modeloReal, modeloReal);
+        new FrameTablero(control, modeloReal);
     }
 }

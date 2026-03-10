@@ -77,7 +77,32 @@ public class Mazo {
         if (baraja.isEmpty()) return null;
         return baraja.remove(0);
     }
-
+    
+    public List<Carta> tomarDosCartas() {
+        return tomarVariasCartas(2);
+    }
+    
+    public List<Carta> tomarCuatroCartas() {
+        return tomarVariasCartas(4);
+    }
+     
+    private List<Carta> tomarVariasCartas(int cantidad) {
+        List<Carta> cartasTomadas = new ArrayList<>();
+        for (int i = 0; i < cantidad; i++) {
+            Carta c = tomarUnaCarta();
+            if (c != null) {
+                cartasTomadas.add(c);
+                try {
+                    Thread.sleep(500); 
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        }
+        return cartasTomadas;
+    }
+    
     public int getCantidadCartas() { 
         return baraja.size(); 
     }
