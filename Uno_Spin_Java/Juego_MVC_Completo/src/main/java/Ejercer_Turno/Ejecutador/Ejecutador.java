@@ -8,17 +8,17 @@ import Ejercer_Turno.Dominio.*;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;
-import audio.AudioController;
+import audio.AudioModel;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ejecutador {
     public static void main(String[] args) {
-        Color cAzul = Color.CYAN;
-        Color cRojo = Color.white;
-        Color cAmarillo = Color.PINK;
-        Color cVerde = Color.ORANGE;
+        Color cAzul = Color.BLUE;
+        Color cRojo = Color.RED;
+        Color cAmarillo = Color.YELLOW;
+        Color cVerde = Color.GREEN;
         Color cNegro = Color.BLACK;
         List<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(new Jugador("Xrapayel", "/avatares/XD.jpg"));
@@ -38,12 +38,8 @@ public class Ejecutador {
                 j.agregarCarta(mazo.tomarUnaCarta());
             }
         }
-        try {
-            AudioController.init();
-        } catch (Exception e) {
-            System.err.println("Error Audio: " + e.getMessage());
-        }
-        ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
+        AudioModel audioModel = new AudioModel();
+        ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero, audioModel);
         ControlJuego control = new ControlJuego(modeloReal, modeloReal);
         new FrameTablero(control, modeloReal);
     }

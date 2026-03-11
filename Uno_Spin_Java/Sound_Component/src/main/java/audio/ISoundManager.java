@@ -3,17 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package audio;
-
 /**
- *
+ * 
  * @author lagar
  */
 public interface ISoundManager {
-    public void loadEffect(String name, String path, int poolSize);
-    public boolean validateWav(String path);
-    public void playEffect(String name);
-    public void loadMusic(String path);
-    public void playMusicLoop();
-    public void stopMusic();
+    void loadEffect(String name, String path, int poolSize);
 
+    boolean validateWav(String path);
+
+    void playEffect(String name);
+
+    void loadMusic(String path);
+
+    void playMusicLoop();
+
+    void stopMusic();
 }

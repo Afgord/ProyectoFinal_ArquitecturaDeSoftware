@@ -6,9 +6,8 @@ package Ejercer_Turno.Interfaces;
 
 import Ejercer_Turno.Dominio.Carta;
 import java.awt.Color;
-
 /**
- *
+ * 
  * @author lagar
  */
 public interface IModeloAcciones {
@@ -17,5 +16,5 @@ public interface IModeloAcciones {
     void robarCarta();
     void gritarUno();
     void notificarError();
-    void aplicarCastigo(); 
+    void aplicarCastigo();
 }

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundManager implements ISoundManager {
+
     private final Map<String, SoundPool> soundEffects = new HashMap<>();
     private Clip backgroundMusic;
 
@@ -46,6 +47,7 @@ public class SoundManager implements ISoundManager {
         if (!validateWav(path)) return;
 
         try {
+
             URL url = getClass().getResource(path);
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
 
@@ -72,17 +74,21 @@ public class SoundManager implements ISoundManager {
 
     @Override
     public void playEffect(String name) {
+
         SoundPool pool = soundEffects.get(name);
+
         if (pool != null) {
             pool.play();
         }
     }
+
     @Override
     public void loadMusic(String path) {
 
         if (!validateWav(path)) return;
 
         try {
+
             URL url = getClass().getResource(path);
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
 
@@ -98,6 +104,7 @@ public class SoundManager implements ISoundManager {
 
     @Override
     public void playMusicLoop() {
+
         if (backgroundMusic == null) return;
 
         Thread musicThread = new Thread(() -> {
@@ -105,12 +112,13 @@ public class SoundManager implements ISoundManager {
             backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
         });
 
-        musicThread.setDaemon(true); 
+        musicThread.setDaemon(true);
         musicThread.start();
     }
 
     @Override
     public void stopMusic() {
+
         if (backgroundMusic != null && backgroundMusic.isRunning()) {
             backgroundMusic.stop();
         }

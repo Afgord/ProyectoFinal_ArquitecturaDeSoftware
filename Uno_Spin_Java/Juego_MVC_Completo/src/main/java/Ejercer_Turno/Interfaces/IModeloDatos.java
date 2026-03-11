@@ -4,14 +4,10 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import Ejercer_Turno.Dominio.Descarte;
-import Ejercer_Turno.Dominio.Jugador;
-import Ejercer_Turno.Dominio.Mazo;
-import Ejercer_Turno.Dominio.Tablero;
+import Ejercer_Turno.Dominio.*;
 import java.util.List;
-
 /**
- *
+ * 
  * @author lagar
  */
 public interface IModeloDatos {

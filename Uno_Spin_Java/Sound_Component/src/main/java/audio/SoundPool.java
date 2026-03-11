@@ -6,28 +6,26 @@ package audio;
 
 import javax.sound.sampled.Clip;
 
-/**
- *
- * @author lagar
- */
 public class SoundPool {
-        private Clip[] clips;
-        private int index = 0;
 
-        public SoundPool(Clip[] clips) {
-            this.clips = clips;
-        }
+    private Clip[] clips;
+    private int index = 0;
 
-        public synchronized void play() {
-            Clip clip = clips[index];
-
-            if (clip.isRunning()) {
-                clip.stop();
-            }
-
-            clip.setFramePosition(0);
-            clip.start();
-
-            index = (index + 1) % clips.length;
-        }
+    public SoundPool(Clip[] clips) {
+        this.clips = clips;
     }
+
+    public synchronized void play() {
+
+        Clip clip = clips[index];
+
+        if (clip.isRunning()) {
+            clip.stop();
+        }
+
+        clip.setFramePosition(0);
+        clip.start();
+
+        index = (index + 1) % clips.length;
+    }
+}

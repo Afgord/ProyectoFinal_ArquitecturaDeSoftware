@@ -25,6 +25,7 @@ public class FrameTablero extends JFrame implements Observador {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
+        
         control.reproducirMusica();
         this.panelTablero = new PanelTablero(control, modelo);
         add(panelTablero);
@@ -51,18 +52,6 @@ public class FrameTablero extends JFrame implements Observador {
                 break;
             case TURNO_CAMBIADO:
                 panelTablero.refrescarTurno();
-                break;
-            case ALERTA_SONIDO_TIRAR:
-                control.alertaSonidoTirar();
-                break;
-            case ALERTA_SONIDO_JALAR:
-                control.alertaSonidoJalar();
-                break;
-            case ALERTA_SONIDO_UNO:
-                control.alertaSonidoUno();
-                break;
-            case ALERTA_SONIDO_ERROR:
-                control.alertaSonidoError();
                 break;
             case FIN_JUEGO:
                 String ganador = modelo.getTablero().getJugadorActual().getNombre();

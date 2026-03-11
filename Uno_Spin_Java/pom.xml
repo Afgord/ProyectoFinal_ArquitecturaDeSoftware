@@ -7,7 +7,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>Sound_Component</module>
-        <module>Juego_MVC</module>
         <module>Juego_MVC_Completo</module>
     </modules>
     <properties>
