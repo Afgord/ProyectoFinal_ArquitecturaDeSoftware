@@ -5,18 +5,21 @@
 package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Interfaces.Observador;
-import Ejercer_Turno.Interfaces.ContextoEvento;
+import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+/**
+ * 
+ * @author lagar
+ */
 public class FrameTablero extends JFrame implements Observador {
 
     private final ControlJuego control;
-    private final ModeloJuego modelo;
+    private final IModeloDatos modelo; 
     private PanelTablero panelTablero;
 
-    public FrameTablero(ControlJuego control, ModeloJuego modelo) {
+    public FrameTablero(ControlJuego control, IModeloDatos modelo) {
         this.control = control;
         this.modelo = modelo;
         this.modelo.registrarObservador(this);
@@ -25,7 +28,6 @@ public class FrameTablero extends JFrame implements Observador {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
-        
         control.reproducirMusica();
         this.panelTablero = new PanelTablero(control, modelo);
         add(panelTablero);
@@ -34,30 +36,22 @@ public class FrameTablero extends JFrame implements Observador {
         setVisible(true);
     }
 
+    @Override
+    public void notificarCambio(IModeloDatos contexto) {
+        // Al recibir el modelo, actualizamos todos los sub-paneles
+        panelTablero.actualizarMazo();
+        panelTablero.actualizarDescarte();
+        panelTablero.actualizarManos();
+        panelTablero.refrescarTurno();
+
+        if (contexto.getTablero().getJugadorActual().getNumCartas() == 0) {
+            String ganador = contexto.getTablero().getJugadorActual().getNombre();
+            JOptionPane.showMessageDialog(this, "¡Felicidades " + ganador + "! Has ganado.");
+            System.exit(0);
+        }
+    }
+    
     public PanelTablero getPanelTablero() {
         return panelTablero;
-    }
-
-    @Override
-    public void notificarCambio(ContextoEvento contexto) {
-        switch (contexto) {
-            case MAZO_ACTUALIZADO:
-                panelTablero.actualizarMazo();
-                break;
-            case DESCARTE_ACTUALIZADO:
-                panelTablero.actualizarDescarte();
-                break;
-            case MANO_JUGADOR_ACTUALIZADO:
-                panelTablero.actualizarManos();
-                break;
-            case TURNO_CAMBIADO:
-                panelTablero.refrescarTurno();
-                break;
-            case FIN_JUEGO:
-                String ganador = modelo.getTablero().getJugadorActual().getNombre();
-                JOptionPane.showMessageDialog(this, "¡Felicidades " + ganador + "! Has ganado la partida.");
-                System.exit(0);
-                break;
-        }
     }
 }

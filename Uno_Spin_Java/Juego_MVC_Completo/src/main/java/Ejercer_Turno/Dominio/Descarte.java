@@ -5,9 +5,11 @@
 package Ejercer_Turno.Dominio;
 
 import java.util.Stack;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Descarte {
-
     private Stack<Carta> pila = new Stack<>();
     private String colorActivo;
 

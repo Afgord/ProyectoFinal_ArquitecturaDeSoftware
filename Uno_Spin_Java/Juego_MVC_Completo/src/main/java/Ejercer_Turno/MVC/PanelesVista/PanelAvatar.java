@@ -11,7 +11,10 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.geom.Ellipse2D;
-
+/**
+ * 
+ * @author lagar
+ */
 public class PanelAvatar extends JPanel {
     private BufferedImage imagenPerfil;
 

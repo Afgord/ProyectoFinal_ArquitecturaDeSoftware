@@ -6,7 +6,10 @@ package Ejercer_Turno.Dominio;
 
 import java.awt.Color;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Tablero {
 
     private Mazo mazo;

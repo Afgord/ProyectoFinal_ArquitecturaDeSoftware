@@ -5,9 +5,11 @@
 package Ejercer_Turno.Dominio;
 
 import java.awt.Color;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Carta {
-
     private final String simbolo;
     private Color colorExterno;
     private String colorInterno;

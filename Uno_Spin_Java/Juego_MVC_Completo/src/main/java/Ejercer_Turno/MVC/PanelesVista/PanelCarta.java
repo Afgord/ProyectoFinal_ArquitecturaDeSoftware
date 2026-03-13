@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author lagar
+ */
 public class PanelCarta extends JPanel {
 
     private final Carta modelo;

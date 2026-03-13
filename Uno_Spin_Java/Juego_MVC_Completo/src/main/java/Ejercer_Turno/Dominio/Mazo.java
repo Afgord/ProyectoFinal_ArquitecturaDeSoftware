@@ -8,9 +8,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Mazo {
-
     private final List<Carta> baraja;
     private Color cAzul, cRojo, cAmarillo, cVerde;
 

@@ -12,14 +12,18 @@ import audio.AudioModel;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Ejecutador {
     public static void main(String[] args) {
-        Color cAzul = Color.BLUE;
-        Color cRojo = Color.RED;
-        Color cAmarillo = Color.YELLOW;
-        Color cVerde = Color.GREEN;
+        Color cAzul = Color.CYAN;
+        Color cRojo = Color.PINK;
+        Color cAmarillo = Color.ORANGE;
+        Color cVerde = Color.MAGENTA;
         Color cNegro = Color.BLACK;
+
         List<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(new Jugador("Xrapayel", "/avatares/XD.jpg"));
         listaJugadores.add(new Jugador("Mondongo", "/avatares/mondongo.jpg"));
@@ -30,6 +34,7 @@ public class Ejecutador {
             true, true, true, true, true, 
             cAzul, cRojo, cAmarillo, cVerde, cNegro
         );
+
         Mazo mazo = tablero.getMazo();
         Descarte descarte = tablero.getDescarte();
         int numCartasInicial = 7;
@@ -38,9 +43,10 @@ public class Ejecutador {
                 j.agregarCarta(mazo.tomarUnaCarta());
             }
         }
+
         AudioModel audioModel = new AudioModel();
         ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero, audioModel);
-        ControlJuego control = new ControlJuego(modeloReal, modeloReal);
-        new FrameTablero(control, modeloReal);
+        ControlJuego control = new ControlJuego(modeloReal); 
+        new FrameTablero(control, modeloReal); 
     }
 }

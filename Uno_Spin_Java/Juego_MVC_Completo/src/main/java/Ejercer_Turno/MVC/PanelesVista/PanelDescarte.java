@@ -6,19 +6,22 @@ package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.Dominio.Carta;
 import Ejercer_Turno.Dominio.Descarte;
-import Ejercer_Turno.MVC.ModeloJuego;
+import Ejercer_Turno.Interfaces.IModeloDatos;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author lagar
+ */
 public class PanelDescarte extends JPanel {
 
-    private final ModeloJuego modeloJuego;
+    private final IModeloDatos modeloJuego;
 
-    public PanelDescarte(ModeloJuego modeloJuego) {
+    public PanelDescarte(IModeloDatos modeloJuego) {
         this.modeloJuego = modeloJuego;
         setPreferredSize(new Dimension(100, 120));
         setOpaque(false);

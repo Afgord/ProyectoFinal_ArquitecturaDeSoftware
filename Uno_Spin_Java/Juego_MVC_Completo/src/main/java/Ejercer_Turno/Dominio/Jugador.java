@@ -5,9 +5,11 @@
 package Ejercer_Turno.Dominio;
 
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Jugador {
-
     private final String nombre;
     private final String urlAvatar;
     private final Mano mano;

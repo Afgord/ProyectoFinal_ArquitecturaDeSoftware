@@ -7,7 +7,10 @@ package Ejercer_Turno.MVC.PanelesVista;
 import Ejercer_Turno.Dominio.Jugador;
 import java.awt.*;
 import javax.swing.*;
-
+/**
+ * 
+ * @author lagar
+ */
 public class PanelJugador extends JPanel {
     private final Jugador jugador; 
     

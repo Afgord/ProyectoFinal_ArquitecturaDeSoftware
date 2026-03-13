@@ -6,7 +6,10 @@ package Ejercer_Turno.Dominio;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Mano {
 
     private final List<Carta> cartas;

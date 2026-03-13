@@ -13,7 +13,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-
+/**
+ * 
+ * @author lagar
+ */
 public class PanelCartaSeleccionada extends JPanel {
 
     private Carta cartaActual;

@@ -11,59 +11,34 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
-
+/**
+ * 
+ * @author lagar
+ */
 public class ModeloJuego implements IModeloAcciones, IModeloDatos {
-    private final Tablero tablero;
-    private final Mazo mazo;
-    private final Descarte descarte;
-    private final List<Jugador> jugadores;
+    private final FachadaJuego fachada;
     private final List<Observador> observadores = new ArrayList<>();
     private final AudioModel audio;
-    private int acumulacionCastigo = 0;
 
     public ModeloJuego(List<Jugador> jugadores, Mazo mazo, Descarte descarte, Tablero tablero, AudioModel audioModel) {
-        this.jugadores = jugadores;
-        this.mazo = mazo;
-        this.descarte = descarte;
-        this.tablero = tablero;
         this.audio = audioModel;
+        this.fachada = new FachadaJuego();
+        this.fachada.inyectarTablero(tablero);
     }
 
-    @Override
-    public void registrarObservador(Observador o) { observadores.add(o); }
-
-    public void notificarObservadores(ContextoEvento evento) {
-        for (Observador o : observadores) o.notificarCambio(evento);
-    }
+    // --- LÓGICA DE ACCIONES ---
 
     @Override
     public void tirarCarta(Carta carta) {
-        if (acumulacionCastigo > 0 && !carta.getSimbolo().equals("+2")) {
-            notificarError();
-            return;
-        }
-
-        if (descarte.validarJugada(carta)) {
-            tablero.getJugadorActual().tirarCarta(carta);
-            descarte.recibirCarta(carta);
-            audio.playEffect("tirar");
-
-            notificarObservadores(ContextoEvento.DESCARTE_ACTUALIZADO);
-            notificarObservadores(ContextoEvento.MANO_JUGADOR_ACTUALIZADO);
-
-            String simbolo = carta.getSimbolo();
-            if (simbolo.equals("+2")) {
-                acumulacionCastigo += 2;
-                pasarTurno();
-            } else if (simbolo.equals("REV")) {
-                tablero.cambiarSentido();
-                if (jugadores.size() == 2) tablero.avanzarTurno();
-                verificarEstadoVictoria();
-            } else if (simbolo.equals("PRO")) {
-                tablero.avanzarTurno();
-                verificarEstadoVictoria();
+        if (fachada.validarYPlay(carta)) {
+            reproducirEfecto("tirar");
+            
+            // Si al jugador actual (que acaba de tirar) no le quedan cartas
+            if (fachada.getTablero().getJugadorActual().getNumCartas() == 0) {
+                notificarObservadores(); // Ganador
             } else {
-                verificarEstadoVictoria();
+                fachada.pasarTurno();
+                notificarObservadores();
             }
         } else {
             notificarError();
@@ -72,82 +47,80 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
 
     @Override
     public void tirarCartaNegra(Carta carta, Color nuevoColor, String nombreColor) {
-        if (acumulacionCastigo > 0 && !carta.getSimbolo().equals("+4")) {
+        if (fachada.validarYPlay(carta)) {
+            fachada.aplicarEfectoCarta(carta, nuevoColor);
+            reproducirEfecto("tirar");
+            fachada.pasarTurno();
+            notificarObservadores();
+        } else {
             notificarError();
-            return;
         }
-
-        carta.setColorExterno(nuevoColor);
-        carta.setColorNombre(nombreColor); 
-        descarte.recibirCarta(carta);
-        tablero.getJugadorActual().getCartasModelo().remove(carta);
-        audio.playEffect("tirar");
-        
-        if (carta.getSimbolo().equals("+4")) {
-            acumulacionCastigo += 4;
-        }
-        pasarTurno();
     }
 
     @Override
     public void robarCarta() {
-        if (acumulacionCastigo > 0) {
+        if (fachada.getAcumulacionCastigo() > 0) {
             aplicarCastigo();
         } else {
-            if (!mazo.estaVacio()) {
-                tablero.getJugadorActual().agregarCarta(mazo.tomarUnaCarta());
-                audio.playEffect("jalar");
-                notificarObservadores(ContextoEvento.MAZO_ACTUALIZADO);
-                notificarObservadores(ContextoEvento.MANO_JUGADOR_ACTUALIZADO);
-            }
+            fachada.robarCarta();
+            reproducirEfecto("jalar");
+            notificarObservadores();
         }
     }
 
     @Override
     public void aplicarCastigo() {
-        int cantidadFinal = acumulacionCastigo;
-        acumulacionCastigo = 0;
+        int cantidad = fachada.getAcumulacionCastigo();
+        fachada.limpiarCastigo();
+
         new Thread(() -> {
-            Jugador victima = tablero.getJugadorActual();
-            for (int i = 0; i < cantidadFinal; i++) {
-                Carta robada = mazo.tomarUnaCarta();
-                if (robada != null) {
-                    victima.agregarCarta(robada);
-                    SwingUtilities.invokeLater(() -> {
-                        audio.playEffect("jalar");
-                        notificarObservadores(ContextoEvento.MAZO_ACTUALIZADO);
-                        notificarObservadores(ContextoEvento.MANO_JUGADOR_ACTUALIZADO);
-                    });
-                    try { Thread.sleep(500); } catch (InterruptedException e) { break; }
+            for (int i = 0; i < cantidad; i++) {
+                fachada.robarCarta();
+                SwingUtilities.invokeLater(() -> {
+                    reproducirEfecto("jalar");
+                    notificarObservadores();
+                });
+                try { Thread.sleep(400); } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
-            SwingUtilities.invokeLater(this::pasarTurno);
+            SwingUtilities.invokeLater(() -> {
+                fachada.pasarTurno();
+                notificarObservadores();
+            });
         }).start();
     }
-
-    public void reproducirMusica() { audio.playMusic(); }
-    public void detenerMusica() { audio.stopMusic(); }
-    public void reproducirEfecto(String nombre) { audio.playEffect(nombre); }
-
-    public void pasarTurno() {
-        tablero.avanzarTurno();
-        notificarObservadores(ContextoEvento.TURNO_CAMBIADO);
-        notificarObservadores(ContextoEvento.DESCARTE_ACTUALIZADO);
-        notificarObservadores(ContextoEvento.MANO_JUGADOR_ACTUALIZADO);
+    
+    public void reproducirMusica() {
+        if (audio != null) audio.playMusic();
     }
 
-    private void verificarEstadoVictoria() {
-        if (tablero.getJugadorActual().getNumCartas() == 0) {
-            notificarObservadores(ContextoEvento.FIN_JUEGO);
-        } else {
-            pasarTurno();
-        }
+    public void detenerMusica() {
+        if (audio != null) audio.stopMusic();
     }
 
-    @Override public Tablero getTablero() { return tablero; }
-    @Override public Mazo getMazo() { return mazo; }
-    @Override public Descarte getDescarte() { return descarte; }
-    @Override public List<Jugador> getJugadores() { return jugadores; }
-    @Override public void gritarUno() { audio.playEffect("uno"); }
-    @Override public void notificarError() { audio.playEffect("alerta"); }
+    public void reproducirEfecto(String nombre) {
+        if (audio != null) audio.playEffect(nombre);
+    }
+
+    @Override public Tablero getTablero() { return fachada.getTablero(); }
+    @Override public Mazo getMazo() { return fachada.getTablero().getMazo(); }
+    @Override public Descarte getDescarte() { return fachada.getTablero().getDescarte(); }
+    @Override public List<Jugador> getJugadores() { return fachada.getTablero().getJugadores(); }
+
+    @Override public void registrarObservador(Observador o) { observadores.add(o); }
+    public void notificarObservadores() { for (Observador o : observadores) o.notificarCambio(this); }
+    
+    @Override public void gritarUno() { reproducirEfecto("uno"); }
+    @Override public void notificarError() { reproducirEfecto("alerta"); }
+    
+    public Color[] obtenerColoresConfigurados() {
+        Mazo m = fachada.getTablero().getMazo();
+        return new Color[]{
+            m.getcAzul(),
+            m.getcRojo(),
+            m.getcAmarillo(),
+            m.getcVerde()
+        };
+}
 }

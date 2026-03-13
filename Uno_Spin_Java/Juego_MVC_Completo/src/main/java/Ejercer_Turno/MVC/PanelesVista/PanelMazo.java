@@ -5,21 +5,24 @@
 package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.MVC.ControlJuego;
-import Ejercer_Turno.MVC.ModeloJuego;
+import Ejercer_Turno.Interfaces.IModeloDatos;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author lagar
+ */
 public class PanelMazo extends JPanel {
 
     private final ControlJuego control;
-    private final ModeloJuego modeloJuego;
+    private final IModeloDatos modeloJuego;
     private BufferedImage imgAtras;
 
-    public PanelMazo(ControlJuego control, ModeloJuego modeloJuego) {
+    public PanelMazo(ControlJuego control, IModeloDatos modeloJuego) {
         this.control = control;
         this.modeloJuego = modeloJuego;
         

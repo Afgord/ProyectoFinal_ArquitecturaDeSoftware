@@ -7,7 +7,7 @@ package Ejercer_Turno.MVC.PanelesVista;
 import Girar_Ruleta.PanelRuleta;
 import Ejercer_Turno.Dominio.Jugador;
 import Ejercer_Turno.MVC.ControlJuego;
-import Ejercer_Turno.MVC.ModeloJuego;
+import Ejercer_Turno.Interfaces.IModeloDatos; 
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -15,7 +15,7 @@ import javax.swing.*;
 public class PanelTablero extends JPanel {
 
     private final ControlJuego control;
-    private final ModeloJuego modelo;
+    private final IModeloDatos modelo; 
 
     private PanelMazo panelMazo;
     private PanelDescarte panelDescarte;
@@ -24,7 +24,7 @@ public class PanelTablero extends JPanel {
     private PanelUno panelUno;
     private PanelRuleta panelRuleta;
 
-    public PanelTablero(ControlJuego control, ModeloJuego modelo) {
+    public PanelTablero(ControlJuego control, IModeloDatos modelo) {
         this.control = control;
         this.modelo = modelo;
 
@@ -121,7 +121,7 @@ public class PanelTablero extends JPanel {
         actualizarRivales();
     }
     public void refrescarTurno() { actualizarManos(); }
-
+    
     public PanelCartaSeleccionada getPanelZoom() { return panelZoom; }
     public PanelUno getPanelUno() { return panelUno; }
 }

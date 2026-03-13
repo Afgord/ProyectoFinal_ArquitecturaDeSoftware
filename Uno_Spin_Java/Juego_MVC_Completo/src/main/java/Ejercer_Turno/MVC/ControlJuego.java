@@ -6,17 +6,16 @@ package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Dominio.Carta;
 import Ejercer_Turno.Interfaces.IModeloAcciones;
-import Ejercer_Turno.Interfaces.IModeloDatos;
 import java.awt.Color;
-
+/**
+ * 
+ * @author lagar
+ */
 public class ControlJuego {
-
     private final IModeloAcciones modeloAcciones;
-    private final IModeloDatos modeloDatos;
-
-    public ControlJuego(IModeloAcciones acciones, IModeloDatos datos) {
+    
+    public ControlJuego(IModeloAcciones acciones) {
         this.modeloAcciones = acciones;
-        this.modeloDatos = datos;
     }
 
     public void solicitarRobarCarta() {
@@ -43,6 +42,7 @@ public class ControlJuego {
         modeloAcciones.aplicarCastigo();
     }
 
+    // El casting se mantiene porque estos métodos son específicos de la implementación
     public void reproducirMusica() {
         ((ModeloJuego) modeloAcciones).reproducirMusica();
     }
@@ -67,7 +67,21 @@ public class ControlJuego {
         ((ModeloJuego) modeloAcciones).reproducirEfecto("alerta");
     }
 
-    public IModeloDatos getModelo() {
-        return modeloDatos;
+    public void solicitarSeleccionColor(Carta carta, java.awt.Frame padre) {
+        Color[] colores = ((ModeloJuego) modeloAcciones).obtenerColoresConfigurados();
+        Cambiar_Color.MVC.ModeloColor mColor = new Cambiar_Color.MVC.ModeloColor();
+        Cambiar_Color.MVC.ControlColor cColor = new Cambiar_Color.MVC.ControlColor(
+            mColor, 
+            colores[0], 
+            colores[1], 
+            colores[2],
+            colores[3]  
+        );
+        mColor.registrar((color, nombre) -> {
+            this.solicitarTirarCartaNegra(carta, color, nombre);
+        });
+
+        Cambiar_Color.MVC.PanelSelectorColor vista = new Cambiar_Color.MVC.PanelSelectorColor(padre, cColor);
+        vista.setVisible(true);
     }
 }
