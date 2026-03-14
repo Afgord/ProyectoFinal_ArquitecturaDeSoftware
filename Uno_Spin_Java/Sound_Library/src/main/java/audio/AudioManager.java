@@ -23,12 +23,12 @@ public class AudioManager {
 
     private void init() {
 
-        loadMusic("/sound/s.wav");
+        loadMusic("/sound/music/fnafw_bosses.wav");
 
-        loadEffect("tirar", "/sound/tirar.wav", 5);
-        loadEffect("jalar", "/sound/jalar.wav", 5);
-        loadEffect("uno", "/sound/uno.wav", 5);
-        loadEffect("alerta", "/sound/alerta.wav", 5);
+        loadEffect("tirar", "/sound/effect/tirar.wav", 5);
+        loadEffect("jalar", "/sound/effect/jalar.wav", 5);
+        loadEffect("uno", "/sound/effect/uno.wav", 5);
+        loadEffect("alerta", "/sound/effect/alerta.wav", 5);
     }
 
     public boolean validateWav(String path) {

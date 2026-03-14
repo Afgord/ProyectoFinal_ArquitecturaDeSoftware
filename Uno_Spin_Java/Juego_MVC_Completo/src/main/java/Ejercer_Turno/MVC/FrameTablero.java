@@ -38,7 +38,6 @@ public class FrameTablero extends JFrame implements Observador {
 
     @Override
     public void notificarCambio(IModeloDatos contexto) {
-        // Al recibir el modelo, actualizamos todos los sub-paneles
         panelTablero.actualizarMazo();
         panelTablero.actualizarDescarte();
         panelTablero.actualizarManos();

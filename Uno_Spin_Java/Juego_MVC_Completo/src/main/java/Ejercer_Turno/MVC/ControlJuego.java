@@ -42,7 +42,6 @@ public class ControlJuego {
         modeloAcciones.aplicarCastigo();
     }
 
-    // El casting se mantiene porque estos métodos son específicos de la implementación
     public void reproducirMusica() {
         ((ModeloJuego) modeloAcciones).reproducirMusica();
     }

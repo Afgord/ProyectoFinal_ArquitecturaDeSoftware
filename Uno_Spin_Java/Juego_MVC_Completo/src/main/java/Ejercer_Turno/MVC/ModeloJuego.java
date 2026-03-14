@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
  * @author lagar
  */
 public class ModeloJuego implements IModeloAcciones, IModeloDatos {
-    private final FachadaJuego fachada;
+    private final IFachadaDominio fachada;
     private final List<Observador> observadores = new ArrayList<>();
     private final AudioManager audio;
 

@@ -14,6 +14,7 @@ public class FachadaJuego implements IFachadaDominio {
     private Tablero tablero;
     private int acumulacionCastigo = 0;
 
+    @Override
     public void inyectarTablero(Tablero tablero) {
         this.tablero = tablero;
     }
@@ -76,7 +77,9 @@ public class FachadaJuego implements IFachadaDominio {
         return this.tablero;
     }
 
+    @Override
     public int getAcumulacionCastigo() { return acumulacionCastigo; }
+    @Override
     public void limpiarCastigo() { this.acumulacionCastigo = 0; }
 
     @Override

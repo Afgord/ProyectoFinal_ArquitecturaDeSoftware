@@ -18,4 +18,7 @@ public interface IFachadaDominio {
     void aplicarEfectoCarta(Carta carta, Color colorElegido);
     void pasarTurno();
     Tablero getTablero(); 
+    void inyectarTablero(Tablero tablero);
+    int getAcumulacionCastigo();
+    void limpiarCastigo();
 }

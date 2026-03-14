@@ -69,13 +69,13 @@ public class Mazo {
         }
 
         if (m4) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 8; i++) {
                 baraja.add(new Carta("+4", cNegro, "negro", "/cartas/mas_cuatro.png"));
             }
         }
 
         if (cc) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 8; i++) {
                 baraja.add(new Carta("CC", cNegro, "negro", "/cartas/cambio_color.png"));
             }
         }
