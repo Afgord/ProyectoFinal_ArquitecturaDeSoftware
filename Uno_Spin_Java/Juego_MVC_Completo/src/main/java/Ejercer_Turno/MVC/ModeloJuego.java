@@ -6,7 +6,7 @@ package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Dominio.*;
 import Ejercer_Turno.Interfaces.*;
-import audio.AudioModel;
+import audio.AudioManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,24 +18,20 @@ import javax.swing.SwingUtilities;
 public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     private final FachadaJuego fachada;
     private final List<Observador> observadores = new ArrayList<>();
-    private final AudioModel audio;
+    private final AudioManager audio;
 
-    public ModeloJuego(List<Jugador> jugadores, Mazo mazo, Descarte descarte, Tablero tablero, AudioModel audioModel) {
+    public ModeloJuego(List<Jugador> jugadores, Mazo mazo, Descarte descarte, Tablero tablero, AudioManager audioModel) {
         this.audio = audioModel;
         this.fachada = new FachadaJuego();
         this.fachada.inyectarTablero(tablero);
     }
-
-    // --- LÓGICA DE ACCIONES ---
-
+    
     @Override
     public void tirarCarta(Carta carta) {
         if (fachada.validarYPlay(carta)) {
             reproducirEfecto("tirar");
-            
-            // Si al jugador actual (que acaba de tirar) no le quedan cartas
             if (fachada.getTablero().getJugadorActual().getNumCartas() == 0) {
-                notificarObservadores(); // Ganador
+                notificarObservadores(); 
             } else {
                 fachada.pasarTurno();
                 notificarObservadores();
@@ -92,7 +88,7 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     }
     
     public void reproducirMusica() {
-        if (audio != null) audio.playMusic();
+        if (audio != null) audio.playMusicLoop();
     }
 
     public void detenerMusica() {

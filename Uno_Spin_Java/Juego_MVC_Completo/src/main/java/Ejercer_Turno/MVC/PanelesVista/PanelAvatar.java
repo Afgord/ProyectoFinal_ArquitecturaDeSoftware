@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import java.awt.geom.Ellipse2D;
+
 /**
  * 
  * @author lagar
@@ -20,7 +20,7 @@ public class PanelAvatar extends JPanel {
 
     public PanelAvatar(String rutaImagen) {
         setOpaque(false);
-        setPreferredSize(new Dimension(80, 80)); 
+        setPreferredSize(new Dimension(80, 80));
         cargarImagen(rutaImagen);
     }
 
@@ -42,16 +42,18 @@ public class PanelAvatar extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         if (imagenPerfil != null) {
-            Graphics2D g2d = (Graphics2D) g;
+            Graphics2D g2d = (Graphics2D) g.create();
+
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2d.setClip(new Ellipse2D.Float(0, 0, getWidth(), getHeight()));
             g2d.drawImage(imagenPerfil, 0, 0, getWidth(), getHeight(), this);
-            g2d.setClip(null);
             g2d.setColor(Color.WHITE);
-            g2d.setStroke(new BasicStroke(3)); 
-            g2d.drawOval(1, 1, getWidth() - 3, getHeight() - 3);
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawRect(1, 1, getWidth() - 3, getHeight() - 3);
+
+            g2d.dispose();
         }
     }
 }

@@ -8,13 +8,29 @@ import javax.sound.sampled.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-public class SoundManager implements ISoundManager {
+/**
+ * 
+ * @author Luis Rafael
+ */
+public class AudioManager {
 
     private final Map<String, SoundPool> soundEffects = new HashMap<>();
     private Clip backgroundMusic;
 
-    @Override
+    public AudioManager() {
+        init();
+    }
+
+    private void init() {
+
+        loadMusic("/sound/s.wav");
+
+        loadEffect("tirar", "/sound/tirar.wav", 5);
+        loadEffect("jalar", "/sound/jalar.wav", 5);
+        loadEffect("uno", "/sound/uno.wav", 5);
+        loadEffect("alerta", "/sound/alerta.wav", 5);
+    }
+
     public boolean validateWav(String path) {
 
         if (path == null || !path.toLowerCase().endsWith(".wav")) {
@@ -23,6 +39,7 @@ public class SoundManager implements ISoundManager {
         }
 
         try {
+
             URL url = getClass().getResource(path);
 
             if (url == null) {
@@ -36,12 +53,12 @@ public class SoundManager implements ISoundManager {
             return true;
 
         } catch (Exception e) {
+
             System.err.println("WAV inválido o corrupto: " + path);
             return false;
         }
     }
 
-    @Override
     public void loadEffect(String name, String path, int poolSize) {
 
         if (!validateWav(path)) return;
@@ -58,6 +75,7 @@ public class SoundManager implements ISoundManager {
             Clip[] clips = new Clip[poolSize];
 
             for (int i = 0; i < poolSize; i++) {
+
                 Clip clip = AudioSystem.getClip();
                 clip.open(format, audioData, 0, audioData.length);
                 clips[i] = clip;
@@ -65,14 +83,11 @@ public class SoundManager implements ISoundManager {
 
             soundEffects.put(name, new SoundPool(clips));
 
-            System.out.println("Efecto cargado: " + name);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void playEffect(String name) {
 
         SoundPool pool = soundEffects.get(name);
@@ -82,7 +97,6 @@ public class SoundManager implements ISoundManager {
         }
     }
 
-    @Override
     public void loadMusic(String path) {
 
         if (!validateWav(path)) return;
@@ -95,28 +109,26 @@ public class SoundManager implements ISoundManager {
             backgroundMusic = AudioSystem.getClip();
             backgroundMusic.open(ais);
 
-            System.out.println("Música cargada.");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void playMusicLoop() {
 
         if (backgroundMusic == null) return;
 
         Thread musicThread = new Thread(() -> {
+
             backgroundMusic.setFramePosition(0);
             backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+
         });
 
         musicThread.setDaemon(true);
         musicThread.start();
     }
 
-    @Override
     public void stopMusic() {
 
         if (backgroundMusic != null && backgroundMusic.isRunning()) {

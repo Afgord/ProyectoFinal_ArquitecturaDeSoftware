@@ -8,7 +8,7 @@ import Ejercer_Turno.Dominio.*;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;
-import audio.AudioModel;
+import audio.AudioManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class Ejecutador {
             }
         }
 
-        AudioModel audioModel = new AudioModel();
+        AudioManager audioModel = new AudioManager();
         ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero, audioModel);
         ControlJuego control = new ControlJuego(modeloReal); 
         new FrameTablero(control, modeloReal); 

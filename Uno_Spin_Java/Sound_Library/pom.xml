@@ -6,10 +6,11 @@
         <artifactId>Uno_Spin_Java</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>Sound_Component</artifactId>
+    <artifactId>Sound_Library</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
         <exec.mainClass>itson.sound_component.Sound_Component</exec.mainClass>
     </properties>
+    <name>Sound_Library</name>
 </project>
