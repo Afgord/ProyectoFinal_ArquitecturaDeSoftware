@@ -96,7 +96,7 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     }
 
     public void reproducirEfecto(String nombre) {
-        if (audio != null) audio.playEffect(nombre);
+       if (audio != null) audio.playEffect(nombre);
     }
 
     @Override public Tablero getTablero() { return fachada.getTablero(); }

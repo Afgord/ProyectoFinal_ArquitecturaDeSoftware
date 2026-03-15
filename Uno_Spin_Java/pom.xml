@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>Juego_MVC_Completo</module>
-        <module>Sound_Library</module>
+        <module>Libreria_Sonido</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
