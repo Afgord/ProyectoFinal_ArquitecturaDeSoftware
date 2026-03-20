@@ -7,6 +7,7 @@ package Ejercer_Turno.MVC;
 import Ejercer_Turno.Interfaces.Observador;
 import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
@@ -31,7 +32,11 @@ public class FrameTablero extends JFrame implements Observador {
         control.reproducirMusica();
         this.panelTablero = new PanelTablero(control, modelo);
         add(panelTablero);
-        
+         try {
+            setIconImage(new ImageIcon(getClass().getResource("/otros/icono.png")).getImage());
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar el icono: " + e);
+        }
         setLocationRelativeTo(null);
         setVisible(true);
     }

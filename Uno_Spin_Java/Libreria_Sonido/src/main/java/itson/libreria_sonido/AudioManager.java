@@ -23,7 +23,7 @@ public class AudioManager {
 
     private void init() {
 
-        loadMusic("/sound/music/fnafw_bosses.wav");
+        loadMusic("/sound/music/dkc1_achuatic.wav");
 
         loadEffect("tirar", "/sound/effect/tirar.wav", 5);
         loadEffect("jalar", "/sound/effect/jalar.wav", 5);
