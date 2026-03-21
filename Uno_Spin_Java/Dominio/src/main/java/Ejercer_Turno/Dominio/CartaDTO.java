@@ -6,24 +6,24 @@ package Ejercer_Turno.Dominio;
 
 import java.awt.Color;
 /**
- *
+ * 
  * @author Luis Rafael
  */
 public class CartaDTO {
     private final String id;
     private final Color color;
     private final String simbolo;
-    private final boolean esEspecial;
+    private final boolean esComodin; 
 
-    public CartaDTO(String id, Color color, String simbolo, boolean esEspecial) {
+    public CartaDTO(String id, Color color, String simbolo, boolean esComodin) {
         this.id = id;
         this.color = color;
         this.simbolo = simbolo;
-        this.esEspecial = esEspecial;
+        this.esComodin = esComodin;
     }
 
     public String getId() { return id; }
     public Color getColor() { return color; }
     public String getSimbolo() { return simbolo; }
-    public boolean isEsEspecial() { return esEspecial; }
+    public boolean isEsComodin() { return esComodin; } 
 }

@@ -4,8 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.Carta;
-import Ejercer_Turno.Dominio.Descarte;
+import Ejercer_Turno.Dominio.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloDatos;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class PanelDescarte extends JPanel {
 
@@ -33,15 +32,16 @@ public class PanelDescarte extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        Descarte descarte = modeloJuego.getTablero().getDescarte();
-        Carta cartaCima = descarte.getCartaCima();
+        CartaDTO cartaCima = modeloJuego.getCartaDescarteDTO();
 
         if (cartaCima != null) {
-            g2d.setColor(cartaCima.getColorExterno());
-            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+            if (cartaCima.getColor() != null) {
+                g2d.setColor(cartaCima.getColor());
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+            }
 
             try {
-                URL url = getClass().getResource(cartaCima.getRutaImagen());
+                URL url = getClass().getResource(cartaCima.getId());
                 if (url != null) {
                     BufferedImage img = ImageIO.read(url);
                     g2d.drawImage(img, 5, 5, getWidth() - 10, getHeight() - 10, this);

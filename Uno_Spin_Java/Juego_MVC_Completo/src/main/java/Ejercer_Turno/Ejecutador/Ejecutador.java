@@ -4,7 +4,11 @@
  */
 package Ejercer_Turno.Ejecutador;
 
-import Ejercer_Turno.Dominio.*;
+import Ejercer_Turno.Dominio.Mazo;
+import Ejercer_Turno.Dominio.Tablero;
+import Ejercer_Turno.Dominio.Descarte;
+import Ejercer_Turno.Dominio.Jugador;
+import Ejercer_Turno.Dominio.Carta;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;
@@ -34,7 +38,6 @@ public class Ejecutador {
             true, true, true, true, true, 
             cAzul, cRojo, cAmarillo, cVerde, cNegro
         );
-
         Mazo mazo = tablero.getMazo();
         Descarte descarte = tablero.getDescarte();
         int numCartasInicial = 7;
@@ -43,10 +46,13 @@ public class Ejecutador {
                 j.agregarCarta(mazo.tomarUnaCarta());
             }
         }
-
+        Carta primeraCarta = mazo.tomarUnaCarta();
+        descarte.recibirCarta(primeraCarta);
         AudioManager audioModel = new AudioManager();
         ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
         ControlJuego control = new ControlJuego(modeloReal); 
-        new FrameTablero(control, modeloReal, audioModel); 
+        java.awt.EventQueue.invokeLater(() -> {
+            new FrameTablero(control, modeloReal, audioModel).setVisible(true);
+        });
     }
 }

@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC;
 
-import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloAcciones;
 import java.awt.Color;
 /**
@@ -22,11 +22,11 @@ public class ControlJuego {
         modeloAcciones.robarCarta();
     }
 
-    public void solicitarTirarCarta(Carta carta) {
+    public void solicitarTirarCarta(CartaDTO carta) {
         modeloAcciones.tirarCarta(carta);
     }
 
-    public void solicitarTirarCartaNegra(Carta carta, Color nuevoColor, String nombreColor) {
+    public void solicitarTirarCartaNegra(CartaDTO carta, Color nuevoColor, String nombreColor) {
         modeloAcciones.tirarCartaNegra(carta, nuevoColor, nombreColor);
     }
 
@@ -34,7 +34,7 @@ public class ControlJuego {
         modeloAcciones.aplicarCastigo();
     }
 
-    public void solicitarSeleccionColor(Carta carta, java.awt.Frame padre) {
+    public void solicitarSeleccionColor(CartaDTO carta, java.awt.Frame padre) {
         Color[] colores = ((ModeloJuego) modeloAcciones).obtenerColoresConfigurados();
         Cambiar_Color.MVC.ModeloColor mColor = new Cambiar_Color.MVC.ModeloColor();
         Cambiar_Color.MVC.ControlColor cColor = new Cambiar_Color.MVC.ControlColor(

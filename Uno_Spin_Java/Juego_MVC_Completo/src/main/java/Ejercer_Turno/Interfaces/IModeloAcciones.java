@@ -4,17 +4,15 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.CartaDTO;
 import java.awt.Color;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public interface IModeloAcciones {
-    void tirarCarta(Carta carta);
-    void tirarCartaNegra(Carta carta, Color nuevoColor, String nombreColor);
+    void tirarCarta(CartaDTO carta);
+    void tirarCartaNegra(CartaDTO carta, Color nuevoColor, String nombreColor);
     void robarCarta();
-    //void gritarUno();
-    //void notificarError();
     void aplicarCastigo();
 }

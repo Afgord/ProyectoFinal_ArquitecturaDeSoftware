@@ -4,13 +4,12 @@
  */
 package Ejercer_Turno.Dominio;
 
-import Ejercer_Turno.Interfaces.IFachadaDominio;
 import java.awt.Color;
 /**
  * 
  * @author lagar
  */
-public class FachadaJuego implements IFachadaDominio {
+public class FachadaJuego implements FachadaDominio {
     private Tablero tablero;
     private int acumulacionCastigo = 0;
 

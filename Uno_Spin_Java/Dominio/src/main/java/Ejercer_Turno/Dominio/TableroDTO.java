@@ -11,16 +11,16 @@ import java.awt.Color;
  */
 public class TableroDTO {
     private final Color colorActual;
-    private final boolean sentidoHorario;
+    private final boolean sentidoReloj; 
     private final String nombreJugadorActual;
 
-    public TableroDTO(Color colorActual, boolean sentidoHorario, String nombreJugadorActual) {
+    public TableroDTO(Color colorActual, boolean sentidoReloj, String nombreJugadorActual) {
         this.colorActual = colorActual;
-        this.sentidoHorario = sentidoHorario;
+        this.sentidoReloj = sentidoReloj;
         this.nombreJugadorActual = nombreJugadorActual;
     }
 
     public Color getColorActual() { return colorActual; }
-    public boolean isSentidoHorario() { return sentidoHorario; }
+    public boolean isSentidoReloj() { return sentidoReloj; }
     public String getNombreJugadorActual() { return nombreJugadorActual; }
 }

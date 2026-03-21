@@ -2,16 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package Ejercer_Turno.Interfaces;
+package Ejercer_Turno.Dominio;
 
-import Ejercer_Turno.Dominio.Carta;
-import Ejercer_Turno.Dominio.Tablero;
 import java.awt.Color;
 /**
  * 
  * @author lagar
  */
-public interface IFachadaDominio {
+public interface FachadaDominio {
     void inicializarPartida(int numeroJugadores);
     void robarCarta();
     boolean validarYPlay(Carta carta);

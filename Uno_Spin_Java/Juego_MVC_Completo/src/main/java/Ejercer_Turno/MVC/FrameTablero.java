@@ -7,13 +7,18 @@ package Ejercer_Turno.MVC;
 import Ejercer_Turno.Interfaces.Observador;
 import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
-import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.CartaDTO;
+import Ejercer_Turno.Dominio.JugadorDTO;
 import audio.AudioManager;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
+/**
+ * 
+ * @author Luis Rafael
+ */
 public class FrameTablero extends JFrame implements Observador {
 
     private final ControlJuego control;
@@ -21,7 +26,7 @@ public class FrameTablero extends JFrame implements Observador {
     private final AudioManager audio;
     
     private int cantidadMazoPrevio;
-    private Carta cartaCimaPrevia;
+    private String idCartaCimaPrevia;
 
     public FrameTablero(ControlJuego control, IModeloDatos modeloInicial, AudioManager audio) {
         this.control = control;
@@ -29,8 +34,9 @@ public class FrameTablero extends JFrame implements Observador {
         
         modeloInicial.registrarObservador(this);
         
-        this.cantidadMazoPrevio = modeloInicial.getMazo().getCantidadCartas();
-        this.cartaCimaPrevia = modeloInicial.getDescarte().getCartaCima();
+        this.cantidadMazoPrevio = modeloInicial.getMazoDTO().getCantidadCartas();
+        CartaDTO cimaInicial = modeloInicial.getCartaDescarteDTO();
+        this.idCartaCimaPrevia = (cimaInicial != null) ? cimaInicial.getId() : "";
 
         setTitle("UNO SPIN - MVC Edition");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,31 +66,34 @@ public class FrameTablero extends JFrame implements Observador {
             panelTablero.actualizarMazo();
             panelTablero.actualizarDescarte();
             panelTablero.refrescarTurno();
-
-            if (contexto.getTablero().getJugadorActual().getNumCartas() == 0) {
-                if (audio != null) audio.stopMusic();
-                String ganador = contexto.getTablero().getJugadorActual().getNombre();
-                JOptionPane.showMessageDialog(this, "¡Felicidades " + ganador + "! Has ganado.");
-                System.exit(0);
+            List<JugadorDTO> jugadores = contexto.getJugadoresDTO();
+            for (JugadorDTO j : jugadores) {
+                if (j.isEsTurnoActual() && j.getNumCartas() == 0) {
+                    if (audio != null) audio.stopMusic();
+                    JOptionPane.showMessageDialog(this, "¡Felicidades " + j.getNombre() + "! Has ganado.");
+                    System.exit(0);
+                }
             }
         });
     }
 
     private void procesarEfectosSonoros(IModeloDatos contexto) {
         if (audio == null) return;
-        int mazoActual = contexto.getMazo().getCantidadCartas();
-        Carta cartaCimaActual = contexto.getDescarte().getCartaCima();
+        
+        int mazoActual = contexto.getMazoDTO().getCantidadCartas();
+        CartaDTO cartaCimaActual = contexto.getCartaDescarteDTO();
+        String idCimaActual = (cartaCimaActual != null) ? cartaCimaActual.getId() : "";
         
         if (mazoActual < cantidadMazoPrevio) {
             audio.playEffect("jalar");
-        } else if (cartaCimaActual != null && !cartaCimaActual.equals(cartaCimaPrevia)) {
+        } else if (!idCimaActual.equals(idCartaCimaPrevia) && !idCimaActual.isEmpty()) {
             audio.playEffect("tirar");
-        } else if (mazoActual == cantidadMazoPrevio && (cartaCimaActual == null ? cartaCimaPrevia == null : cartaCimaActual.equals(cartaCimaPrevia))) {
+        } else if (mazoActual == cantidadMazoPrevio && idCimaActual.equals(idCartaCimaPrevia)) {
             audio.playEffect("alerta");
         }
 
         this.cantidadMazoPrevio = mazoActual;
-        this.cartaCimaPrevia = cartaCimaActual;
+        this.idCartaCimaPrevia = idCimaActual;
     }
 
     public PanelTablero getPanelTablero() { return panelTablero; }

@@ -6,7 +6,7 @@ package Cambiar_Color.MVC;
 
 import Cambiar_Color.Dominio.FachadaColor;
 import Cambiar_Color.Dominio.SeleccionColor;
-import Cambiar_Color.Interfaces.IFachadaColor;
+import Cambiar_Color.Dominio.IFachadaColor;
 import Cambiar_Color.Interfaces.ObservadorColor;
 import java.awt.Color;
 import java.util.ArrayList;

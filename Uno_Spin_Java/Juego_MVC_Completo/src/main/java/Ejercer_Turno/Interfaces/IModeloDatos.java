@@ -4,17 +4,25 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import Ejercer_Turno.Dominio.*;
+import Ejercer_Turno.Dominio.CartaDTO;
+import Ejercer_Turno.Dominio.JugadorDTO;
+import Ejercer_Turno.Dominio.MazoDTO;
+import Ejercer_Turno.Dominio.TableroDTO;
+import java.awt.Color;
 import java.util.List;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public interface IModeloDatos {
-    Tablero getTablero();
-    Mazo getMazo();
-    Descarte getDescarte();
-    List<Jugador> getJugadores();
+    TableroDTO getTableroDTO();
+    MazoDTO getMazoDTO();
+    CartaDTO getCartaDescarteDTO();
+    List<JugadorDTO> getJugadoresDTO();
+    boolean isUltimaJugadaValida();
+    Color[] obtenerColoresConfigurados();
     void registrarObservador(Observador o);
-    public boolean isUltimaJugadaValida();
+    void tirarCarta(CartaDTO carta);
+    void tirarCartaNegra(CartaDTO carta, Color nuevoColor, String nombreColor);
+    void robarCarta();
 }

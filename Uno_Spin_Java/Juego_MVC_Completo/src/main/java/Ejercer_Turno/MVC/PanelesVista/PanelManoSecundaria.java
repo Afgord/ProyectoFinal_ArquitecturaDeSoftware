@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.Jugador;
+import Ejercer_Turno.Dominio.JugadorDTO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,11 +13,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class PanelManoSecundaria extends JPanel {
 
-    private final Jugador oponente; 
+    private final JugadorDTO oponente; 
     private final String ubicacion;
     private BufferedImage atrasRotado;
     private final int ANCHO_CARTA_VERT = 80;
@@ -25,7 +25,7 @@ public class PanelManoSecundaria extends JPanel {
     private final int ANCHO_CARTA_HORIZ = 110;
     private final int ALTO_CARTA_HORIZ = 80;
 
-    public PanelManoSecundaria(Jugador oponente, String ubicacion) {
+    public PanelManoSecundaria(JugadorDTO oponente, String ubicacion) {
         this.oponente = oponente;
         this.ubicacion = ubicacion;
         cargarImagenRotada();

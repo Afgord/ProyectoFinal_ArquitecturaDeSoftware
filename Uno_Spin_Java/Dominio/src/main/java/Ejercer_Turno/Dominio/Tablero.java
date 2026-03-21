@@ -47,7 +47,10 @@ public class Tablero {
     public void cambiarSentido() {
         this.sentidoReloj = !this.sentidoReloj;
     }
-
+    
+    public boolean isSentidoReloj() {
+        return sentidoReloj;
+    }
     public Mazo getMazo() { return mazo; }
     public Descarte getDescarte() { return descarte; }
     public Jugador getJugadorActual() { return jugadores.get(turnoActual); }

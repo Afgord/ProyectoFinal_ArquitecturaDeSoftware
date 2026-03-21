@@ -5,14 +5,17 @@
 package Ejercer_Turno.MVC.PanelesVista;
 
 import Girar_Ruleta.PanelRuleta;
-import Ejercer_Turno.Dominio.Jugador;
+import Ejercer_Turno.Dominio.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos; 
 import java.awt.*;
 import audio.AudioManager;
 import java.util.List;
 import javax.swing.*;
-
+/**
+ * 
+ * @author Luis Rafael
+ */
 public class PanelTablero extends JPanel {
 
     private final ControlJuego control;
@@ -103,12 +106,11 @@ public class PanelTablero extends JPanel {
             }
         }
 
-        List<Jugador> jugadores = modelo.getJugadores();
-        Jugador actual = modelo.getTablero().getJugadorActual();
+        List<JugadorDTO> jugadores = modelo.getJugadoresDTO();
         int rivalIdx = 0;
 
-        for (Jugador j : jugadores) {
-            if (j.equals(actual)) continue;
+        for (JugadorDTO j : jugadores) {
+            if (j.isEsTurnoActual()) continue;
 
             PanelJugador pj = new PanelJugador(j);
             PanelManoSecundaria pms;

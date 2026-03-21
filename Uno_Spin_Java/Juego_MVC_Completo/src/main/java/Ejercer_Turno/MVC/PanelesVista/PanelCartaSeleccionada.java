@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.CartaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -15,11 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class PanelCartaSeleccionada extends JPanel {
 
-    private Carta cartaActual;
+    private CartaDTO cartaActual;
 
     public PanelCartaSeleccionada() {
         setLayout(null);
@@ -28,10 +28,10 @@ public class PanelCartaSeleccionada extends JPanel {
         setOpaque(true);
     }
 
-    public void mostrarCarta(Carta carta) {
+    public void mostrarCarta(CartaDTO carta) {
         this.cartaActual = carta;      
         if (carta != null) {
-            setBackground(carta.getColorExterno());
+            setBackground(carta.getColor());
         } else {
             setBackground(new Color(50, 50, 50));
         }
@@ -52,12 +52,14 @@ public class PanelCartaSeleccionada extends JPanel {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setColor(Color.WHITE);
             g2d.setFont(new Font("Arial", Font.BOLD, 35));
-            String texto = cartaActual.getSimbolo();
-            FontMetrics metrics = g2d.getFontMetrics();
-            int x = (getWidth() - metrics.stringWidth(texto)) / 2;
-            int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
             
-            g2d.drawString(texto, x, y);
+            String texto = cartaActual.getSimbolo();
+            if (texto != null) {
+                FontMetrics metrics = g2d.getFontMetrics();
+                int x = (getWidth() - metrics.stringWidth(texto)) / 2;
+                int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+                g2d.drawString(texto, x, y);
+            }
         }
     }
 }

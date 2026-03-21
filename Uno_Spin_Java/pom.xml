@@ -8,6 +8,7 @@
     <modules>
         <module>Juego_MVC_Completo</module>
         <module>Libreria_Sonido</module>
+        <module>Dominio</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

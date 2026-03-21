@@ -6,6 +6,7 @@ package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos;
+import Ejercer_Turno.Dominio.MazoDTO;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class PanelMazo extends JPanel {
 
@@ -50,8 +51,9 @@ public class PanelMazo extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        boolean estaVacio = modeloJuego.getTablero().getMazo().estaVacio();
-        int cantidad = modeloJuego.getTablero().getMazo().getCantidadCartas();
+        MazoDTO mazo = modeloJuego.getMazoDTO();
+        int cantidad = mazo.getCantidadCartas();
+        boolean estaVacio = (cantidad == 0);
 
         if (imgAtras != null && !estaVacio) {
             Graphics2D g2d = (Graphics2D) g;

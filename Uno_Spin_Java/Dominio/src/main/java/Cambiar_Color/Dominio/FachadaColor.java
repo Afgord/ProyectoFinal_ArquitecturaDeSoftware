@@ -4,7 +4,6 @@
  */
 package Cambiar_Color.Dominio;
 
-import Cambiar_Color.Interfaces.IFachadaColor;
 import java.awt.Color;
 /**
  * 

@@ -4,8 +4,8 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.Carta;
-import Ejercer_Turno.Dominio.Jugador;
+import Ejercer_Turno.Dominio.CartaDTO;
+import Ejercer_Turno.Dominio.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.Interfaces.IModeloDatos;
@@ -15,7 +15,10 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
+/**
+ * 
+ * @author Luis Rafael
+ */
 public class PanelMano extends JPanel {
     private final ControlJuego control;
     private final IModeloDatos modeloJuego;
@@ -30,12 +33,22 @@ public class PanelMano extends JPanel {
 
     public void refrescarMano() {
         removeAll();
-        Jugador jugadorActual = modeloJuego.getTablero().getJugadorActual();
+        
+        List<JugadorDTO> jugadores = modeloJuego.getJugadoresDTO();
+        JugadorDTO usuario = null;
+        
+        for (JugadorDTO j : jugadores) {
+            if (j.isEsTurnoActual()) {
+                usuario = j;
+                break;
+            }
+        }
 
-        List<Carta> cartasOriginales = jugadorActual.getCartasModelo();
-        List<Carta> cartas = new java.util.ArrayList<>(cartasOriginales);
+        if (usuario == null) return;
 
+        List<CartaDTO> cartas = usuario.getCartas();
         int n = cartas.size();
+        
         if (n == 0) {
             revalidate();
             repaint();
@@ -50,7 +63,7 @@ public class PanelMano extends JPanel {
         int espacio = (n == 1) ? 0 : Math.min(70, (anchoPanel - anchoCarta) / (n - 1));
         int x = (n == 1) ? (anchoPanel - anchoCarta) / 2 : (anchoPanel - ((n - 1) * espacio + anchoCarta)) / 2;
 
-        for (Carta c : cartas) {
+        for (CartaDTO c : cartas) {
             PanelCarta pCarta = new PanelCarta(c, control);
             pCarta.setBounds(x, y, anchoCarta, altoCarta);
             configurarEventoCarta(pCarta);
@@ -66,7 +79,7 @@ public class PanelMano extends JPanel {
         pCarta.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                if (cartaSeleccionadaVista != null && cartaSeleccionadaVista.getModelo() == pCarta.getModelo()) {
+                if (cartaSeleccionadaVista != null && cartaSeleccionadaVista.getModelo().equals(pCarta.getModelo())) {
                     intentarLanzar(pCarta.getModelo());
                 } else {
                     if (cartaSeleccionadaVista != null) cartaSeleccionadaVista.setSeleccionada(false);
@@ -78,15 +91,15 @@ public class PanelMano extends JPanel {
         });
     }
 
-    private void actualizarZoom(Carta modelo) {
+    private void actualizarZoom(CartaDTO modelo) {
         java.awt.Window ventana = SwingUtilities.getWindowAncestor(this);
         if (ventana instanceof FrameTablero frame) {
             frame.getPanelTablero().getPanelZoom().mostrarCarta(modelo);
         }
     }
 
-    private void intentarLanzar(Carta modeloCarta) {
-        if (modeloCarta.esComodin()) {
+    private void intentarLanzar(CartaDTO modeloCarta) {
+        if (modeloCarta.isEsComodin()) {
             Frame padre = (Frame) SwingUtilities.getWindowAncestor(this);
             control.solicitarSeleccionColor(modeloCarta, padre);
         } else {

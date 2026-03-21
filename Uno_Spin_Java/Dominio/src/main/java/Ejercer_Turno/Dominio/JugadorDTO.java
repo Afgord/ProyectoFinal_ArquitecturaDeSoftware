@@ -3,25 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Ejercer_Turno.Dominio;
+
+import java.util.List;
+
 /**
- * 
- * @author Luis Rafael
+ * * @author Luis Rafael
  */
 public class JugadorDTO {
-    private final String id;
+    private final String rutaAvatar; 
     private final String nombre;
     private final int numCartas;
     private final boolean esTurnoActual;
+    private final List<CartaDTO> cartas; 
 
-    public JugadorDTO(String id, String nombre, int numCartas, boolean esTurnoActual) {
-        this.id = id;
+    public JugadorDTO(String rutaAvatar, String nombre, int numCartas, boolean esTurnoActual, List<CartaDTO> cartas) {
+        this.rutaAvatar = rutaAvatar;
         this.nombre = nombre;
         this.numCartas = numCartas;
         this.esTurnoActual = esTurnoActual;
+        this.cartas = cartas;
     }
 
-    public String getId() { return id; }
+    public String getRutaAvatar() { return rutaAvatar; }
     public String getNombre() { return nombre; }
     public int getNumCartas() { return numCartas; }
     public boolean isEsTurnoActual() { return esTurnoActual; }
+    public List<CartaDTO> getCartas() { return cartas; }
 }

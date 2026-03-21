@@ -4,21 +4,21 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.Jugador;
+import Ejercer_Turno.Dominio.JugadorDTO;
 import java.awt.*;
 import javax.swing.*;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class PanelJugador extends JPanel {
-    private final Jugador jugador; 
+    private final JugadorDTO jugador; 
     
     private JLabel lbUsuario;
     private JLabel lbNumCartas;
     private PanelAvatar panelAvatar;
 
-    public PanelJugador(Jugador jugador) {
+    public PanelJugador(JugadorDTO jugador) {
         this.jugador = jugador;
         configurarPanel();
         inicializarComponentes();
@@ -28,8 +28,13 @@ public class PanelJugador extends JPanel {
     private void configurarPanel() {
         setLayout(null); 
         setPreferredSize(new Dimension(250, 80));
-        setBackground(new Color(255, 204, 0));
-        setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        if (jugador.isEsTurnoActual()) {
+            setBackground(new Color(255, 255, 150));
+            setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+        } else {
+            setBackground(new Color(255, 204, 0));
+            setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        }
     }
 
     private void inicializarComponentes() {
@@ -37,11 +42,12 @@ public class PanelJugador extends JPanel {
         lbUsuario.setBounds(90, 10, 150, 25);
         lbUsuario.setFont(new Font("Arial", Font.BOLD, 16));
         add(lbUsuario);
+
         lbNumCartas = new JLabel();
         lbNumCartas.setBounds(90, 40, 150, 25);
         lbNumCartas.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lbNumCartas);
-        panelAvatar = new PanelAvatar(jugador.getUrlAvatar());
+        panelAvatar = new PanelAvatar(jugador.getRutaAvatar()); 
         panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);
     }

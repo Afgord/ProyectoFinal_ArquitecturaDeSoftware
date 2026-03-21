@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.Carta;
+import Ejercer_Turno.Dominio.CartaDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,16 +14,16 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class PanelCarta extends JPanel {
 
-    private final Carta modelo;
+    private final CartaDTO modelo;
     private BufferedImage imgAdelante;
     private BufferedImage imgAtras;
     private boolean seleccionada = false;
 
-    public PanelCarta(Carta modelo, ControlJuego control) {
+    public PanelCarta(CartaDTO modelo, ControlJuego control) {
         this.modelo = modelo;
         this.setOpaque(false);
         this.setPreferredSize(new Dimension(100, 140));
@@ -36,7 +36,8 @@ public class PanelCarta extends JPanel {
             if (urlAtras != null) {
                 imgAtras = ImageIO.read(urlAtras);
             }
-            String ruta = modelo.getRutaImagen();
+            
+            String ruta = modelo.getId(); 
             if (ruta != null && !ruta.isEmpty()) {
                 URL urlAdelante = getClass().getResource(ruta);
                 if (urlAdelante != null) {
@@ -56,19 +57,18 @@ public class PanelCarta extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        if (modelo.getColorExterno() != null) {
-            g2d.setColor(modelo.getColorExterno());
+        
+        if (modelo.getColor() != null) {
+            g2d.setColor(modelo.getColor());
             g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         }
-        if (modelo.isLado()) {
-            if (imgAdelante != null) {
-                g2d.drawImage(imgAdelante, 5, 5, getWidth() - 10, getHeight() - 10, this);
-            }
-        } else {
-            if (imgAtras != null) {
-                g2d.drawImage(imgAtras, 0, 0, getWidth(), getHeight(), this);
-            }
+
+        if (imgAdelante != null) {
+            g2d.drawImage(imgAdelante, 5, 5, getWidth() - 10, getHeight() - 10, this);
+        } else if (imgAtras != null) {
+            g2d.drawImage(imgAtras, 0, 0, getWidth(), getHeight(), this);
         }
+        
         if (seleccionada) {
             g2d.setColor(new Color(255, 255, 255, 180));
             g2d.setStroke(new BasicStroke(4));
@@ -81,7 +81,7 @@ public class PanelCarta extends JPanel {
         repaint();
     }
 
-    public Carta getModelo() {
+    public CartaDTO getModelo() {
         return modelo;
     }
 }
