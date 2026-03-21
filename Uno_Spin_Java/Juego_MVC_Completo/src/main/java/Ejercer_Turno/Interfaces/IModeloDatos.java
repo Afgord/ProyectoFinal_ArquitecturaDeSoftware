@@ -16,4 +16,5 @@ public interface IModeloDatos {
     Descarte getDescarte();
     List<Jugador> getJugadores();
     void registrarObservador(Observador o);
+    public boolean isUltimaJugadaValida();
 }

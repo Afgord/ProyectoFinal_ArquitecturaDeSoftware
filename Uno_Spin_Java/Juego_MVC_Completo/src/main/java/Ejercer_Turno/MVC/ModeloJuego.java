@@ -6,22 +6,16 @@ package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Dominio.*;
 import Ejercer_Turno.Interfaces.*;
-import audio.AudioManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.SwingUtilities;
-/**
- * 
- * @author lagar
- */
+
 public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     private final IFachadaDominio fachada;
     private final List<Observador> observadores = new ArrayList<>();
-    private final AudioManager audio;
+    private boolean ultimaJugadaValida = true;
 
-    public ModeloJuego(List<Jugador> jugadores, Mazo mazo, Descarte descarte, Tablero tablero, AudioManager audioModel) {
-        this.audio = audioModel;
+    public ModeloJuego(List<Jugador> jugadores, Mazo mazo, Descarte descarte, Tablero tablero) {
         this.fachada = new FachadaJuego();
         this.fachada.inyectarTablero(tablero);
     }
@@ -29,27 +23,29 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     @Override
     public void tirarCarta(Carta carta) {
         if (fachada.validarYPlay(carta)) {
-            reproducirEfecto("tirar");
-            if (fachada.getTablero().getJugadorActual().getNumCartas() == 0) {
-                notificarObservadores(); 
-            } else {
+            ultimaJugadaValida = true; 
+            if (fachada.getTablero().getJugadorActual().getNumCartas() != 0) {
                 fachada.pasarTurno();
-                notificarObservadores();
             }
         } else {
-            notificarError();
+            ultimaJugadaValida = false; 
         }
+        notificarObservadores();
+    }
+    
+    @Override
+    public boolean isUltimaJugadaValida() {
+        return ultimaJugadaValida;
     }
 
     @Override
     public void tirarCartaNegra(Carta carta, Color nuevoColor, String nombreColor) {
         if (fachada.validarYPlay(carta)) {
             fachada.aplicarEfectoCarta(carta, nuevoColor);
-            reproducirEfecto("tirar");
             fachada.pasarTurno();
             notificarObservadores();
         } else {
-            notificarError();
+            notificarObservadores();
         }
     }
 
@@ -59,7 +55,6 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
             aplicarCastigo();
         } else {
             fachada.robarCarta();
-            reproducirEfecto("jalar");
             notificarObservadores();
         }
     }
@@ -68,35 +63,11 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     public void aplicarCastigo() {
         int cantidad = fachada.getAcumulacionCastigo();
         fachada.limpiarCastigo();
-
-        new Thread(() -> {
-            for (int i = 0; i < cantidad; i++) {
-                fachada.robarCarta();
-                SwingUtilities.invokeLater(() -> {
-                    reproducirEfecto("jalar");
-                    notificarObservadores();
-                });
-                try { Thread.sleep(400); } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-            SwingUtilities.invokeLater(() -> {
-                fachada.pasarTurno();
-                notificarObservadores();
-            });
-        }).start();
-    }
-    
-    public void reproducirMusica() {
-        if (audio != null) audio.playMusicLoop();
-    }
-
-    public void detenerMusica() {
-        if (audio != null) audio.stopMusic();
-    }
-
-    public void reproducirEfecto(String nombre) {
-       if (audio != null) audio.playEffect(nombre);
+        for (int i = 0; i < cantidad; i++) {
+            fachada.robarCarta();
+        }
+        fachada.pasarTurno();
+        notificarObservadores();
     }
 
     @Override public Tablero getTablero() { return fachada.getTablero(); }
@@ -105,18 +76,15 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     @Override public List<Jugador> getJugadores() { return fachada.getTablero().getJugadores(); }
 
     @Override public void registrarObservador(Observador o) { observadores.add(o); }
-    public void notificarObservadores() { for (Observador o : observadores) o.notificarCambio(this); }
     
-    @Override public void gritarUno() { reproducirEfecto("uno"); }
-    @Override public void notificarError() { reproducirEfecto("alerta"); }
+    public void notificarObservadores() { 
+        for (Observador o : observadores) {
+            o.notificarCambio(this);
+        }
+    }
     
     public Color[] obtenerColoresConfigurados() {
         Mazo m = fachada.getTablero().getMazo();
-        return new Color[]{
-            m.getcAzul(),
-            m.getcRojo(),
-            m.getcAmarillo(),
-            m.getcVerde()
-        };
-}
+        return new Color[]{ m.getcAzul(), m.getcRojo(), m.getcAmarillo(), m.getcVerde() };
+    }
 }

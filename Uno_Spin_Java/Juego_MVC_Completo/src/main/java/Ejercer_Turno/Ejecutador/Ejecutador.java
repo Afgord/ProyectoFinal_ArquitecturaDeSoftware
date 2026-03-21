@@ -45,8 +45,8 @@ public class Ejecutador {
         }
 
         AudioManager audioModel = new AudioManager();
-        ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero, audioModel);
+        ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
         ControlJuego control = new ControlJuego(modeloReal); 
-        new FrameTablero(control, modeloReal); 
+        new FrameTablero(control, modeloReal, audioModel); 
     }
 }

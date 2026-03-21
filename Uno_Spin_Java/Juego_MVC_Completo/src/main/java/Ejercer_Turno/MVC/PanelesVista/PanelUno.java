@@ -5,6 +5,7 @@
 package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.MVC.ControlJuego;
+import audio.AudioManager;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
@@ -14,21 +15,20 @@ import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-/**
- * 
- * @author lagar
- */
+
 public class PanelUno extends JPanel {
 
     private BufferedImage imgUno;
     private BufferedImage imgAlerta;
     private final ControlJuego control;
+    private final AudioManager audio; 
 
     private boolean unoActivo = false;
     private boolean alertaActivo = false;
 
-    public PanelUno(ControlJuego control) {
+    public PanelUno(ControlJuego control, AudioManager audio) {
         this.control = control;
+        this.audio = audio;
         setBackground(new Color(0, 0, 0, 0)); 
         setOpaque(false);
         cargarImagenes();
@@ -51,10 +51,12 @@ public class PanelUno extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (unoActivo) {
-                    control.solicitarGritarUno();
+                    if (audio != null) audio.playEffect("uno");
                     desactivarTodo();
                 } else if (alertaActivo) {
-                    control.reproducirSonidoError();
+                    if (audio != null) audio.playEffect("alerta");
+                    control.solicitarAplicarCastigo();
+                    desactivarTodo();
                 }
             }
         });

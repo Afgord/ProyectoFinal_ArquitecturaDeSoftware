@@ -9,7 +9,7 @@ import Ejercer_Turno.Interfaces.IModeloAcciones;
 import java.awt.Color;
 /**
  * 
- * @author lagar
+ * @author Luis Rafael
  */
 public class ControlJuego {
     private final IModeloAcciones modeloAcciones;
@@ -30,51 +30,15 @@ public class ControlJuego {
         modeloAcciones.tirarCartaNegra(carta, nuevoColor, nombreColor);
     }
 
-    public void solicitarGritarUno() {
-        modeloAcciones.gritarUno();
-    }
-
-    public void reproducirSonidoError() {
-        modeloAcciones.notificarError();
-    }
-
     public void solicitarAplicarCastigo() {
         modeloAcciones.aplicarCastigo();
-    }
-
-    public void reproducirMusica() {
-        ((ModeloJuego) modeloAcciones).reproducirMusica();
-    }
-
-    public void pararMusica() {
-        ((ModeloJuego) modeloAcciones).detenerMusica();
-    }
-
-    public void alertaSonidoTirar() {
-        ((ModeloJuego) modeloAcciones).reproducirEfecto("tirar");
-    }
-
-    public void alertaSonidoJalar() {
-        ((ModeloJuego) modeloAcciones).reproducirEfecto("jalar");
-    }
-
-    public void alertaSonidoUno() {
-        ((ModeloJuego) modeloAcciones).reproducirEfecto("uno");
-    }
-
-    public void alertaSonidoError() {
-        ((ModeloJuego) modeloAcciones).reproducirEfecto("alerta");
     }
 
     public void solicitarSeleccionColor(Carta carta, java.awt.Frame padre) {
         Color[] colores = ((ModeloJuego) modeloAcciones).obtenerColoresConfigurados();
         Cambiar_Color.MVC.ModeloColor mColor = new Cambiar_Color.MVC.ModeloColor();
         Cambiar_Color.MVC.ControlColor cColor = new Cambiar_Color.MVC.ControlColor(
-            mColor, 
-            colores[0], 
-            colores[1], 
-            colores[2],
-            colores[3]  
+            mColor, colores[0], colores[1], colores[2], colores[3]  
         );
         mColor.registrar((color, nombre) -> {
             this.solicitarTirarCartaNegra(carta, color, nombre);

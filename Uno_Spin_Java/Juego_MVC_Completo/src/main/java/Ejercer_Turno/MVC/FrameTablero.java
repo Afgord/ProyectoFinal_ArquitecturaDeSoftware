@@ -7,55 +7,85 @@ package Ejercer_Turno.MVC;
 import Ejercer_Turno.Interfaces.Observador;
 import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
+import Ejercer_Turno.Dominio.Carta;
+import audio.AudioManager;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-/**
- * 
- * @author lagar
- */
+import javax.swing.SwingUtilities;
+
 public class FrameTablero extends JFrame implements Observador {
 
     private final ControlJuego control;
-    private final IModeloDatos modelo; 
     private PanelTablero panelTablero;
+    private final AudioManager audio;
+    
+    private int cantidadMazoPrevio;
+    private Carta cartaCimaPrevia;
 
-    public FrameTablero(ControlJuego control, IModeloDatos modelo) {
+    public FrameTablero(ControlJuego control, IModeloDatos modeloInicial, AudioManager audio) {
         this.control = control;
-        this.modelo = modelo;
-        this.modelo.registrarObservador(this);
+        this.audio = audio;
         
+        modeloInicial.registrarObservador(this);
+        
+        this.cantidadMazoPrevio = modeloInicial.getMazo().getCantidadCartas();
+        this.cartaCimaPrevia = modeloInicial.getDescarte().getCartaCima();
+
         setTitle("UNO SPIN - MVC Edition");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
-        control.reproducirMusica();
-        this.panelTablero = new PanelTablero(control, modelo);
+
+        this.panelTablero = new PanelTablero(control, modeloInicial, audio);
         add(panelTablero);
-         try {
+
+        try {
             setIconImage(new ImageIcon(getClass().getResource("/otros/icono.png")).getImage());
         } catch (Exception e) {
-            System.out.println("No se pudo cargar el icono: " + e);
+            System.err.println("Error icono: " + e.getMessage());
         }
+
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        panelTablero.actualizarManos();
     }
 
     @Override
     public void notificarCambio(IModeloDatos contexto) {
-        panelTablero.actualizarMazo();
-        panelTablero.actualizarDescarte();
-        panelTablero.actualizarManos();
-        panelTablero.refrescarTurno();
+        SwingUtilities.invokeLater(() -> {
+            procesarEfectosSonoros(contexto);
+            panelTablero.actualizarEstadoVisual(contexto);
+            panelTablero.actualizarMazo();
+            panelTablero.actualizarDescarte();
+            panelTablero.refrescarTurno();
 
-        if (contexto.getTablero().getJugadorActual().getNumCartas() == 0) {
-            String ganador = contexto.getTablero().getJugadorActual().getNombre();
-            JOptionPane.showMessageDialog(this, "¡Felicidades " + ganador + "! Has ganado.");
-            System.exit(0);
+            if (contexto.getTablero().getJugadorActual().getNumCartas() == 0) {
+                if (audio != null) audio.stopMusic();
+                String ganador = contexto.getTablero().getJugadorActual().getNombre();
+                JOptionPane.showMessageDialog(this, "¡Felicidades " + ganador + "! Has ganado.");
+                System.exit(0);
+            }
+        });
+    }
+
+    private void procesarEfectosSonoros(IModeloDatos contexto) {
+        if (audio == null) return;
+        int mazoActual = contexto.getMazo().getCantidadCartas();
+        Carta cartaCimaActual = contexto.getDescarte().getCartaCima();
+        
+        if (mazoActual < cantidadMazoPrevio) {
+            audio.playEffect("jalar");
+        } else if (cartaCimaActual != null && !cartaCimaActual.equals(cartaCimaPrevia)) {
+            audio.playEffect("tirar");
+        } else if (mazoActual == cantidadMazoPrevio && (cartaCimaActual == null ? cartaCimaPrevia == null : cartaCimaActual.equals(cartaCimaPrevia))) {
+            audio.playEffect("alerta");
         }
+
+        this.cantidadMazoPrevio = mazoActual;
+        this.cartaCimaPrevia = cartaCimaActual;
     }
-    
-    public PanelTablero getPanelTablero() {
-        return panelTablero;
-    }
+
+    public PanelTablero getPanelTablero() { return panelTablero; }
 }

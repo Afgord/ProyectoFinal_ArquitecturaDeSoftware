@@ -15,10 +15,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-/**
- * 
- * @author lagar
- */
+
 public class PanelMano extends JPanel {
     private final ControlJuego control;
     private final IModeloDatos modeloJuego;
@@ -64,6 +61,7 @@ public class PanelMano extends JPanel {
         revalidate();
         repaint();
     }
+
     private void configurarEventoCarta(PanelCarta pCarta) {
         pCarta.addMouseListener(new MouseAdapter() {
             @Override

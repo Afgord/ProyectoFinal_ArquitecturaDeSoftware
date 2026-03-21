@@ -14,7 +14,7 @@ public interface IModeloAcciones {
     void tirarCarta(Carta carta);
     void tirarCartaNegra(Carta carta, Color nuevoColor, String nombreColor);
     void robarCarta();
-    void gritarUno();
-    void notificarError();
+    //void gritarUno();
+    //void notificarError();
     void aplicarCastigo();
 }
