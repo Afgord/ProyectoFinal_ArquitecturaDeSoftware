@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import Ejercer_Turno.Dominio.CartaDTO;
+import DTOs.CartaDTO;
 import java.awt.Color;
 /**
  * 

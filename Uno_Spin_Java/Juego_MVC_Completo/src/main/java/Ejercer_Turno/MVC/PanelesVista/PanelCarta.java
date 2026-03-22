@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.CartaDTO;
+import DTOs.CartaDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import java.awt.*;
 import java.awt.image.BufferedImage;

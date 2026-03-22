@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Ejercer_Turno.Dominio;
+package Fachadas;
 
+import Entidades.Carta;
+import Entidades.Mazo;
+import Entidades.Tablero;
 import java.awt.Color;
 /**
  * 

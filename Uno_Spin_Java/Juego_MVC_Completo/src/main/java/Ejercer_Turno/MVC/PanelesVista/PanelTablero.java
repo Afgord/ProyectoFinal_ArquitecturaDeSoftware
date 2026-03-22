@@ -5,7 +5,7 @@
 package Ejercer_Turno.MVC.PanelesVista;
 
 import Girar_Ruleta.PanelRuleta;
-import Ejercer_Turno.Dominio.JugadorDTO;
+import DTOs.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos; 
 import java.awt.*;

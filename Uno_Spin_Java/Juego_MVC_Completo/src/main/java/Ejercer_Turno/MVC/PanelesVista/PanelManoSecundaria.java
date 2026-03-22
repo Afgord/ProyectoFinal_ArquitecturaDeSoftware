@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.JugadorDTO;
+import DTOs.JugadorDTO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

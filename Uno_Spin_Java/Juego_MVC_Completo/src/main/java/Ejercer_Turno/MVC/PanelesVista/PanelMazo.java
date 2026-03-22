@@ -6,7 +6,7 @@ package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos;
-import Ejercer_Turno.Dominio.MazoDTO;
+import DTOs.MazoDTO;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

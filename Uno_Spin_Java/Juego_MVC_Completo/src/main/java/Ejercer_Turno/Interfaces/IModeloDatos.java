@@ -4,10 +4,10 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import Ejercer_Turno.Dominio.CartaDTO;
-import Ejercer_Turno.Dominio.JugadorDTO;
-import Ejercer_Turno.Dominio.MazoDTO;
-import Ejercer_Turno.Dominio.TableroDTO;
+import DTOs.CartaDTO;
+import DTOs.JugadorDTO;
+import DTOs.MazoDTO;
+import DTOs.TableroDTO;
 import java.awt.Color;
 import java.util.List;
 /**

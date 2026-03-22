@@ -4,7 +4,7 @@
  */
 package Cambiar_Color.Interfaces;
 
-import Cambiar_Color.Dominio.ColorDTO;
+import DTOs.ColorDTO;
 /**
  * 
  * @author lagar

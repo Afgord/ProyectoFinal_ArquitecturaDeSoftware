@@ -4,8 +4,8 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.CartaDTO;
-import Ejercer_Turno.Dominio.JugadorDTO;
+import DTOs.CartaDTO;
+import DTOs.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.Interfaces.IModeloDatos;

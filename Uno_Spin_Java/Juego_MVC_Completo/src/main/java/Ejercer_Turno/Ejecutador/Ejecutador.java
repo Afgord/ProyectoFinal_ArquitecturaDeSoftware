@@ -4,11 +4,11 @@
  */
 package Ejercer_Turno.Ejecutador;
 
-import Ejercer_Turno.Dominio.Mazo;
-import Ejercer_Turno.Dominio.Tablero;
-import Ejercer_Turno.Dominio.Descarte;
-import Ejercer_Turno.Dominio.Jugador;
-import Ejercer_Turno.Dominio.Carta;
+import Entidades.Mazo;
+import Entidades.Tablero;
+import Entidades.Descarte;
+import Entidades.Jugador;
+import Entidades.Carta;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;

@@ -4,7 +4,10 @@
  */
 package Cambiar_Color.MVC;
 
-import Cambiar_Color.Dominio.*;
+import Fachadas.FachadaSelectorColor;
+import Fachadas.FachadaColor;
+import Entidades.SeleccionColor;
+import DTOs.ColorDTO;
 import Cambiar_Color.Interfaces.*;
 import java.util.ArrayList;
 import java.util.List;

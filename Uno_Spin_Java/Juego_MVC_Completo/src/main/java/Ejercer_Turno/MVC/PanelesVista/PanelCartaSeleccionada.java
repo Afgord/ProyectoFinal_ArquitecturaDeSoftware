@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Ejercer_Turno.Dominio.CartaDTO;
+import DTOs.CartaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;

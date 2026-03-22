@@ -4,11 +4,11 @@
  */
 package Ejercer_Turno.MVC;
 
-import Cambiar_Color.Dominio.ColorDTO;
+import DTOs.ColorDTO;
 import Cambiar_Color.MVC.ControlColor;
 import Cambiar_Color.MVC.ModeloColor;
 import Cambiar_Color.MVC.PanelSelectorColor;
-import Ejercer_Turno.Dominio.CartaDTO;
+import DTOs.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloAcciones;
 import java.awt.Color;
 import java.awt.Frame;

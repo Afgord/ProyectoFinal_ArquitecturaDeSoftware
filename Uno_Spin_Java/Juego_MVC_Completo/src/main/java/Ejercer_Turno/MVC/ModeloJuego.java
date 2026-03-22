@@ -4,17 +4,17 @@
  */
 package Ejercer_Turno.MVC;
 
-import Ejercer_Turno.Dominio.TableroDTO;
-import Ejercer_Turno.Dominio.CartaDTO;
-import Ejercer_Turno.Dominio.Mazo;
-import Ejercer_Turno.Dominio.Tablero;
-import Ejercer_Turno.Dominio.Descarte;
-import Ejercer_Turno.Dominio.Jugador;
-import Ejercer_Turno.Dominio.JugadorDTO;
-import Ejercer_Turno.Dominio.MazoDTO;
-import Ejercer_Turno.Dominio.Carta;
-import Ejercer_Turno.Dominio.FachadaJuego;
-import Ejercer_Turno.Dominio.FachadaDominio;
+import DTOs.TableroDTO;
+import DTOs.CartaDTO;
+import Entidades.Mazo;
+import Entidades.Tablero;
+import Entidades.Descarte;
+import Entidades.Jugador;
+import DTOs.JugadorDTO;
+import DTOs.MazoDTO;
+import Entidades.Carta;
+import Fachadas.FachadaJuego;
+import Fachadas.FachadaDominio;
 import Ejercer_Turno.Interfaces.*;
 import java.awt.Color;
 import java.util.ArrayList;
