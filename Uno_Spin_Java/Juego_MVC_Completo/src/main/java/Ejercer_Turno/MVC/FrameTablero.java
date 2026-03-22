@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 /**
  * 
  * @author Luis Rafael
@@ -42,7 +43,7 @@ public class FrameTablero extends JFrame implements Observador {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
-
+        audio.playMusicLoop();
         this.panelTablero = new PanelTablero(control, modeloInicial, audio);
         add(panelTablero);
 

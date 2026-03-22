@@ -15,4 +15,5 @@ public interface IModeloAcciones {
     void tirarCartaNegra(CartaDTO carta, Color nuevoColor, String nombreColor);
     void robarCarta();
     void aplicarCastigo();
+    Color[] obtenerColoresConfigurados();
 }

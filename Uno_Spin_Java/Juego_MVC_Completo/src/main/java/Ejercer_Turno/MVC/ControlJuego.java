@@ -4,19 +4,26 @@
  */
 package Ejercer_Turno.MVC;
 
+import Cambiar_Color.Dominio.ColorDTO;
+import Cambiar_Color.MVC.ControlColor;
+import Cambiar_Color.MVC.ModeloColor;
+import Cambiar_Color.MVC.PanelSelectorColor;
 import Ejercer_Turno.Dominio.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloAcciones;
 import java.awt.Color;
+import java.awt.Frame;
 /**
  * 
  * @author Luis Rafael
  */
 public class ControlJuego {
     private final IModeloAcciones modeloAcciones;
-    
-    public ControlJuego(IModeloAcciones acciones) {
-        this.modeloAcciones = acciones;
+
+    public ControlJuego(IModeloAcciones modeloAcciones) {
+        this.modeloAcciones = modeloAcciones;
     }
+    
+    
 
     public void solicitarRobarCarta() {
         modeloAcciones.robarCarta();
@@ -34,17 +41,19 @@ public class ControlJuego {
         modeloAcciones.aplicarCastigo();
     }
 
-    public void solicitarSeleccionColor(CartaDTO carta, java.awt.Frame padre) {
-        Color[] colores = ((ModeloJuego) modeloAcciones).obtenerColoresConfigurados();
-        Cambiar_Color.MVC.ModeloColor mColor = new Cambiar_Color.MVC.ModeloColor();
-        Cambiar_Color.MVC.ControlColor cColor = new Cambiar_Color.MVC.ControlColor(
-            mColor, colores[0], colores[1], colores[2], colores[3]  
-        );
-        mColor.registrar((color, nombre) -> {
-            this.solicitarTirarCartaNegra(carta, color, nombre);
+    public void solicitarSeleccionColor(CartaDTO carta, Frame padre) {
+        Color[] colores = modeloAcciones.obtenerColoresConfigurados();
+        
+        ModeloColor mColor = new ModeloColor();
+        
+        mColor.registrar(contexto -> {
+            ColorDTO seleccion = contexto.getDatosColor();
+            this.solicitarTirarCartaNegra(carta, seleccion.getColor(), seleccion.getNombre());
         });
 
-        Cambiar_Color.MVC.PanelSelectorColor vista = new Cambiar_Color.MVC.PanelSelectorColor(padre, cColor);
+        ControlColor cColor = new ControlColor(mColor, colores[0], colores[1], colores[2], colores[3]);
+        
+        PanelSelectorColor vista = new PanelSelectorColor(padre, cColor);
         vista.setVisible(true);
     }
 }

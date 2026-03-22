@@ -4,12 +4,12 @@
  */
 package Cambiar_Color.Interfaces;
 
-import java.awt.Color;
+import Cambiar_Color.Dominio.ColorDTO;
 /**
  * 
  * @author lagar
  */
 public interface IColorAcciones {
-    void seleccionarColor(Color color, String nombre);
+    void confirmarSeleccion(ColorDTO dto);
     void cancelar();
 }

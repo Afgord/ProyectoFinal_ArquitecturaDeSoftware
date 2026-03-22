@@ -4,11 +4,11 @@
  */
 package Cambiar_Color.Interfaces;
 
-import java.awt.Color;
+import Cambiar_Color.MVC.ModeloColor;
 /**
  * 
  * @author lagar
  */
 public interface ObservadorColor {
-    void colorElegido(Color color, String nombre);
+    void colorElegido(ModeloColor contexto);
 }
