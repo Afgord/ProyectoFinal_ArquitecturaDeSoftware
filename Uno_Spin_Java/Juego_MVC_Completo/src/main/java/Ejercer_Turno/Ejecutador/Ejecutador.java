@@ -12,7 +12,7 @@ import Entidades.Carta;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;
-import audio.AudioManager;
+import contenido.AudioManager;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;

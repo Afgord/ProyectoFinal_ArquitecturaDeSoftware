@@ -9,7 +9,7 @@ import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
 import DTOs.CartaDTO;
 import DTOs.JugadorDTO;
-import audio.AudioManager;
+import contenido.AudioManager;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

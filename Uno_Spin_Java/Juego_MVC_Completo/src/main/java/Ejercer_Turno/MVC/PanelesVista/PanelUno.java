@@ -5,7 +5,7 @@
 package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.MVC.ControlJuego;
-import audio.AudioManager;
+import contenido.AudioManager;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;

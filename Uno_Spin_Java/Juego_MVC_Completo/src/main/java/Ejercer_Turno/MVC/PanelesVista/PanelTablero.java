@@ -9,7 +9,7 @@ import DTOs.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos; 
 import java.awt.*;
-import audio.AudioManager;
+import contenido.AudioManager;
 import java.util.List;
 import javax.swing.*;
 /**
