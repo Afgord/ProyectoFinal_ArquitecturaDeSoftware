@@ -49,6 +49,13 @@ public class Ejecutador {
         Carta primeraCarta = mazo.tomarUnaCarta();
         descarte.recibirCarta(primeraCarta);
         AudioManager audioModel = new AudioManager();
+        
+        audioModel.loadMusic("/sound/music/dkc1_achuatic.wav");
+
+        audioModel.loadEffect("tirar", "/sound/effect/tirar.wav", 5);
+        audioModel.loadEffect("jalar", "/sound/effect/jalar.wav", 5);
+        audioModel.loadEffect("uno", "/sound/effect/uno.wav", 5);
+        audioModel.loadEffect("alerta", "/sound/effect/alerta.wav", 5);
         ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
         ControlJuego control = new ControlJuego(modeloReal); 
         java.awt.EventQueue.invokeLater(() -> {

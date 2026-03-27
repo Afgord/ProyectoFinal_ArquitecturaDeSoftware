@@ -18,17 +18,7 @@ public class AudioManager {
     private Clip backgroundMusic;
 
     public AudioManager() {
-        init();
-    }
-
-    private void init() {
-
-        loadMusic("/sound/music/dkc1_achuatic.wav");
-
-        loadEffect("tirar", "/sound/effect/tirar.wav", 5);
-        loadEffect("jalar", "/sound/effect/jalar.wav", 5);
-        loadEffect("uno", "/sound/effect/uno.wav", 5);
-        loadEffect("alerta", "/sound/effect/alerta.wav", 5);
+        
     }
 
     public boolean validateWav(String path) {
