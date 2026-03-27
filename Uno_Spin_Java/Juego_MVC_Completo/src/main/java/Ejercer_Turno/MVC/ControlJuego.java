@@ -4,37 +4,27 @@
  */
 package Ejercer_Turno.MVC;
 
-import DTOs.ColorDTO;
-import Cambiar_Color.MVC.ControlColor;
-import Cambiar_Color.MVC.ModeloColor;
-import Cambiar_Color.MVC.PanelSelectorColor;
 import DTOs.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloAcciones;
+import Ejercer_Turno.Interfaces.IServicioSeleccionColor;
 import java.awt.Color;
 import java.awt.Frame;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class ControlJuego {
     private final IModeloAcciones modeloAcciones;
+    private final IServicioSeleccionColor servicioColor;
 
-    public ControlJuego(IModeloAcciones modeloAcciones) {
+    public ControlJuego(IModeloAcciones modeloAcciones, IServicioSeleccionColor servicioColor) {
         this.modeloAcciones = modeloAcciones;
-    }
-    
-    
-
-    public void solicitarRobarCarta() {
-        modeloAcciones.robarCarta();
+        this.servicioColor = servicioColor;
     }
 
     public void solicitarTirarCarta(CartaDTO carta) {
         modeloAcciones.tirarCarta(carta);
     }
 
-    public void solicitarTirarCartaNegra(CartaDTO carta, Color nuevoColor, String nombreColor) {
-        modeloAcciones.tirarCartaNegra(carta, nuevoColor, nombreColor);
+    public void solicitarRobarCarta() {
+        modeloAcciones.robarCarta();
     }
 
     public void solicitarAplicarCastigo() {
@@ -44,16 +34,10 @@ public class ControlJuego {
     public void solicitarSeleccionColor(CartaDTO carta, Frame padre) {
         Color[] colores = modeloAcciones.obtenerColoresConfigurados();
         
-        ModeloColor mColor = new ModeloColor();
-        
-        mColor.registrar(contexto -> {
-            ColorDTO seleccion = contexto.getDatosColor();
-            this.solicitarTirarCartaNegra(carta, seleccion.getColor(), seleccion.getNombre());
+        servicioColor.solicitarColor(padre, colores, (resultado) -> {
+            if (resultado != null) {
+                modeloAcciones.tirarCartaNegra(carta, resultado.getColor(), resultado.getNombre());
+            }
         });
-
-        ControlColor cColor = new ControlColor(mColor, colores[0], colores[1], colores[2], colores[3]);
-        
-        PanelSelectorColor vista = new PanelSelectorColor(padre, cColor);
-        vista.setVisible(true);
     }
 }

@@ -4,22 +4,20 @@
  */
 package Ejercer_Turno.Ejecutador;
 
-import Entidades.Mazo;
-import Entidades.Tablero;
-import Entidades.Descarte;
-import Entidades.Jugador;
-import Entidades.Carta;
-import Ejercer_Turno.MVC.ControlJuego;
-import Ejercer_Turno.MVC.FrameTablero;
-import Ejercer_Turno.MVC.ModeloJuego;
+import Entidades.*;
+import Fachadas.FachadaJuego;
+import Ejercer_Turno.MVC.*;
+import Ejercer_Turno.Interfaces.*;
+import Cambiar_Color.MVC.ModeloColor;
+import Cambiar_Color.MVC.ControlColor;
+import Cambiar_Color.MVC.PanelSelectorColor;
 import contenido.AudioManager;
+import DTOs.ColorDTO;
 import java.awt.Color;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * 
- * @author lagar
- */
+
 public class Ejecutador {
     public static void main(String[] args) {
         Color cAzul = Color.CYAN;
@@ -33,31 +31,46 @@ public class Ejecutador {
         listaJugadores.add(new Jugador("Mondongo", "/avatares/mondongo.jpg"));
         listaJugadores.add(new Jugador("Verch", "/avatares/queHiciste.jpg"));
         listaJugadores.add(new Jugador("Gilberto", "/avatares/gilberto.jpg"));
+
         Tablero tablero = new Tablero(
             listaJugadores, 0, 9,
             true, true, true, true, true, 
             cAzul, cRojo, cAmarillo, cVerde, cNegro
         );
+
         Mazo mazo = tablero.getMazo();
-        Descarte descarte = tablero.getDescarte();
-        int numCartasInicial = 7;
         for (Jugador j : listaJugadores) {
-            for (int i = 0; i < numCartasInicial; i++) {
+            for (int i = 0; i < 7; i++) {
                 j.agregarCarta(mazo.tomarUnaCarta());
             }
         }
-        Carta primeraCarta = mazo.tomarUnaCarta();
-        descarte.recibirCarta(primeraCarta);
-        AudioManager audioModel = new AudioManager();
-        
-        audioModel.loadMusic("/sound/music/dkc1_achuatic.wav");
 
+        FachadaJuego fachada = new FachadaJuego();
+        fachada.inyectarTablero(tablero);
+
+        ModeloJuego modeloReal = new ModeloJuego(fachada);
+
+        IServicioSeleccionColor servicioColor = new IServicioSeleccionColor() {
+            @Override
+            public void solicitarColor(Frame padre, Color[] opciones, IResultadoColor callback) {
+                ModeloColor mColor = new ModeloColor();
+                mColor.registrar(contexto -> callback.onResultado(contexto.getDatosColor()));
+                
+                ControlColor cColor = new ControlColor(mColor, opciones[0], opciones[1], opciones[2], opciones[3]);
+                PanelSelectorColor vistaColor = new PanelSelectorColor(padre, cColor);
+                vistaColor.setVisible(true);
+            }
+        };
+
+        ControlJuego control = new ControlJuego(modeloReal, servicioColor);
+
+        AudioManager audioModel = new AudioManager();
+        audioModel.loadMusic("/sound/music/dkc1_achuatic.wav");
         audioModel.loadEffect("tirar", "/sound/effect/tirar.wav", 5);
         audioModel.loadEffect("jalar", "/sound/effect/jalar.wav", 5);
         audioModel.loadEffect("uno", "/sound/effect/uno.wav", 5);
         audioModel.loadEffect("alerta", "/sound/effect/alerta.wav", 5);
-        ModeloJuego modeloReal = new ModeloJuego(listaJugadores, mazo, descarte, tablero);
-        ControlJuego control = new ControlJuego(modeloReal); 
+
         java.awt.EventQueue.invokeLater(() -> {
             new FrameTablero(control, modeloReal, audioModel).setVisible(true);
         });

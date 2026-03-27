@@ -4,99 +4,94 @@
  */
 package Ejercer_Turno.MVC;
 
-import DTOs.TableroDTO;
-import DTOs.CartaDTO;
-import Entidades.Mazo;
-import Entidades.Tablero;
-import Entidades.Descarte;
-import Entidades.Jugador;
-import DTOs.JugadorDTO;
-import DTOs.MazoDTO;
-import Entidades.Carta;
-import Fachadas.FachadaJuego;
+import DTOs.*;
+import Entidades.*;
 import Fachadas.FachadaDominio;
 import Ejercer_Turno.Interfaces.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * 
- * @author Luis Rafael
- */
-public class ModeloJuego implements IModeloAcciones, IModeloDatos {
+
+public class ModeloJuego implements IModeloDatos, IModeloAcciones {
 
     private final FachadaDominio fachada;
     private final List<Observador> observadores = new ArrayList<>();
     private boolean ultimaJugadaValida = true;
 
-    public ModeloJuego(List<Jugador> jugadores, Mazo mazo, Descarte descarte, Tablero tablero) {
-        this.fachada = new FachadaJuego();
-        this.fachada.inyectarTablero(tablero);
+    public ModeloJuego(FachadaDominio fachada) {
+        this.fachada = fachada;
+    }
+
+    @Override
+    public void registrarObservador(Observador o) {
+        observadores.add(o);
+    }
+
+    private void notificar() {
+        for (Observador o : observadores) {
+            o.notificarCambio(this);
+        }
     }
 
     @Override
     public void tirarCarta(CartaDTO cartaDTO) {
-        Carta cartaReal = buscarCartaReal(cartaDTO);
-        if (cartaReal != null && fachada.validarYPlay(cartaReal)) {
-            ultimaJugadaValida = true;
-            if (fachada.getTablero().getJugadorActual().getNumCartas() != 0) {
+        Carta cartaReal = buscarCartaEnMano(cartaDTO);
+        if (cartaReal != null) {
+            ultimaJugadaValida = fachada.validarYPlay(cartaReal);
+            if (ultimaJugadaValida) {
                 fachada.pasarTurno();
             }
-        } else {
-            ultimaJugadaValida = false;
-            System.out.println("Jugada denegada por el Dominio para: " + (cartaReal != null ? cartaReal.getSimbolo() : "Nula"));
+            notificar();
         }
-        notificarObservadores();
     }
 
     @Override
     public void tirarCartaNegra(CartaDTO cartaDTO, Color nuevoColor, String nombreColor) {
-        Carta cartaReal = buscarCartaReal(cartaDTO);
-        if (cartaReal != null && fachada.validarYPlay(cartaReal)) {
-            ultimaJugadaValida = true;
-            fachada.aplicarEfectoCarta(cartaReal, nuevoColor);
-            cartaReal.setColorNombre(nombreColor); 
-            fachada.pasarTurno();
-        } else {
-            ultimaJugadaValida = false;
+        Carta cartaReal = buscarCartaEnMano(cartaDTO);
+        if (cartaReal != null) {
+            ultimaJugadaValida = fachada.validarYPlay(cartaReal);
+            if (ultimaJugadaValida) {
+                fachada.aplicarEfectoCarta(cartaReal, nuevoColor);
+                fachada.pasarTurno();
+            }
+            notificar();
         }
-        notificarObservadores();
     }
 
     @Override
     public void robarCarta() {
-        ultimaJugadaValida = true;
-        if (fachada.getAcumulacionCastigo() > 0) {
-            aplicarCastigo();
-        } else {
-            fachada.robarCarta();
-            notificarObservadores();
-        }
+        fachada.robarCarta();
+        fachada.pasarTurno();
+        this.ultimaJugadaValida = true;
+        notificar();
     }
 
     @Override
     public void aplicarCastigo() {
         int cantidad = fachada.getAcumulacionCastigo();
-        fachada.limpiarCastigo();
         for (int i = 0; i < cantidad; i++) {
             fachada.robarCarta();
         }
+        fachada.limpiarCastigo();
         fachada.pasarTurno();
-        notificarObservadores();
+        notificar();
+    }
+
+    private Carta buscarCartaEnMano(CartaDTO dto) {
+        for (Carta c : fachada.getTablero().getJugadorActual().getCartasModelo()) {
+            if (c.getRutaImagen().equals(dto.getId()) && c.getSimbolo().equals(dto.getSimbolo())) {
+                return c;
+            }
+        }
+        return null;
     }
 
     @Override
     public TableroDTO getTableroDTO() {
         Tablero t = fachada.getTablero();
-        Color colorCima = (t.getDescarte().getCartaCima() != null) 
-                          ? t.getDescarte().getCartaCima().getColorExterno() 
-                          : Color.BLACK;
-                          
-        return new TableroDTO(
-            colorCima, 
-            t.isSentidoReloj(), 
-            t.getJugadorActual().getNombre()
-        );
+        return new TableroDTO(t.getDescarte().getCartaCima().getColorExterno(), 
+                              t.isSentidoReloj(), 
+                              t.getJugadorActual().getNombre());
     }
 
     @Override
@@ -107,73 +102,32 @@ public class ModeloJuego implements IModeloAcciones, IModeloDatos {
     @Override
     public CartaDTO getCartaDescarteDTO() {
         Carta c = fachada.getTablero().getDescarte().getCartaCima();
-        return (c == null) ? null : convertirACartaDTO(c);
+        return new CartaDTO(c.getRutaImagen(), c.getColorExterno(), c.getSimbolo(), c.esComodin());
     }
 
     @Override
     public List<JugadorDTO> getJugadoresDTO() {
         List<JugadorDTO> lista = new ArrayList<>();
-        Jugador actual = fachada.getTablero().getJugadorActual();
-
-        for (Jugador j : fachada.getTablero().getJugadores()) {
-            boolean esTurno = j.equals(actual);
-            List<CartaDTO> cartasMano = new ArrayList<>();
-
-            for (Carta c : j.getCartasModelo()) {
-                cartasMano.add(convertirACartaDTO(c));
+        Tablero t = fachada.getTablero();
+        for (Jugador j : t.getJugadores()) {
+            boolean esTurno = (j == t.getJugadorActual());
+            List<CartaDTO> cartasDto = new ArrayList<>();
+            if (esTurno) {
+                for (Carta c : j.getCartasModelo()) {
+                    cartasDto.add(new CartaDTO(c.getRutaImagen(), c.getColorExterno(), c.getSimbolo(), c.esComodin()));
+                }
             }
-
-            lista.add(new JugadorDTO(
-                j.getUrlAvatar(),
-                j.getNombre(), 
-                j.getNumCartas(), 
-                esTurno, 
-                cartasMano
-            ));
+            lista.add(new JugadorDTO(j.getUrlAvatar(), j.getNombre(), j.getNumCartas(), esTurno, cartasDto));
         }
         return lista;
     }
 
     @Override
-    public boolean isUltimaJugadaValida() {
-        return ultimaJugadaValida;
-    }
+    public boolean isUltimaJugadaValida() { return ultimaJugadaValida; }
 
     @Override
     public Color[] obtenerColoresConfigurados() {
         Mazo m = fachada.getTablero().getMazo();
         return new Color[]{m.getcAzul(), m.getcRojo(), m.getcAmarillo(), m.getcVerde()};
-    }
-
-    @Override
-    public void registrarObservador(Observador o) {
-        observadores.add(o);
-    }
-
-    public void notificarObservadores() {
-        for (Observador o : observadores) {
-            o.notificarCambio(this);
-        }
-    }
-
-    private CartaDTO convertirACartaDTO(Carta c) {
-        return new CartaDTO(
-            c.getRutaImagen(), 
-            c.getColorExterno(), 
-            c.getSimbolo(), 
-            c.esComodin() 
-        );
-    }
-
-    private Carta buscarCartaReal(CartaDTO dto) {
-        List<Carta> mano = fachada.getTablero().getJugadorActual().getCartasModelo();
-        for (Carta c : mano) {
-            if (c.getRutaImagen().equals(dto.getId()) && 
-                c.getSimbolo().equals(dto.getSimbolo()) &&
-                c.getColorExterno().equals(dto.getColor())) {
-                return c;
-            }
-        }
-        return null;
     }
 }

@@ -22,7 +22,4 @@ public interface IModeloDatos {
     boolean isUltimaJugadaValida();
     Color[] obtenerColoresConfigurados();
     void registrarObservador(Observador o);
-    void tirarCarta(CartaDTO carta);
-    void tirarCartaNegra(CartaDTO carta, Color nuevoColor, String nombreColor);
-    void robarCarta();
 }
