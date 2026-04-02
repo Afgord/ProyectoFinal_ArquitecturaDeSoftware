@@ -4,10 +4,10 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import DTOs.CartaDTO;
+import org.uno.dto.CartaDTO;
 import java.awt.Color;
+
 /**
- * 
  * @author Luis Rafael
  */
 public interface IModeloAcciones {

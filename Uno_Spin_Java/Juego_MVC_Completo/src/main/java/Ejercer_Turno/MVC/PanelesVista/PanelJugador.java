@@ -4,12 +4,12 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.JugadorDTO;
+import org.uno.dto.JugadorDTO;
 import java.awt.*;
 import javax.swing.*;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelJugador extends JPanel {
     private final JugadorDTO jugador; 
@@ -29,8 +29,8 @@ public class PanelJugador extends JPanel {
         setLayout(null); 
         setPreferredSize(new Dimension(250, 80));
         if (jugador.isEsTurnoActual()) {
-            setBackground(new Color(255, 255, 150));
-            setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
+            setBackground(new Color(150, 255, 150));
+            setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
         } else {
             setBackground(new Color(255, 204, 0));
             setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -47,6 +47,7 @@ public class PanelJugador extends JPanel {
         lbNumCartas.setBounds(90, 40, 150, 25);
         lbNumCartas.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lbNumCartas);
+
         panelAvatar = new PanelAvatar(jugador.getRutaAvatar()); 
         panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);

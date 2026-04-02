@@ -5,9 +5,8 @@
 package Ejercer_Turno.Interfaces;
 
 /**
- *
  * @author Luis Rafael
  */
 public interface Observador {
-    void notificarCambio(IModeloDatos contexto);
+    void update(IModeloDatos contexto);
 }

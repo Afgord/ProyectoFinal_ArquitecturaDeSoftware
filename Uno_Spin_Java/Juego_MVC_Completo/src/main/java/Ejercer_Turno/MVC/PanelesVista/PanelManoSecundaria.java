@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.JugadorDTO;
+import org.uno.dto.JugadorDTO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelManoSecundaria extends JPanel {
 

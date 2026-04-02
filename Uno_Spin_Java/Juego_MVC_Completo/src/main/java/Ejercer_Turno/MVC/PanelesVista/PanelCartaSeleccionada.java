@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
+import org.uno.dto.CartaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -13,10 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class PanelCartaSeleccionada extends JPanel {
 
     private CartaDTO cartaActual;

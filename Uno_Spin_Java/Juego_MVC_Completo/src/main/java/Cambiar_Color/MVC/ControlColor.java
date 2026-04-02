@@ -4,7 +4,7 @@
  */
 package Cambiar_Color.MVC;
 
-import DTOs.ColorDTO;
+import org.uno.dto.ColorDTO;
 import Cambiar_Color.Interfaces.IColorAcciones;
 import java.awt.Color;
 /**

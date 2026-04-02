@@ -12,12 +12,14 @@ import Cambiar_Color.MVC.ModeloColor;
 import Cambiar_Color.MVC.ControlColor;
 import Cambiar_Color.MVC.PanelSelectorColor;
 import contenido.AudioManager;
-import DTOs.ColorDTO;
 import java.awt.Color;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Ejecutador {
     public static void main(String[] args) {
         Color cAzul = Color.CYAN;
@@ -72,7 +74,8 @@ public class Ejecutador {
         audioModel.loadEffect("alerta", "/sound/effect/alerta.wav", 5);
 
         java.awt.EventQueue.invokeLater(() -> {
-            new FrameTablero(control, modeloReal, audioModel).setVisible(true);
+            FrameTablero ft = new FrameTablero(control, modeloReal, audioModel);
+            ft.setVisible(true);
         });
     }
 }

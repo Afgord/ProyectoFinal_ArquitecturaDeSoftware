@@ -4,11 +4,11 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import DTOs.ColorDTO;
+import org.uno.dto.ColorDTO;
 import java.awt.Color;
 import java.awt.Frame;
+
 /**
- * 
  * @author Luis Rafael
  */
 public interface IServicioSeleccionColor {

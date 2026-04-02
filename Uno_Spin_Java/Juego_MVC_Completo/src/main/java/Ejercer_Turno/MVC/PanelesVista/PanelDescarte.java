@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
+import org.uno.dto.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloDatos;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelDescarte extends JPanel {
 

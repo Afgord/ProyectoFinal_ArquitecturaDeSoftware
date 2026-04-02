@@ -4,14 +4,14 @@
  */
 package Ejercer_Turno.Interfaces;
 
-import DTOs.CartaDTO;
-import DTOs.JugadorDTO;
-import DTOs.MazoDTO;
-import DTOs.TableroDTO;
+import org.uno.dto.CartaDTO;
+import org.uno.dto.JugadorDTO;
+import org.uno.dto.MazoDTO;
+import org.uno.dto.TableroDTO;
 import java.awt.Color;
 import java.util.List;
+
 /**
- * 
  * @author Luis Rafael
  */
 public interface IModeloDatos {
@@ -19,6 +19,7 @@ public interface IModeloDatos {
     MazoDTO getMazoDTO();
     CartaDTO getCartaDescarteDTO();
     List<JugadorDTO> getJugadoresDTO();
+    JugadorDTO getJugadorLocalDTO(); 
     boolean isUltimaJugadaValida();
     Color[] obtenerColoresConfigurados();
     void registrarObservador(Observador o);

@@ -4,14 +4,17 @@
  */
 package Ejercer_Turno.MVC;
 
-import DTOs.*;
+import org.uno.dto.*;
 import Entidades.*;
 import Fachadas.FachadaDominio;
 import Ejercer_Turno.Interfaces.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class ModeloJuego implements IModeloDatos, IModeloAcciones {
 
     private final FachadaDominio fachada;
@@ -24,12 +27,14 @@ public class ModeloJuego implements IModeloDatos, IModeloAcciones {
 
     @Override
     public void registrarObservador(Observador o) {
-        observadores.add(o);
+        if (!observadores.contains(o)) {
+            observadores.add(o);
+        }
     }
 
     private void notificar() {
         for (Observador o : observadores) {
-            o.notificarCambio(this);
+            o.update(this);
         }
     }
 
@@ -89,9 +94,11 @@ public class ModeloJuego implements IModeloDatos, IModeloAcciones {
     @Override
     public TableroDTO getTableroDTO() {
         Tablero t = fachada.getTablero();
-        return new TableroDTO(t.getDescarte().getCartaCima().getColorExterno(), 
-                              t.isSentidoReloj(), 
-                              t.getJugadorActual().getNombre());
+        return new TableroDTO(
+            t.getDescarte().getCartaCima().getColorExterno(), 
+            t.isSentidoReloj(), 
+            t.getJugadorActual().getNombre()
+        );
     }
 
     @Override
@@ -111,15 +118,33 @@ public class ModeloJuego implements IModeloDatos, IModeloAcciones {
         Tablero t = fachada.getTablero();
         for (Jugador j : t.getJugadores()) {
             boolean esTurno = (j == t.getJugadorActual());
-            List<CartaDTO> cartasDto = new ArrayList<>();
-            if (esTurno) {
-                for (Carta c : j.getCartasModelo()) {
-                    cartasDto.add(new CartaDTO(c.getRutaImagen(), c.getColorExterno(), c.getSimbolo(), c.esComodin()));
-                }
-            }
-            lista.add(new JugadorDTO(j.getUrlAvatar(), j.getNombre(), j.getNumCartas(), esTurno, cartasDto));
+            lista.add(crearJugadorDTO(j, esTurno, false));
         }
         return lista;
+    }
+
+    @Override
+    public JugadorDTO getJugadorLocalDTO() {
+        Tablero t = fachada.getTablero();
+        return crearJugadorDTO(t.getJugadorActual(), true, true);
+    }
+
+    private JugadorDTO crearJugadorDTO(Jugador j, boolean esTurno, boolean esLocal) {
+        List<CartaDTO> cartasDto = new ArrayList<>();
+        if (esLocal) {
+            for (Carta c : j.getCartasModelo()) {
+                cartasDto.add(new CartaDTO(c.getRutaImagen(), c.getColorExterno(), c.getSimbolo(), c.esComodin()));
+            }
+        }
+        return new JugadorDTO(
+            j.getNombre(),
+            j.getUrlAvatar(),
+            j.getNombre(),
+            j.getNumCartas(),
+            esTurno,
+            esLocal,
+            cartasDto
+        );
     }
 
     @Override

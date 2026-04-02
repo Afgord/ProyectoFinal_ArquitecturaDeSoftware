@@ -4,7 +4,7 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
+import org.uno.dto.CartaDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelCarta extends JPanel {
 
@@ -33,21 +33,15 @@ public class PanelCarta extends JPanel {
     private void cargarImagenes() {
         try {
             URL urlAtras = getClass().getResource("/cartas/atras.png");
-            if (urlAtras != null) {
-                imgAtras = ImageIO.read(urlAtras);
-            }
+            if (urlAtras != null) imgAtras = ImageIO.read(urlAtras);
             
             String ruta = modelo.getId(); 
             if (ruta != null && !ruta.isEmpty()) {
                 URL urlAdelante = getClass().getResource(ruta);
-                if (urlAdelante != null) {
-                    imgAdelante = ImageIO.read(urlAdelante);
-                } else {
-                    System.err.println("No se encontró el recurso en: " + ruta);
-                }
+                if (urlAdelante != null) imgAdelante = ImageIO.read(urlAdelante);
             }
         } catch (IOException e) {
-            System.err.println("Error al leer las imágenes de la carta: " + e.getMessage());
+            System.err.println("Error al leer las imágenes de la carta");
         }
     }
 
@@ -56,7 +50,6 @@ public class PanelCarta extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         
         if (modelo.getColor() != null) {
             g2d.setColor(modelo.getColor());
@@ -81,7 +74,5 @@ public class PanelCarta extends JPanel {
         repaint();
     }
 
-    public CartaDTO getModelo() {
-        return modelo;
-    }
+    public CartaDTO getModelo() { return modelo; }
 }

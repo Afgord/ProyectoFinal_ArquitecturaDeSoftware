@@ -4,8 +4,8 @@
  */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
-import DTOs.JugadorDTO;
+import org.uno.dto.CartaDTO;
+import org.uno.dto.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.Interfaces.IModeloDatos;
@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelMano extends JPanel {
     private final ControlJuego control;
@@ -34,17 +34,13 @@ public class PanelMano extends JPanel {
     public void refrescarMano() {
         removeAll();
         
-        List<JugadorDTO> jugadores = modeloJuego.getJugadoresDTO();
-        JugadorDTO usuario = null;
-        
-        for (JugadorDTO j : jugadores) {
-            if (j.isEsTurnoActual()) {
-                usuario = j;
-                break;
-            }
-        }
+        JugadorDTO usuario = modeloJuego.getJugadorLocalDTO();
 
-        if (usuario == null) return;
+        if (usuario == null) {
+            revalidate();
+            repaint();
+            return;
+        }
 
         List<CartaDTO> cartas = usuario.getCartas();
         int n = cartas.size();

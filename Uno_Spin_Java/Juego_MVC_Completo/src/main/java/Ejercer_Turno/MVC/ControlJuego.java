@@ -4,12 +4,15 @@
  */
 package Ejercer_Turno.MVC;
 
-import DTOs.CartaDTO;
+import org.uno.dto.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloAcciones;
 import Ejercer_Turno.Interfaces.IServicioSeleccionColor;
 import java.awt.Color;
 import java.awt.Frame;
-
+/**
+ * 
+ * @author lagar
+ */
 public class ControlJuego {
     private final IModeloAcciones modeloAcciones;
     private final IServicioSeleccionColor servicioColor;

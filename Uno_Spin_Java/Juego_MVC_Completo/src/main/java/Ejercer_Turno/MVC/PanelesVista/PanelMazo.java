@@ -6,7 +6,7 @@ package Ejercer_Turno.MVC.PanelesVista;
 
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos;
-import DTOs.MazoDTO;
+import org.uno.dto.MazoDTO;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelMazo extends JPanel {
 

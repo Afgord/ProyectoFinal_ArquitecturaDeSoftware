@@ -1,20 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
 import Girar_Ruleta.PanelRuleta;
-import DTOs.JugadorDTO;
+import org.uno.dto.JugadorDTO;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.Interfaces.IModeloDatos; 
 import java.awt.*;
 import contenido.AudioManager;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.*;
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class PanelTablero extends JPanel {
 
@@ -28,9 +25,6 @@ public class PanelTablero extends JPanel {
     private PanelUno panelUno;
     private PanelRuleta panelRuleta;
     private AudioManager audioModel;
-    private JLabel lbTextoEstado;
-   
-    private Timer timerError;
 
     public PanelTablero(ControlJuego control, IModeloDatos modelo, AudioManager audioModel) {
         this.control = control;
@@ -39,19 +33,8 @@ public class PanelTablero extends JPanel {
 
         setPreferredSize(new Dimension(1200, 750));
         setBackground(Color.RED);
+        setOpaque(true);
         setLayout(null);
-
-        lbTextoEstado = new JLabel("Selecciona una carta", SwingConstants.CENTER);
-        lbTextoEstado.setBounds(700, 420, 320, 30);
-        lbTextoEstado.setFont(new Font("Arial", Font.BOLD, 18));
-        lbTextoEstado.setForeground(Color.WHITE);
-        add(lbTextoEstado);
-
-        timerError = new Timer(2000, e -> {
-            lbTextoEstado.setText("Carta Seleccionada");
-            lbTextoEstado.setForeground(Color.WHITE);
-        });
-        timerError.setRepeats(false); 
 
         inicializarComponentes();
     }
@@ -70,87 +53,77 @@ public class PanelTablero extends JPanel {
         add(panelDescarte);
 
         panelManoJugador = new PanelMano(control, modelo);
-        panelManoJugador.setBounds(200, 590, 800, 150);
+        panelManoJugador.setBounds(300, 590, 730, 150);
         add(panelManoJugador);
 
         panelZoom = new PanelCartaSeleccionada();
-        panelZoom.setBounds(800, 450, 100, 120);
+        panelZoom.setBounds(630, 450, 100, 120);
         add(panelZoom);
 
         panelRuleta = new PanelRuleta();
-        panelRuleta.setBounds(300, 200, 300, 300);
+        panelRuleta.setBounds(240, 200, 300, 300);
         add(panelRuleta);
 
-        actualizarRivales();
+        actualizarVisualizacionTotal();
     }
 
-    public void actualizarEstadoVisual(IModeloDatos contexto) {
-        if (!contexto.isUltimaJugadaValida()) {
-            if (timerError.isRunning()) timerError.restart();
-            
-            lbTextoEstado.setText("¡CARTA NO VÁLIDA!");
-            lbTextoEstado.setForeground(Color.YELLOW);
-            timerError.start();
-        } else {
-            timerError.stop();
-            lbTextoEstado.setText("Carta Seleccionada");
-            lbTextoEstado.setForeground(Color.WHITE);
-        }
-        lbTextoEstado.repaint();
-    }
-
-    public void actualizarRivales() {
+    public void actualizarVisualizacionTotal() {
         for (Component c : getComponents()) {
             if (c instanceof PanelJugador || c instanceof PanelManoSecundaria) {
                 remove(c);
             }
         }
+        List<JugadorDTO> todos = modelo.getJugadoresDTO();
+        JugadorDTO local = modelo.getJugadorLocalDTO();
+        if (local != null) {
+            PanelJugador pjLocal = new PanelJugador(local);
+            pjLocal.setBounds(20, 670, 250, 80); 
+            add(pjLocal);
+        }
+        List<JugadorDTO> rivales = todos.stream()
+                .filter(j -> !j.getNombre().equals(local.getNombre()))
+                .collect(Collectors.toList());
 
-        List<JugadorDTO> jugadores = modelo.getJugadoresDTO();
         int rivalIdx = 0;
-
-        for (JugadorDTO j : jugadores) {
-            if (j.isEsTurnoActual()) continue;
-
-            PanelJugador pj = new PanelJugador(j);
+        for (JugadorDTO r : rivales) {
+            PanelJugador pjRival = new PanelJugador(r);
             PanelManoSecundaria pms;
 
             switch (rivalIdx) {
-                case 0 -> {
-                    pj.setBounds(0, 0, 250, 80);
-                    pms = new PanelManoSecundaria(j, "izquierda");
+                case 0 -> { 
+                    pjRival.setBounds(0, 0, 250, 80);
+                    pms = new PanelManoSecundaria(r, "izquierda");
                     pms.setBounds(0, 100, 120, 400);
-                    add(pj); add(pms);
+                    add(pjRival); add(pms);
                 }
-                case 1 -> {
-                    pj.setBounds(350, 120, 250, 80);
-                    pms = new PanelManoSecundaria(j, "arriba");
+                case 1 -> { 
+                    pjRival.setBounds(350, 120, 250, 80);
+                    pms = new PanelManoSecundaria(r, "arriba");
                     pms.setBounds(350, 0, 500, 120);
-                    add(pj); add(pms);
+                    add(pjRival); add(pms);
                 }
                 case 2 -> {
-                    pj.setBounds(920, 0, 250, 80);
-                    pms = new PanelManoSecundaria(j, "derecha");
+                    pjRival.setBounds(920, 0, 250, 80);
+                    pms = new PanelManoSecundaria(r, "derecha");
                     pms.setBounds(1070, 100, 120, 400);
-                    add(pj); add(pms);
+                    add(pjRival); add(pms);
                 }
             }
             rivalIdx++;
         }
+        panelManoJugador.refrescarMano();
+        panelMazo.repaint();
+        panelDescarte.repaint();
+        
         revalidate();
         repaint();
     }
 
-    public void actualizarMazo() { panelMazo.repaint(); }
-    public void actualizarDescarte() { panelDescarte.repaint(); }
-    
-    public void actualizarManos() { 
-        panelManoJugador.refrescarMano(); 
-        actualizarRivales();
+    public void refrescarTurno() { 
+        actualizarVisualizacionTotal(); 
     }
     
-    public void refrescarTurno() { actualizarManos(); }
-    
-    public PanelCartaSeleccionada getPanelZoom() { return panelZoom; }
-    public PanelUno getPanelUno() { return panelUno; }
+    public PanelCartaSeleccionada getPanelZoom() { 
+        return this.panelZoom; 
+    }
 }

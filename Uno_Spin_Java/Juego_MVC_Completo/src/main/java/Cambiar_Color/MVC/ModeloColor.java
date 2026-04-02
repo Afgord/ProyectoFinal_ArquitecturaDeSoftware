@@ -7,11 +7,14 @@ package Cambiar_Color.MVC;
 import Fachadas.FachadaSelectorColor;
 import Fachadas.FachadaColor;
 import Entidades.SeleccionColor;
-import DTOs.ColorDTO;
+import org.uno.dto.ColorDTO;
 import Cambiar_Color.Interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class ModeloColor implements IColorAcciones {
     private SeleccionColor seleccion;
     private final List<ObservadorColor> observadores = new ArrayList<>();

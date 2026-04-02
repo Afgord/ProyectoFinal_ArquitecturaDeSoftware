@@ -1,24 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Interfaces.Observador;
 import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.PanelesVista.PanelTablero;
-import DTOs.CartaDTO;
-import DTOs.JugadorDTO;
+import org.uno.dto.CartaDTO;
+import org.uno.dto.JugadorDTO;
 import contenido.AudioManager;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
 /**
  * 
- * @author Luis Rafael
+ * @author lagar
  */
 public class FrameTablero extends JFrame implements Observador {
 
@@ -43,7 +38,9 @@ public class FrameTablero extends JFrame implements Observador {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(1280, 800);
-        audio.playMusicLoop();
+        
+        if (audio != null) audio.playMusicLoop();
+        
         this.panelTablero = new PanelTablero(control, modeloInicial, audio);
         add(panelTablero);
 
@@ -56,20 +53,18 @@ public class FrameTablero extends JFrame implements Observador {
         setLocationRelativeTo(null);
         setVisible(true);
         
-        panelTablero.actualizarManos();
+        panelTablero.actualizarVisualizacionTotal();
     }
 
     @Override
-    public void notificarCambio(IModeloDatos contexto) {
+    public void update(IModeloDatos contexto) {
         SwingUtilities.invokeLater(() -> {
-            procesarEfectosSonoros(contexto);
-            panelTablero.actualizarEstadoVisual(contexto);
-            panelTablero.actualizarMazo();
-            panelTablero.actualizarDescarte();
-            panelTablero.refrescarTurno();
+            procesarEfectosSonoros(contexto);           
+            panelTablero.actualizarVisualizacionTotal();
+            
             List<JugadorDTO> jugadores = contexto.getJugadoresDTO();
             for (JugadorDTO j : jugadores) {
-                if (j.isEsTurnoActual() && j.getNumCartas() == 0) {
+                if (j.getNumCartas() == 0) {
                     if (audio != null) audio.stopMusic();
                     JOptionPane.showMessageDialog(this, "¡Felicidades " + j.getNombre() + "! Has ganado.");
                     System.exit(0);
@@ -89,8 +84,6 @@ public class FrameTablero extends JFrame implements Observador {
             audio.playEffect("jalar");
         } else if (!idCimaActual.equals(idCartaCimaPrevia) && !idCimaActual.isEmpty()) {
             audio.playEffect("tirar");
-        } else if (mazoActual == cantidadMazoPrevio && idCimaActual.equals(idCartaCimaPrevia)) {
-            audio.playEffect("alerta");
         }
 
         this.cantidadMazoPrevio = mazoActual;
