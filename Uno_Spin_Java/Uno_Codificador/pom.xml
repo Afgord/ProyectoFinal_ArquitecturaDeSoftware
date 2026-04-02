@@ -6,10 +6,17 @@
         <artifactId>Uno_Spin_Java</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>Componente_Conexion</artifactId>
+    <artifactId>Uno_Codificador</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
-        <exec.mainClass>itson.componente_conexion.Componente_Conexion</exec.mainClass>
+        <exec.mainClass>itson.uno_codificador.Uno_Codificador</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Uno_Evento</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
