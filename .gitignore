@@ -7,3 +7,8 @@
 /Sound_Library/target/
 /Uno_Spin_Java/Libreria_Sonido/target/
 /Uno_Spin_Java/Dominio/target/
+/Broker/Codificador/target/
+/Broker/Directorio/target/
+/Broker/Decodificador/target/
+/Broker/Componente_Red/target/
+/Broker/Evento/target/
