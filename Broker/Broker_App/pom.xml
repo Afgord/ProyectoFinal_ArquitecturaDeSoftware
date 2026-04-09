@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>Itson</groupId>
+        <artifactId>Broker</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>Broker_App</artifactId>
+    <packaging>jar</packaging>
+    <properties>
+        <maven.compiler.release>25</maven.compiler.release>
+        <exec.mainClass>itson.broker_app.Broker_App</exec.mainClass>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Dominio</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Evento</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Componente_Red</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Directorio</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Decodificador</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>Itson</groupId>
+            <artifactId>Codificador</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
