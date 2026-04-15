@@ -35,14 +35,14 @@ public class SuscriptorInterno {
     }
 
     public void atenderEvento(Evento evento) {
-        if (evento instanceof EventoControl ec) {
+        if (evento instanceof EventoPartida ec) {
             manejarControl(ec);
         } else if (evento instanceof EventoJugada ej) {
             manejarJugada(ej);
         }
     }
 
-    private void manejarControl(EventoControl e) {
+    private void manejarControl(EventoPartida e) {
         switch (e.getAccion().toUpperCase()) {
             case "UNIR_JUGADOR" -> {
                 Jugador nuevo = new Jugador(e.getMensaje(), "ruta/default.png");

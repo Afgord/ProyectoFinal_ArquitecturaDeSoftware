@@ -1,0 +1,34 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package org.code;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+/**
+ * 
+ * @author lagar
+ * @param <T> 
+ */
+public class Serializador<T extends Serializable> {
+
+    public byte[] objetoABytes(T objeto) {
+        if (objeto == null) return null;
+        
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            
+            oos.writeObject(objeto);
+            oos.flush();
+            return bos.toByteArray();
+            
+        } catch (IOException e) {
+            System.err.println("Error en Serializador: " + e.getMessage());
+            return null;
+        }
+    }
+}

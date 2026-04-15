@@ -9,10 +9,9 @@
         <module>Juego_MVC_Completo</module>
         <module>Libreria_Sonido</module>
         <module>Dominio</module>
-        <module>Codificador</module>
-        <module>Decodificador</module>
         <module>Componente_Red</module>
         <module>Evento</module>
+        <module>Code_Desc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -32,41 +32,38 @@ public class Mazo {
             "cero", "uno", "dos", "tres", "cuatro",
             "cinco", "seis", "siete", "ocho", "nueve"
         };
-
+        
         for (int n = rI; n <= rF; n++) {
             for (int i = 0; i < 4; i++) {
                 String ruta = "/cartas/" + nombresArchivos[n] + ".png";
-                baraja.add(new Carta(String.valueOf(n), null, nombresColores[i], ruta));
-                baraja.add(new Carta(String.valueOf(n), null, nombresColores[i], ruta));
+                baraja.add(new CartaNumerica(String.valueOf(n), nombresColores[i], ruta));
+                baraja.add(new CartaNumerica(String.valueOf(n), nombresColores[i], ruta));
             }
         }
 
         for (int i = 0; i < 4; i++) {
             if (m2) {
-                baraja.add(new Carta("+2", null, nombresColores[i], "/cartas/mas_dos.png"));
-                baraja.add(new Carta("+2", null, nombresColores[i], "/cartas/mas_dos.png"));
+                baraja.add(new CartaAccion("+2", nombresColores[i], "/cartas/mas_dos.png"));
+                baraja.add(new CartaAccion("+2", nombresColores[i], "/cartas/mas_dos.png"));
             }
-
             if (rev) {
-                baraja.add(new Carta("REV", null, nombresColores[i], "/cartas/reversa.png"));
-                baraja.add(new Carta("REV", null, nombresColores[i], "/cartas/reversa.png"));
+                baraja.add(new CartaAccion("REV", nombresColores[i], "/cartas/reversa.png"));
+                baraja.add(new CartaAccion("REV", nombresColores[i], "/cartas/reversa.png"));
             }
-
             if (pro) {
-                baraja.add(new Carta("PRO", null, nombresColores[i], "/cartas/prohibido.png"));
-                baraja.add(new Carta("PRO", null, nombresColores[i], "/cartas/prohibido.png"));
+                baraja.add(new CartaAccion("PRO", nombresColores[i], "/cartas/prohibido.png"));
+                baraja.add(new CartaAccion("PRO", nombresColores[i], "/cartas/prohibido.png"));
             }
         }
 
         if (m4) {
             for (int i = 0; i < 8; i++) {
-                baraja.add(new Carta("+4", null, "negro", "/cartas/mas_cuatro.png"));
+                baraja.add(new CartaComodin("+4", "/cartas/mas_cuatro.png"));
             }
         }
-
         if (cc) {
             for (int i = 0; i < 8; i++) {
-                baraja.add(new Carta("CC", null, "negro", "/cartas/cambio_color.png"));
+                baraja.add(new CartaComodin("CC", "/cartas/cambio_color.png"));
             }
         }
     }
