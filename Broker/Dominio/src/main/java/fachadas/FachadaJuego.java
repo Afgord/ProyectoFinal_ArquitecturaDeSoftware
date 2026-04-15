@@ -13,16 +13,15 @@ import java.awt.Color;
 import java.util.List;
 
 /**
+ * 
  * @author lagar
  */
 public class FachadaJuego implements FachadaDominio {
     private Tablero tablero;
-    private int acumulacionCastigo;
 
     @Override
     public void inyectarTablero(Tablero tablero) {
         this.tablero = tablero;
-        this.acumulacionCastigo = 0;
     }
 
     @Override
@@ -42,12 +41,7 @@ public class FachadaJuego implements FachadaDominio {
 
     @Override
     public boolean validarYPlay(Carta carta) {
-        if (acumulacionCastigo > 0) {
-            if (!carta.getSimbolo().equals("+2") && !carta.getSimbolo().equals("+4")) {
-                return false;
-            }
-        }
-
+        if (tablero == null) return false;
         if (tablero.getDescarte().validarJugada(carta)) {
             tablero.getJugadorActual().tirarCarta(carta);
             tablero.getDescarte().recibirCarta(carta);
@@ -58,21 +52,40 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     private void procesarEfectos(Carta carta) {
-        String simbolo = carta.getSimbolo();
+        String simbolo = carta.getSimbolo(); 
         if (carta instanceof CartaAccion) {
-            if (simbolo.equals("+2")) {
-                acumulacionCastigo += 2;
-            } else if (simbolo.equals("REV")) {
-                tablero.cambiarSentido();
-            } else if (simbolo.equals("PRO")) {
-                tablero.siguienteTurno();
+            switch (simbolo) {
+                case "+2":
+                    aplicarCastigoDirecto(2);
+                    break;
+                case "REV":
+                    tablero.cambiarSentido();
+                    break;
+                case "PRO":
+                    tablero.siguienteTurno();
+                    break;
+                default:
+                    break;
             }
         } 
         else if (carta instanceof CartaComodin) {
             if (simbolo.equals("+4")) {
-                acumulacionCastigo += 4;
+                aplicarCastigoDirecto(4);
             }
         }
+    }
+
+    private void aplicarCastigoDirecto(int cantidad) {
+        tablero.siguienteTurno();
+        Jugador victima = tablero.getJugadorActual();
+        
+        for (int i = 0; i < cantidad; i++) {
+            Carta c = tablero.getMazo().tomarUnaCarta();
+            if (c != null) {
+                victima.agregarCarta(c);
+            }
+        }
+        System.out.println("Efecto: " + victima.getNombre() + " roba " + cantidad + " cartas y pierde su turno.");
     }
 
     @Override
@@ -85,26 +98,19 @@ public class FachadaJuego implements FachadaDominio {
 
     @Override
     public void robarCarta() {
-        if (acumulacionCastigo > 0) {
-            for (int i = 0; i < acumulacionCastigo; i++) {
-                Carta c = tablero.getMazo().tomarUnaCarta();
-                if (c != null) {
-                    tablero.getJugadorActual().agregarCarta(c);
-                }
-            }
-            limpiarCastigo();
-            pasarTurno();
-        } else {
-            Carta c = tablero.getMazo().tomarUnaCarta();
-            if (c != null) {
-                tablero.getJugadorActual().agregarCarta(c);
-            }
+        if (tablero == null) return;
+        
+        Carta c = tablero.getMazo().tomarUnaCarta();
+        if (c != null) {
+            tablero.getJugadorActual().agregarCarta(c);
         }
     }
 
     @Override
     public void pasarTurno() {
-        tablero.siguienteTurno();
+        if (tablero != null) {
+            tablero.siguienteTurno();
+        }
     }
 
     @Override
@@ -112,18 +118,6 @@ public class FachadaJuego implements FachadaDominio {
         return this.tablero;
     }
 
-    @Override
-    public int getAcumulacionCastigo() {
-        return acumulacionCastigo;
-    }
-
-    @Override
-    public void limpiarCastigo() {
-        this.acumulacionCastigo = 0;
-    }
-
-    
-    
     @Override
     public void procesarSeleccion(Color color, String nombre) {
         if (color == null || nombre == null || nombre.isEmpty()) {
@@ -133,7 +127,10 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public void inicializarPartida(List<Jugador> jugadores, int rangoInicio, int rangoFinal, boolean masDos, boolean prohibido, boolean reversa, boolean masCuatro, boolean cambioColor) {
+    public void inicializarPartida(List<Jugador> jugadores, int rangoInicio, int rangoFinal, 
+                                   boolean masDos, boolean prohibido, boolean reversa, 
+                                   boolean masCuatro, boolean cambioColor) {
+        
         if (jugadores == null || jugadores.size() < 2 || jugadores.size() > 4) {
             throw new IllegalArgumentException("La partida debe tener entre 2 y 4 jugadores.");
         }
@@ -148,7 +145,6 @@ public class FachadaJuego implements FachadaDominio {
                 }
             }
         }
-        limpiarCastigo();
         System.out.println("Partida inicializada con " + jugadores.size() + " jugadores.");
     }
 }
