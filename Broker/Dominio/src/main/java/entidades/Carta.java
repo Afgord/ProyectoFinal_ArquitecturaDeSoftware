@@ -4,7 +4,6 @@
  */
 package entidades;
 
-import java.awt.Color;
 /**
  * 
  * @author lagar

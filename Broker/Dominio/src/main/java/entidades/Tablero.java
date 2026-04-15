@@ -15,12 +15,12 @@ public class Tablero {
     private Descarte descarte;
     private List<Jugador> jugadores;
     private int turnoActual;
-    private boolean sentidoReloj = true;
+    private boolean sentidoReloj;
 
     public Tablero(List<Jugador> jugadores, int rangoInicio, int rangoFinal, 
                    boolean masDos, boolean prohibido, boolean reversa, 
                    boolean masCuatro, boolean cambioColor) {
-        
+        this.sentidoReloj = true;
         this.jugadores = jugadores;
         this.turnoActual = 0;
         this.mazo = new Mazo(rangoInicio, rangoFinal, masDos, prohibido, reversa, 
@@ -56,10 +56,6 @@ public class Tablero {
         } else {
             turnoActual = (turnoActual - 1 + jugadores.size()) % jugadores.size();
         }
-    }
-
-    public void avanzarTurno() {
-        siguienteTurno();
     }
 
     public void cambiarSentido() {

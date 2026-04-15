@@ -23,6 +23,8 @@ public interface FachadaDominio {
     int getAcumulacionCastigo();
     void limpiarCastigo();
     void procesarSeleccion(Color color, String nombre);
+    void abandonarPartida(Jugador jugador);
+    Jugador verificarGanador();
     void inicializarPartida(List<Jugador> jugadores, int rangoInicio, int rangoFinal, 
                             boolean masDos, boolean prohibido, boolean reversa, 
                             boolean masCuatro, boolean cambioColor);

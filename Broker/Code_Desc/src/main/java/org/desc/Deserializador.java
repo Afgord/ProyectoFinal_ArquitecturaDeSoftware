@@ -21,8 +21,6 @@ public class Deserializador<T extends Serializable> {
 
         try (ByteArrayInputStream bis = new ByteArrayInputStream(datos);
              ObjectInputStream ois = new ObjectInputStream(bis)) {
-            
-            // Se realiza el casting directo a T
             return (T) ois.readObject();
             
         } catch (IOException | ClassNotFoundException | ClassCastException e) {

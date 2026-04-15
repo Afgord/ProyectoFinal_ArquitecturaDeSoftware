@@ -16,21 +16,23 @@ import java.util.List;
  * @author lagar
  */
 public class FachadaJuego implements FachadaDominio {
-
     private Tablero tablero;
-    private int acumulacionCastigo = 0;
+    private int acumulacionCastigo;
 
     @Override
     public void inyectarTablero(Tablero tablero) {
         this.tablero = tablero;
+        this.acumulacionCastigo = 0;
     }
 
+    @Override
     public void abandonarPartida(Jugador jugador) {
         if (tablero != null) {
             tablero.eliminarJugador(jugador);
         }
     }
 
+    @Override
     public Jugador verificarGanador() {
         if (tablero != null && tablero.getJugadores().size() == 1) {
             return tablero.getJugadores().get(0);
@@ -63,7 +65,7 @@ public class FachadaJuego implements FachadaDominio {
             } else if (simbolo.equals("REV")) {
                 tablero.cambiarSentido();
             } else if (simbolo.equals("PRO")) {
-                tablero.avanzarTurno();
+                tablero.siguienteTurno();
             }
         } 
         else if (carta instanceof CartaComodin) {
@@ -102,7 +104,7 @@ public class FachadaJuego implements FachadaDominio {
 
     @Override
     public void pasarTurno() {
-        tablero.avanzarTurno();
+        tablero.siguienteTurno();
     }
 
     @Override
