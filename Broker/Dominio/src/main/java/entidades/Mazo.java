@@ -28,42 +28,51 @@ public class Mazo {
                                boolean m4, boolean cc) {
 
         String[] nombresColores = {"azul", "rojo", "amarillo", "verde"};
+        Valor[] valoresNumericos = {
+            Valor.CERO, Valor.UNO, Valor.DOS, Valor.TRES, Valor.CUATRO,
+            Valor.CINCO, Valor.SEIS, Valor.SIETE, Valor.OCHO, Valor.NUEVE
+        };
         String[] nombresArchivos = {
             "cero", "uno", "dos", "tres", "cuatro",
             "cinco", "seis", "siete", "ocho", "nueve"
         };
-        
         for (int n = rI; n <= rF; n++) {
             for (int i = 0; i < 4; i++) {
                 String ruta = "/cartas/" + nombresArchivos[n] + ".png";
-                baraja.add(new CartaNumerica(String.valueOf(n), nombresColores[i], ruta));
-                baraja.add(new CartaNumerica(String.valueOf(n), nombresColores[i], ruta));
+                Valor valorActual = valoresNumericos[n];
+                if (valorActual.ordinal() >= Valor.UNO.ordinal() && valorActual.ordinal() <= Valor.CINCO.ordinal()) {
+                    baraja.add(new CartaSpin(valorActual, nombresColores[i], ruta));
+                    baraja.add(new CartaSpin(valorActual, nombresColores[i], ruta));
+                } else {
+                    baraja.add(new CartaNumerica(valorActual, nombresColores[i], ruta));
+                    baraja.add(new CartaNumerica(valorActual, nombresColores[i], ruta));
+                }
             }
         }
 
         for (int i = 0; i < 4; i++) {
             if (m2) {
-                baraja.add(new CartaAccion("+2", nombresColores[i], "/cartas/mas_dos.png"));
-                baraja.add(new CartaAccion("+2", nombresColores[i], "/cartas/mas_dos.png"));
+                baraja.add(new CartaAccion(Valor.MASDOS, nombresColores[i], "/cartas/mas_dos.png"));
+                baraja.add(new CartaAccion(Valor.MASDOS, nombresColores[i], "/cartas/mas_dos.png"));
             }
             if (rev) {
-                baraja.add(new CartaAccion("REV", nombresColores[i], "/cartas/reversa.png"));
-                baraja.add(new CartaAccion("REV", nombresColores[i], "/cartas/reversa.png"));
+                baraja.add(new CartaAccion(Valor.REVERSA, nombresColores[i], "/cartas/reversa.png"));
+                baraja.add(new CartaAccion(Valor.REVERSA, nombresColores[i], "/cartas/reversa.png"));
             }
             if (pro) {
-                baraja.add(new CartaAccion("PRO", nombresColores[i], "/cartas/prohibido.png"));
-                baraja.add(new CartaAccion("PRO", nombresColores[i], "/cartas/prohibido.png"));
+                baraja.add(new CartaAccion(Valor.PROHIBIDO, nombresColores[i], "/cartas/prohibido.png"));
+                baraja.add(new CartaAccion(Valor.PROHIBIDO, nombresColores[i], "/cartas/prohibido.png"));
             }
         }
 
         if (m4) {
             for (int i = 0; i < 8; i++) {
-                baraja.add(new CartaComodin("+4", "/cartas/mas_cuatro.png"));
+                baraja.add(new CartaComodinAccion(Valor.MASCUATRO, "/cartas/mas_cuatro.png"));
             }
         }
         if (cc) {
             for (int i = 0; i < 8; i++) {
-                baraja.add(new CartaComodin("CC", "/cartas/cambio_color.png"));
+                baraja.add(new CartaComodin(Valor.CAMBIOCOLOR, "/cartas/cambio_color.png"));
             }
         }
     }
@@ -71,12 +80,16 @@ public class Mazo {
     public Carta sacarCartaInicialValida() {
         for (int i = 0; i < baraja.size(); i++) {
             Carta c = baraja.get(i);
-            if (!c.getColorInterno().equalsIgnoreCase("negro") && 
-                c.getSimbolo().matches("[0-9]")) {
+
+            if (!c.getColorInterno().equalsIgnoreCase("negro") && esNumerica(c.getValor())) {
                 return baraja.remove(i); 
             }
         }
         return baraja.remove(0);
+    }
+
+    private boolean esNumerica(Valor valor) {
+        return valor.ordinal() <= Valor.NUEVE.ordinal();
     }
 
     public Carta tomarUnaCarta() {

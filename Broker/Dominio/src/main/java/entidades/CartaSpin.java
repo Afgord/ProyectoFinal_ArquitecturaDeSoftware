@@ -8,8 +8,10 @@ package entidades;
  *
  * @author lagar
  */
-public class CartaComodin extends Carta{
-    public CartaComodin(Valor tipo, String ruta) {
-        super(tipo, "negro", ruta);
+public class CartaSpin extends Carta{
+    
+    public CartaSpin(Valor valor, String colorInterno, String rutaImagen) {
+        super(valor, colorInterno, rutaImagen);
     }
+    
 }

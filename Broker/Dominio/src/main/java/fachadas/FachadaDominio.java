@@ -20,7 +20,7 @@ public interface FachadaDominio {
     void pasarTurno();
     Tablero getTablero(); 
     void inyectarTablero(Tablero tablero);
-    void procesarSeleccion(Color color, String nombre);
+    void procesarSeleccion(String nombre);
     void abandonarPartida(Jugador jugador);
     Jugador verificarGanador();
     void inicializarPartida(List<Jugador> jugadores, int rangoInicio, int rangoFinal, 

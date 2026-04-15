@@ -9,7 +9,7 @@ package entidades;
  * @author lagar
  */
 public class CartaNumerica extends Carta{
-    public CartaNumerica(String valor, String color, String ruta) {
-        super(valor, color, ruta);
+    public CartaNumerica(Valor numero, String color, String ruta) {
+        super(numero, color, ruta);
     }
 }

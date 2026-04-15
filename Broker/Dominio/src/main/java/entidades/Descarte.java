@@ -36,7 +36,7 @@ public class Descarte {
             return true;
         }
         
-        if (nueva.getSimbolo().equals(cima.getSimbolo())) {
+        if (nueva.getValor().equals(cima.getValor())) {
             return true;
         }
         

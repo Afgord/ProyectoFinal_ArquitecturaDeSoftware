@@ -9,7 +9,7 @@ import entidades.CartaComodin;
 import entidades.CartaAccion;
 import entidades.Jugador;
 import entidades.Tablero;
-import java.awt.Color;
+import entidades.Valor;
 import java.util.List;
 
 /**
@@ -52,26 +52,27 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     private void procesarEfectos(Carta carta) {
-        String simbolo = carta.getSimbolo(); 
-        if (carta instanceof CartaAccion) {
-            switch (simbolo) {
-                case "+2":
-                    aplicarCastigoDirecto(2);
-                    break;
-                case "REV":
-                    tablero.cambiarSentido();
-                    break;
-                case "PRO":
-                    tablero.siguienteTurno();
-                    break;
-                default:
-                    break;
-            }
-        } 
-        else if (carta instanceof CartaComodin) {
-            if (simbolo.equals("+4")) {
+        Valor valor = carta.getValor(); 
+        switch (valor) {
+            case MASDOS:
+                aplicarCastigoDirecto(2);
+                break;
+
+            case MASCUATRO:
                 aplicarCastigoDirecto(4);
-            }
+                break;
+            case REVERSA:
+                tablero.cambiarSentido();
+                break;
+            case PROHIBIDO:
+                tablero.siguienteTurno();
+                break;
+            case CAMBIOCOLOR:
+                
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -119,11 +120,20 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public void procesarSeleccion(Color color, String nombre) {
-        if (color == null || nombre == null || nombre.isEmpty()) {
-            throw new IllegalArgumentException("Seleccion de color invalida");
+    public void procesarSeleccion(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("La selección de color no puede estar vacía.");
         }
-        System.out.println("Logica de dominio: Color validado -> " + nombre);
+        String nombreMinusculas = nombre.toLowerCase();
+        if (nombreMinusculas.equals("azul") || nombreMinusculas.equals("rojo") || 
+            nombreMinusculas.equals("amarillo") || nombreMinusculas.equals("verde")) {
+            System.out.println("Logica de dominio: Color validado -> " + nombreMinusculas);
+            if (tablero != null && tablero.getDescarte() != null) {
+                tablero.getDescarte().setColorActivo(nombreMinusculas);
+            }
+        } else {
+            throw new IllegalArgumentException("Color no reconocido por las reglas del juego: " + nombre);
+        }
     }
 
     @Override
