@@ -8,6 +8,6 @@ package entidades;
  *
  * @author lagar
  */
-public enum Valor {
-    CERO,UNO,DOS,TRES,CUATRO,CINCO,SEIS,SIETE,OCHO,NUEVE,PROHIBIDO,REVERSA,MASDOS,MASCUATRO,CAMBIOCOLOR
+public enum Colores {
+    ROJO,AZUL,AMARILLO,VERDE,NEGRO
 }

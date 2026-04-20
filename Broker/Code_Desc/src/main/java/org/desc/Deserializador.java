@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author lagar
  * @param <T>
  */
-public class Deserializador<T extends Serializable> implements IDeserializador<T>{
+class Deserializador<T extends Serializable> implements IDeserializador<T>{
 
     @SuppressWarnings("unchecked")
     @Override

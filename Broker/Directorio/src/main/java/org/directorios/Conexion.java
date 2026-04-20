@@ -7,12 +7,12 @@ package org.directorios;
  * 
  * @author lagar
  */
-public class Conexion {
+class Conexion {
     private String idJugador;
     private String ip;
     private int puerto;
 
-    public Conexion(String idJugador, String ip, int puerto, Object canalComunicacion) {
+    Conexion(String idJugador, String ip, int puerto, Object canalComunicacion) {
         this.idJugador = idJugador;
         this.ip = ip;
         this.puerto = puerto;

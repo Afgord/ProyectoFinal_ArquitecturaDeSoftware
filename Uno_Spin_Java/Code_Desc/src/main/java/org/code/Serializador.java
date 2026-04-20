@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author lagar
  * @param <T> 
  */
-public class Serializador<T extends Serializable> implements ISerializador<T>{
+class Serializador<T extends Serializable> implements ISerializador<T>{
 
     @Override
     public byte[] objetoABytes(T objeto) {
