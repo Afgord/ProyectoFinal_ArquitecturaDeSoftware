@@ -4,9 +4,9 @@
  */
 package fachadas;
 
-import entidades.Carta;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
 import entidades.Colores;
-import entidades.Jugador;
 import entidades.Tablero;
 /**
  * 
@@ -14,9 +14,9 @@ import entidades.Tablero;
  */
 public interface FachadaDominio {
     void robarCarta();
-    boolean validarYPlay(Carta carta);
+    boolean validarYPlay(CartaDTO carta);
     void cambiarColorDescarte(Colores color); 
     void pasarTurno();
-    Jugador verificarGanador();
+    JugadorDTO verificarGanador();
     Tablero getTablero(); 
 }

@@ -20,12 +20,30 @@ public class Mano {
 
     public void agregarCarta(Carta carta) {
         if (carta != null) {
+            System.out.println("[Mano] Agregando carta: " 
+                + carta.getValor() + " de color " + carta.getColor());
+
             cartas.add(carta);
+
+            System.out.println("[Mano] Total de cartas: " + cartas.size());
+        } else {
+            System.out.println("[Mano] Intento de agregar carta nula");
         }
     }
 
     public void removerCarta(Carta carta) {
-        cartas.remove(carta);
+        System.out.println("[Mano] Intentando remover carta: " 
+            + carta.getValor() + " de color " + carta.getColor());
+
+        boolean removida = cartas.remove(carta);
+
+        if (removida) {
+            System.out.println("[Mano] Carta removida correctamente");
+        } else {
+            System.out.println("[Mano] La carta no estaba en la mano");
+        }
+
+        System.out.println("[Mano] Total de cartas: " + cartas.size());
     }
 
     public int getSize() {

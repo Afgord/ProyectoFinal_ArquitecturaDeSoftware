@@ -29,9 +29,4 @@ public class Carta {
     public void setColor(Colores nuevoColor) { 
         this.color = nuevoColor; 
     }
-
-    @Override
-    public String toString() {
-        return "Carta{" + "valor=" + valor + ", color=" + color + '}';
-    }
 }

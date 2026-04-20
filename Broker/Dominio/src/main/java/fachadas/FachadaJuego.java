@@ -4,15 +4,11 @@
  */
 package fachadas;
 
-import entidades.Carta;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
 import entidades.Colores;
-import entidades.Jugador;
 import entidades.Tablero;
 
-/**
- * 
- * @author lagar
- */
 public class FachadaJuego implements FachadaDominio {
     private Tablero tablero;
 
@@ -21,30 +17,53 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public boolean validarYPlay(Carta carta) {
-        return tablero.ejecutarJugada(carta);
+    public boolean validarYPlay(CartaDTO carta) {
+        System.out.println("[Fachada] Intentando validar y jugar carta...");
+
+        boolean resultado = tablero.ejecutarJugada(carta);
+
+        System.out.println("[Fachada] Resultado de la jugada: " 
+            + (resultado ? "Éxito" : "Falló"));
+
+        return resultado;
     }
 
     @Override
     public void robarCarta() {
-        tablero.realizarRobo();
+        System.out.println("[Fachada] Jugador actual roba carta");
+        tablero.robarYPasar();
     }
 
     @Override
     public void cambiarColorDescarte(Colores color) {
-        tablero.getDescarte().setColorActivo(color);
+        System.out.println("[Fachada] Cambiando color del descarte a: " + color);
+
+        tablero.getDescarte().cambiarColorCartaCima(color);
     }
 
     @Override
-    public Jugador verificarGanador() {
-        return tablero.obtenerGanador();
+    public JugadorDTO verificarGanador() {
+        System.out.println("[Fachada] Verificando si hay ganador...");
+
+        JugadorDTO ganador = tablero.obtenerGanadorDTO();
+
+        if (ganador != null) {
+            System.out.println("[Fachada] Ganador: " + ganador.getNombre());
+        } else {
+            System.out.println("[Fachada] Aún no hay ganador");
+        }
+
+        return ganador;
     }
 
     @Override
     public void pasarTurno() {
+        System.out.println("[Fachada] Pasando turno...");
         tablero.siguienteTurno();
     }
 
     @Override
-    public Tablero getTablero() { return this.tablero; }
+    public Tablero getTablero() { 
+        return this.tablero; 
+    }
 }

@@ -21,11 +21,21 @@ public class Jugador {
     }
 
     public void agregarCarta(Carta carta) {
+        System.out.println("[Jugador: " + nombre + "] Agregando carta: " 
+            + carta.getValor() + " de color " + carta.getColor());
+
         mano.agregarCarta(carta);
+
+        System.out.println("[Jugador: " + nombre + "] Total de cartas ahora: " + mano.getSize());
     }
 
     public void tirarCarta(Carta carta) {
+        System.out.println("[Jugador: " + nombre + "] Tirando carta: " 
+            + carta.getValor() + " de color " + carta.getColor());
+
         mano.removerCarta(carta);
+
+        System.out.println("[Jugador: " + nombre + "] Cartas restantes: " + mano.getSize());
     }
 
     public String getNombre() {

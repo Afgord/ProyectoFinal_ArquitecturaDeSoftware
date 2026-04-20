@@ -11,41 +11,69 @@ import java.util.Stack;
  */
 public class Descarte {
     private Stack<Carta> pila = new Stack<>();
-    private Colores colorActivo;
 
     public Descarte(Carta cartaInicial) {
         this.pila.push(cartaInicial);
-        this.colorActivo = cartaInicial.getColor();
     }
 
     public void recibirCarta(Carta carta) {
+        System.out.println("[Descarte] Recibiendo carta: " 
+            + carta.getValor() + " de color " + carta.getColor());
+
         pila.push(carta);
-        this.colorActivo = carta.getColor();
+
+        System.out.println("[Descarte] Nueva carta en cima: " 
+            + carta.getValor() + " de color " + carta.getColor());
     }
 
     public boolean validarJugada(Carta nueva) {
         Carta cima = getCartaCima();
-        if (cima == null) return true;
 
-        if (nueva.getColor() == Colores.NEGRO) {
+        System.out.println("[Descarte] Validando jugada...");
+        System.out.println("[Descarte] Carta nueva: " 
+            + nueva.getValor() + " de color " + nueva.getColor());
+
+        if (cima == null) {
+            System.out.println("[Descarte] No hay carta en la pila, jugada válida");
             return true;
         }
-        if (nueva.getColor() == this.colorActivo || nueva.getValor() == cima.getValor()) {
+
+        System.out.println("[Descarte] Carta en cima: " 
+            + cima.getValor() + " de color " + cima.getColor());
+        
+        if (nueva.getColor() == Colores.NEGRO) {
+            System.out.println("[Descarte] Carta negra, jugada válida");
+            return true;
+        }
+
+        if (nueva.getColor() == cima.getColor()) {
+            System.out.println("[Descarte] Coincide color, jugada válida");
+            return true;
+        }
+
+        if (nueva.getValor() == cima.getValor()) {
+            System.out.println("[Descarte] Coincide valor, jugada válida");
             return true;
         }
         
+        System.out.println("[Descarte] Jugada inválida");
         return false;
     }
 
     public Carta getCartaCima() {
         return pila.isEmpty() ? null : pila.peek();
     }
-
-    public Colores getColorActivo() {
-        return colorActivo;
-    }
     
-    public void setColorActivo(Colores color){
-        this.colorActivo = color;
+    public void cambiarColorCartaCima(Colores nuevoColor) {
+        Carta cima = getCartaCima();
+
+        if (cima != null) {
+            System.out.println("[Descarte] Cambiando color de la carta en cima de " 
+                + cima.getColor() + " a " + nuevoColor);
+
+            cima.setColor(nuevoColor);
+        } else {
+            System.out.println("[Descarte] No hay carta en la cima para cambiar color");
+        }
     }
 }
