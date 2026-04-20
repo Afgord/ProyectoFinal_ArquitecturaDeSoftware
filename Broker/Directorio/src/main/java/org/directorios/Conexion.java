@@ -12,7 +12,7 @@ class Conexion {
     private String ip;
     private int puerto;
 
-    Conexion(String idJugador, String ip, int puerto, Object canalComunicacion) {
+    Conexion(String idJugador, String ip, int puerto) {
         this.idJugador = idJugador;
         this.ip = ip;
         this.puerto = puerto;
