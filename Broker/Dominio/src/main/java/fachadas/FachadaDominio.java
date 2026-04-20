@@ -5,10 +5,9 @@
 package fachadas;
 
 import entidades.Carta;
+import entidades.Colores;
 import entidades.Jugador;
 import entidades.Tablero;
-import java.awt.Color;
-import java.util.List;
 /**
  * 
  * @author lagar
@@ -16,14 +15,8 @@ import java.util.List;
 public interface FachadaDominio {
     void robarCarta();
     boolean validarYPlay(Carta carta);
-    void aplicarEfectoCarta(Carta carta, String colorElegido);
+    void cambiarColorDescarte(Colores color); 
     void pasarTurno();
-    Tablero getTablero(); 
-    void inyectarTablero(Tablero tablero);
-    void procesarSeleccion(String nombre);
-    void abandonarPartida(Jugador jugador);
     Jugador verificarGanador();
-    void inicializarPartida(List<Jugador> jugadores, int rangoInicio, int rangoFinal, 
-                            boolean masDos, boolean prohibido, boolean reversa, 
-                            boolean masCuatro, boolean cambioColor);
+    Tablero getTablero(); 
 }

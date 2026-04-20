@@ -9,7 +9,7 @@ package entidades;
  * @author lagar
  */
 public class CartaAccion extends Carta{
-    public CartaAccion(Valor accion, String color, String ruta) {
-        super(accion, color, ruta);
+    public CartaAccion(Valor accion, Colores color) {
+        super(accion, color);
     }
 }

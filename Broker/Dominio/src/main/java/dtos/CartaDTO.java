@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entidades;
+package dtos;
 
 /**
  *
  * @author lagar
  */
-public class CartaComodinAccion extends Carta{
-    public CartaComodinAccion(Valor valor) {
-        super(valor, Colores.NEGRO);
-    } 
+public class CartaDTO {
+    
 }

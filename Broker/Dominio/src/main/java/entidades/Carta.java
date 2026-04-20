@@ -4,27 +4,34 @@
  */
 package entidades;
 
+
 /**
  * 
  * @author lagar
  */
-public abstract class Carta {
+public class Carta {
     private final Valor valor;
-    private String colorInterno;
-    private final String rutaImagen;
-    private boolean lado;
+    private Colores color;
 
-    public Carta(Valor valor, String colorInterno, String rutaImagen) {
+    public Carta(Valor valor, Colores color) {
         this.valor = valor;
-        this.colorInterno = colorInterno;
-        this.rutaImagen = rutaImagen;
-        this.lado = true;
+        this.color = color;
     }
     
-    public Valor getValor() { return valor; }
-    public String getColorInterno() { return colorInterno; }
-    public void setColorNombre(String nuevoNombre) { this.colorInterno = nuevoNombre; }
-    public String getRutaImagen() { return rutaImagen; }
-    public boolean isLado() { return lado; }
-    public void setLado(boolean lado) { this.lado = lado; }
+    public Valor getValor() { 
+        return valor; 
+    }
+
+    public Colores getColor() { 
+        return color; 
+    }
+
+    public void setColor(Colores nuevoColor) { 
+        this.color = nuevoColor; 
+    }
+
+    @Override
+    public String toString() {
+        return "Carta{" + "valor=" + valor + ", color=" + color + '}';
+    }
 }

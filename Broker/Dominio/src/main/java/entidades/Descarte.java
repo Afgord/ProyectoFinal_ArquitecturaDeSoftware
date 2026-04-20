@@ -11,32 +11,26 @@ import java.util.Stack;
  */
 public class Descarte {
     private Stack<Carta> pila = new Stack<>();
-    private String colorActivo;
+    private Colores colorActivo;
 
     public Descarte(Carta cartaInicial) {
-        cartaInicial.setLado(true);
         this.pila.push(cartaInicial);
-        this.colorActivo = cartaInicial.getColorInterno();
+        this.colorActivo = cartaInicial.getColor();
     }
 
     public void recibirCarta(Carta carta) {
         pila.push(carta);
-        this.colorActivo = carta.getColorInterno();
+        this.colorActivo = carta.getColor();
     }
 
     public boolean validarJugada(Carta nueva) {
         Carta cima = getCartaCima();
         if (cima == null) return true;
-        
-        if (nueva.getColorInterno().equalsIgnoreCase("negro")) {
+
+        if (nueva.getColor() == Colores.NEGRO) {
             return true;
         }
-        
-        if (nueva.getColorInterno().equalsIgnoreCase(this.colorActivo)) {
-            return true;
-        }
-        
-        if (nueva.getValor().equals(cima.getValor())) {
+        if (nueva.getColor() == this.colorActivo || nueva.getValor() == cima.getValor()) {
             return true;
         }
         
@@ -47,11 +41,11 @@ public class Descarte {
         return pila.isEmpty() ? null : pila.peek();
     }
 
-    public String getColorActivo() {
+    public Colores getColorActivo() {
         return colorActivo;
     }
     
-    public void setColorActivo(String color){
+    public void setColorActivo(Colores color){
         this.colorActivo = color;
     }
 }
