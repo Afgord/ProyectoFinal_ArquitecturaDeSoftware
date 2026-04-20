@@ -13,14 +13,15 @@ import java.io.Serializable;
  * @author lagar
  * @param <T>
  */
-public class Deserializador<T extends Serializable> {
+public class Deserializador<T extends Serializable> implements IDeserializador<T>{
 
     @SuppressWarnings("unchecked")
+    @Override
     public T bytesAObjeto(byte[] datos) {
         if (datos == null || datos.length == 0) return null;
 
         try (ByteArrayInputStream bis = new ByteArrayInputStream(datos);
-            ObjectInputStream ois = new ObjectInputStream(bis)) {
+             ObjectInputStream ois = new ObjectInputStream(bis)) {
             return (T) ois.readObject();
             
         } catch (IOException | ClassNotFoundException | ClassCastException e) {
