@@ -32,33 +32,7 @@ class DirectorioJuego implements IDirectorio{
     }
 
     @Override
-    public List<Conexion> obtenerTodosMenos(String idEmisor) {
-        List<Conexion> destinatarios = new ArrayList<>();
-        for (Conexion c : conexiones.values()) {
-            if (!c.getIdJugador().equals(idEmisor)) {
-                destinatarios.add(c);
-            }
-        }
-        return destinatarios;
-    }
-
-    @Override
     public List<Conexion> obtenerTodos() {
         return new ArrayList<>(conexiones.values());
-    }
-
-    @Override
-    public void eliminarConexion(String idJugador) {
-        conexiones.remove(idJugador);
-    }
-
-    @Override
-    public int totalConectados() {
-        return conexiones.size();
-    }
-    
-    @Override
-    public void limpiarDirectorio() {
-        this.conexiones.clear();
     }
 }

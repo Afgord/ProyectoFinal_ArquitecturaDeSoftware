@@ -11,11 +11,8 @@ import java.util.List;
  * @author lagar
  */
 public interface IDirectorio {
-    void registrarConexion(Conexion conexion);
-    Conexion obtenerConexion(String idJugador);
-    List<Conexion> obtenerTodosMenos(String idEmisor);
-    List<Conexion> obtenerTodos();
-    void eliminarConexion(String idJugador);
-    int totalConectados();
-    void limpiarDirectorio();
+    public void registrarConexion(Conexion conexion);
+    public Conexion obtenerConexion(String idJugador);
+    public List<Conexion> obtenerTodos();
+
 }
