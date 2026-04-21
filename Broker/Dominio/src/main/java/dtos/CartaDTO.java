@@ -20,4 +20,8 @@ public class CartaDTO {
     }
     public Valor getValor() { return valor; }
     public Colores getColor() { return color; }
+    public boolean esComodin(){ return color.equals(Colores.NEGRO);}
+    public boolean esAccion(){ 
+        return valor.equals(Valor.MASCUATRO)||valor.equals(Valor.MASDOS)||valor.equals(Valor.REVERSA)||valor.equals(Valor.PROHIBIDO);
+    }
 }

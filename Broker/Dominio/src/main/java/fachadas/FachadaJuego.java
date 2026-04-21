@@ -34,27 +34,6 @@ public class FachadaJuego implements FachadaDominio {
         tablero.robarYPasar();
     }
 
-    @Override
-    public void cambiarColorDescarte(Colores color) {
-        System.out.println("[Fachada] Cambiando color del descarte a: " + color);
-
-        tablero.getDescarte().cambiarColorCartaCima(color);
-    }
-
-    @Override
-    public JugadorDTO verificarGanador() {
-        System.out.println("[Fachada] Verificando si hay ganador...");
-
-        JugadorDTO ganador = tablero.obtenerGanadorDTO();
-
-        if (ganador != null) {
-            System.out.println("[Fachada] Ganador: " + ganador.getNombre());
-        } else {
-            System.out.println("[Fachada] Aún no hay ganador");
-        }
-
-        return ganador;
-    }
 
     @Override
     public void pasarTurno() {
@@ -62,8 +41,4 @@ public class FachadaJuego implements FachadaDominio {
         tablero.siguienteTurno();
     }
 
-    @Override
-    public Tablero getTablero() { 
-        return this.tablero; 
-    }
 }

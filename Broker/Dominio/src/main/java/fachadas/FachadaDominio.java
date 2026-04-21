@@ -5,18 +5,13 @@
 package fachadas;
 
 import dtos.CartaDTO;
-import dtos.JugadorDTO;
-import entidades.Colores;
-import entidades.Tablero;
+
 /**
  * 
  * @author lagar
  */
 public interface FachadaDominio {
-    void robarCarta();
-    boolean validarYPlay(CartaDTO carta);
-    void cambiarColorDescarte(Colores color); 
-    void pasarTurno();
-    JugadorDTO verificarGanador();
-    Tablero getTablero(); 
+    public void robarCarta();
+    public boolean validarYPlay(CartaDTO carta);
+    public void pasarTurno();
 }
