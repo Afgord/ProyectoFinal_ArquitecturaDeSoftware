@@ -5,8 +5,6 @@
 package fachadas;
 
 import dtos.CartaDTO;
-import dtos.JugadorDTO;
-import entidades.Colores;
 import entidades.Tablero;
 
 public class FachadaJuego implements FachadaDominio {
@@ -34,11 +32,9 @@ public class FachadaJuego implements FachadaDominio {
         tablero.robarYPasar();
     }
 
-
     @Override
     public void pasarTurno() {
         System.out.println("[Fachada] Pasando turno...");
         tablero.siguienteTurno();
     }
-
 }

@@ -72,26 +72,13 @@ public class Mazo {
     }
 
     public Carta sacarCartaInicialValida() {
-        System.out.println("[Mazo] Buscando carta inicial válida...");
-
         for (int i = 0; i < baraja.size(); i++) {
             Carta c = baraja.get(i);
-
-            if (c.getColor() != Colores.NEGRO && esNumerica(c.getValor())) {
-                System.out.println("[Mazo] Carta inicial encontrada: " 
-                    + c.getValor() + " de color " + c.getColor());
-
-                return baraja.remove(i); 
+            if (!c.esComodin() && !c.esAccion() && c.esNumerica()) {
+                return baraja.remove(i);
             }
         }
-
-        System.out.println("[Mazo] No se encontró carta ideal, tomando la primera disponible");
-
-        return baraja.isEmpty() ? null : baraja.remove(0);
-    }
-
-    private boolean esNumerica(Valor valor) {
-        return valor.ordinal() <= Valor.NUEVE.ordinal();
+        return baraja.remove(0);
     }
 
     public Carta tomarUnaCarta() {

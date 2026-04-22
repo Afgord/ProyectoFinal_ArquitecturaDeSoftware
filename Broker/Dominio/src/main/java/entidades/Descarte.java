@@ -28,36 +28,11 @@ public class Descarte {
 
     public boolean validarJugada(Carta nueva) {
         Carta cima = getCartaCima();
-
-        System.out.println("[Descarte] Validando jugada...");
-        System.out.println("[Descarte] Carta nueva: " 
-            + nueva.getValor() + " de color " + nueva.getColor());
-
-        if (cima == null) {
-            System.out.println("[Descarte] No hay carta en la pila, jugada válida");
+        if (cima == null) return true;
+        if (nueva.esComodin()) {
             return true;
         }
-
-        System.out.println("[Descarte] Carta en cima: " 
-            + cima.getValor() + " de color " + cima.getColor());
-        
-        if (nueva.getColor() == Colores.NEGRO) {
-            System.out.println("[Descarte] Carta negra, jugada válida");
-            return true;
-        }
-
-        if (nueva.getColor() == cima.getColor()) {
-            System.out.println("[Descarte] Coincide color, jugada válida");
-            return true;
-        }
-
-        if (nueva.getValor() == cima.getValor()) {
-            System.out.println("[Descarte] Coincide valor, jugada válida");
-            return true;
-        }
-        
-        System.out.println("[Descarte] Jugada inválida");
-        return false;
+        return nueva.getColor() == cima.getColor() || nueva.getValor() == cima.getValor();
     }
 
     public Carta getCartaCima() {

@@ -12,12 +12,12 @@ import java.util.List;
 public class Jugador {
     private final String nombre;
     private final String urlAvatar;
-    private final Mano mano;
+    private Mano mano;
 
-    public Jugador(String nombre, String urlAvatar) {
+    public Jugador(String nombre, String urlAvatar, Mano mano) {
         this.nombre = nombre;
         this.urlAvatar = urlAvatar;
-        this.mano = new Mano();
+        this.mano = mano;
     }
 
     public void agregarCarta(Carta carta) {
@@ -56,5 +56,9 @@ public class Jugador {
     
     public Mano getMano() {
         return mano;
+    }
+    
+    public void setMano(Mano nuevaMano) {
+        this.mano = nuevaMano;
     }
 }

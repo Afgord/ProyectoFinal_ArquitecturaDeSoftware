@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entidades;
-
-
 /**
  * 
  * @author lagar
@@ -18,15 +16,55 @@ public class Carta {
         this.color = color;
     }
     
-    public Valor getValor() { 
-        return valor; 
+    public boolean esAccion() {
+        return valor == Valor.REVERSA || 
+               valor == Valor.PROHIBIDO || 
+               valor == Valor.MASDOS || 
+               valor == Valor.MASCUATRO;
     }
-
-    public Colores getColor() { 
-        return color; 
+    
+    public boolean esComodin() {
+        return valor == Valor.MASCUATRO || 
+               valor == Valor.CAMBIOCOLOR;
     }
-
-    public void setColor(Colores nuevoColor) { 
-        this.color = nuevoColor; 
+    
+    public boolean esNumerica() {
+        return valor.ordinal() <= Valor.NUEVE.ordinal();
     }
+    
+    public boolean esSpin(){
+        int posicion = this.valor.ordinal();
+        return posicion >= Valor.UNO.ordinal() && posicion <= Valor.CINCO.ordinal();
+    }
+    
+    public void ejecutarEfecto(Tablero tablero) {
+        switch (this.valor) {
+            case REVERSA:
+                tablero.cambiarSentido();
+                if (tablero.getJugadores().size() == 2) {
+                    tablero.siguienteTurno();
+                }
+                tablero.siguienteTurno();
+                break;
+            case PROHIBIDO:
+                tablero.siguienteTurno(); 
+                tablero.siguienteTurno();
+                break;
+            case MASDOS:
+                tablero.castigarSiguiente(2);
+                break;
+            case MASCUATRO:
+                tablero.castigarSiguiente(4);
+                break;
+            case CAMBIOCOLOR:
+                tablero.siguienteTurno();
+                break;
+            default:
+                tablero.siguienteTurno();
+                break;
+        }
+    }
+    public Valor getValor() { return valor; }
+    public Colores getColor() { return color; }
+    public void setColor(Colores nuevoColor) { this.color = nuevoColor; }
 }

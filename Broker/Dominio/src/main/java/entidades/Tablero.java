@@ -9,15 +9,14 @@ import dtos.JugadorDTO;
 import java.util.List;
 
 public class Tablero {
-    private Mazo mazo;
-    private Descarte descarte;
-    private List<Jugador> jugadores;
+    private final Mazo mazo;
+    private final Descarte descarte;
+    private final List<Jugador> jugadores;
+    private Ruleta ruleta;
     private int turnoActual;
     private boolean sentidoReloj;
 
-    public Tablero(List<Jugador> jugadores, int rangoInicio, int rangoFinal, 
-                   boolean masDos, boolean prohibido, boolean reversa, 
-                   boolean masCuatro, boolean cambioColor) {
+    public Tablero(Mazo mazo, Descarte descarte, List<Jugador> jugadores, Ruleta ruleta) {
         this.sentidoReloj = true;
         this.jugadores = jugadores;
         this.turnoActual = 0;
@@ -25,85 +24,57 @@ public class Tablero {
         System.out.println("[Tablero] Inicializando juego...");
         System.out.println("[Tablero] Jugadores: " + jugadores.size());
 
-        this.mazo = new Mazo(rangoInicio, rangoFinal, masDos, prohibido, reversa, masCuatro, cambioColor);
-        
-        Carta inicial = mazo.sacarCartaInicialValida();
-        System.out.println("[Tablero] Carta inicial: " 
-            + inicial.getValor() + " de color " + inicial.getColor());
+        this.mazo = mazo;
 
-        this.descarte = new Descarte(inicial);
+        this.descarte = descarte;
 
         System.out.println("[Tablero] Turno inicial: " + getJugadorActual().getNombre());
     }
 
     public boolean ejecutarJugada(CartaDTO cartaDto) {
-        Carta cartaReal = getJugadorActual().getMano().getCartasReales()
-                .stream()
-                .filter(c -> c.getValor() == cartaDto.getValor() && c.getColor() == cartaDto.getColor())
-                .findFirst()
-                .orElse(null);
+        Carta cartaReal = buscarCartaEnMano(cartaDto);
 
         if (cartaReal != null && descarte.validarJugada(cartaReal)) {
-            System.out.println("[DOMINIO] Jugada válida desde DTO: " + cartaDto);
             getJugadorActual().tirarCarta(cartaReal);
+
+            if (cartaReal.esComodin()) {
+                cartaReal.setColor(cartaDto.getColor());
+            }
             descarte.recibirCarta(cartaReal);
-            aplicarEfectos(cartaReal);
+
+            if (cartaReal.esSpin()) {
+                siguienteTurno();
+                ruleta.girarYAplicar(this);
+            } else {
+                cartaReal.ejecutarEfecto(this);
+            }
             return true;
         }
-        System.out.println("[DOMINIO] Jugada INVÁLIDA desde DTO");
         return false;
     }
 
-    private void aplicarEfectos(Carta carta) {
-        System.out.println("[Tablero] Aplicando efecto de carta: " + carta.getValor());
-
-        switch (carta.getValor()) {
-            case MASDOS:
-                System.out.println("[Tablero] Efecto +2");
-                castigarSiguiente(2);
-                break;
-
-            case MASCUATRO:
-                System.out.println("[Tablero] Efecto +4");
-                castigarSiguiente(4);
-                break;
-
-            case REVERSA:
-                System.out.println("[Tablero] Efecto REVERSA");
-                cambiarSentido();
-                break;
-
-            case PROHIBIDO:
-                System.out.println("[Tablero] Efecto PROHIBIDO (salta turno)");
-                siguienteTurno();
-                break;
-
-            default:
-                System.out.println("[Tablero] Sin efecto especial");
-                siguienteTurno();
-                break;
-        }
-    }
-
-    private void castigarSiguiente(int cantidad) {
-        System.out.println("[Tablero] Castigando al siguiente jugador con " + cantidad + " cartas");
-
-        siguienteTurno();
+    public void castigarSiguiente(int cantidad) {
+        siguienteTurno(); 
         Jugador victima = getJugadorActual();
 
-        System.out.println("[Tablero] Jugador castigado: " + victima.getNombre());
+        System.out.println("[Tablero] Castigando a: " + victima.getNombre());
 
         for (int i = 0; i < cantidad; i++) {
-            Carta c = mazo.tomarUnaCarta();
-            if (c != null) {
-                victima.agregarCarta(c);
-            }
+            darCartaAJugador(victima); 
         }
-
-        System.out.println("[Tablero] Castigo completado");
+        siguienteTurno();
     }
 
-
+    private void darCartaAJugador(Jugador j) {
+        if (!mazo.estaVacio()) {
+            Carta c = mazo.tomarUnaCarta();
+            if (c != null) {
+                j.agregarCarta(c);
+            }
+        } else {
+            System.out.println("[Tablero] El mazo está vacío, " + j.getNombre() + " no recibe carta.");
+        }
+    }
     public JugadorDTO obtenerGanadorDTO() {
         Jugador ganador = jugadores.stream()
                 .filter(j -> j.getNumCartas() == 0)
@@ -139,21 +110,28 @@ public class Tablero {
     
     public void robarYPasar() {
         Jugador actual = getJugadorActual();
-        Carta c = mazo.tomarUnaCarta();
-        
-        if (c != null) {
-            actual.agregarCarta(c);
-            System.out.println("[DOMINIO] " + actual.getNombre() + " no pudo jugar. Robó: " + c);
-        } else {
-            System.out.println("[DOMINIO] El mazo está vacío.");
-        }
-        
-        System.out.println("[DOMINIO] Pasando turno automáticamente...");
+        darCartaAJugador(actual);
+        System.out.println("[DOMINIO] Pasando turno tras intento de robo...");
         siguienteTurno();
     }
-
+    
+    private Carta buscarCartaEnMano(CartaDTO cartaDto) {
+        return getJugadorActual().getMano().getCartasReales()
+                .stream()
+                .filter(c -> {
+                    if (c.getColor() == Colores.NEGRO) {
+                        return c.getValor() == cartaDto.getValor();
+                    }
+                    return c.getValor() == cartaDto.getValor() && 
+                           c.getColor() == cartaDto.getColor();
+                })
+                .findFirst()
+                .orElse(null);
+    }
+    
     public Jugador getJugadorActual() { return jugadores.get(turnoActual); }
     public Descarte getDescarte() { return descarte; }
     public Mazo getMazo() { return mazo; }
     public List<Jugador> getJugadores() { return jugadores; }
+    public boolean isSentidoReloj() { return sentidoReloj;}
 }
