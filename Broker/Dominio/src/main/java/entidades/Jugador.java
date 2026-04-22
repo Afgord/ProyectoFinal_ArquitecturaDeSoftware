@@ -50,9 +50,7 @@ public class Jugador {
         return urlAvatar;
     }
 
-    public List<Carta> getCartasModelo() {
-        return mano.getCartasReales();
-    }
+    
     
     public Mano getMano() {
         return mano;

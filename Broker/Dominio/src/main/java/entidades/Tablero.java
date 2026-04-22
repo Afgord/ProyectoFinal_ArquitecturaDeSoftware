@@ -5,9 +5,16 @@
 package entidades;
 
 import dtos.CartaDTO;
-import dtos.JugadorDTO;
+import static entidades.Valor.CAMBIOCOLOR;
+import static entidades.Valor.MASCUATRO;
+import static entidades.Valor.MASDOS;
+import static entidades.Valor.PROHIBIDO;
+import static entidades.Valor.REVERSA;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Tablero {
     private final Mazo mazo;
     private final Descarte descarte;
@@ -34,7 +41,7 @@ public class Tablero {
     public boolean ejecutarJugada(CartaDTO cartaDto) {
         Carta cartaReal = buscarCartaEnMano(cartaDto);
 
-        if (cartaReal != null && descarte.validarJugada(cartaReal)) {
+        if (descarte.validarJugada(cartaReal)) {
             getJugadorActual().tirarCarta(cartaReal);
 
             if (cartaReal.esComodin()) {
@@ -46,14 +53,43 @@ public class Tablero {
                 siguienteTurno();
                 ruleta.girarYAplicar(this);
             } else {
-                cartaReal.ejecutarEfecto(this);
+                ejecutarEfecto(cartaReal);
             }
             return true;
         }
         return false;
     }
-
-    public void castigarSiguiente(int cantidad) {
+        
+    public void ejecutarEfecto(Carta carta) {
+        Valor accion = carta.getValor();
+        switch (accion) {
+            case REVERSA:
+                cambiarSentido();
+                if (getJugadores().size() == 2) {
+                    siguienteTurno();
+                }
+                siguienteTurno();
+                break;
+            case PROHIBIDO:
+                siguienteTurno(); 
+                siguienteTurno();
+                break;
+            case MASDOS:
+                castigarSiguiente(2);
+                break;
+            case MASCUATRO:
+                castigarSiguiente(4);
+                break;
+            case CAMBIOCOLOR:
+                siguienteTurno();
+                break;
+            default:
+                siguienteTurno();
+                break;
+        }
+    }
+    
+    private void castigarSiguiente(int cantidad) {
         siguienteTurno(); 
         Jugador victima = getJugadorActual();
 
@@ -64,8 +100,8 @@ public class Tablero {
         }
         siguienteTurno();
     }
-
-    private void darCartaAJugador(Jugador j) {
+    
+    public void darCartaAJugador(Jugador j) {
         if (!mazo.estaVacio()) {
             Carta c = mazo.tomarUnaCarta();
             if (c != null) {
@@ -75,16 +111,7 @@ public class Tablero {
             System.out.println("[Tablero] El mazo está vacío, " + j.getNombre() + " no recibe carta.");
         }
     }
-    public JugadorDTO obtenerGanadorDTO() {
-        Jugador ganador = jugadores.stream()
-                .filter(j -> j.getNumCartas() == 0)
-                .findFirst().orElse(null);
-
-        if (ganador != null) {
-            return new JugadorDTO(ganador.getNombre(), new java.util.ArrayList<>());
-        }
-        return null;
-    }
+    
     public void siguienteTurno() {
         if (jugadores.isEmpty()) return;
 
@@ -118,13 +145,8 @@ public class Tablero {
     private Carta buscarCartaEnMano(CartaDTO cartaDto) {
         return getJugadorActual().getMano().getCartasReales()
                 .stream()
-                .filter(c -> {
-                    if (c.getColor() == Colores.NEGRO) {
-                        return c.getValor() == cartaDto.getValor();
-                    }
-                    return c.getValor() == cartaDto.getValor() && 
-                           c.getColor() == cartaDto.getColor();
-                })
+                .filter(c -> c.getValor() == cartaDto.getValor() && 
+                       (c.getColor() == Colores.NEGRO || c.getColor() == cartaDto.getColor()))
                 .findFirst()
                 .orElse(null);
     }

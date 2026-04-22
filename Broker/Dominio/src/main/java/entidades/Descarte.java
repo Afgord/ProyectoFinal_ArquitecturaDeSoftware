@@ -38,17 +38,4 @@ public class Descarte {
     public Carta getCartaCima() {
         return pila.isEmpty() ? null : pila.peek();
     }
-    
-    public void cambiarColorCartaCima(Colores nuevoColor) {
-        Carta cima = getCartaCima();
-
-        if (cima != null) {
-            System.out.println("[Descarte] Cambiando color de la carta en cima de " 
-                + cima.getColor() + " a " + nuevoColor);
-
-            cima.setColor(nuevoColor);
-        } else {
-            System.out.println("[Descarte] No hay carta en la cima para cambiar color");
-        }
-    }
 }

@@ -21,23 +21,4 @@ public class CartaDTO {
     
     public Valor getValor() { return valor; }
     public Colores getColor() { return color; }
-    public boolean esComodin() {
-        return valor == Valor.MASCUATRO || valor == Valor.CAMBIOCOLOR;
-    }
-    
-    public boolean esAccion() {
-        return valor == Valor.REVERSA || 
-               valor == Valor.PROHIBIDO || 
-               valor == Valor.MASDOS || 
-               valor == Valor.MASCUATRO;
-    }
-    
-    public boolean esSpin(){
-        int posicion = this.valor.ordinal();
-        return posicion >= Valor.UNO.ordinal() && posicion <= Valor.CINCO.ordinal();
-    }
-    
-    public boolean esNumerica() {
-        return valor.ordinal() <= Valor.NUEVE.ordinal();
-    }
 }

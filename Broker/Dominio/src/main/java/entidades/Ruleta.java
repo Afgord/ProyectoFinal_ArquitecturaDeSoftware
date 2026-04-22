@@ -12,25 +12,27 @@ import java.util.Random;
  */
 public class Ruleta {
     private final Random random = new Random();
+    private Tablero tablero;
 
     public void girarYAplicar(Tablero tablero) {
+        this.tablero = tablero;
         ResultadoRuleta[] resultados = ResultadoRuleta.values();
         ResultadoRuleta resultado = resultados[random.nextInt(resultados.length)];
         
         switch (resultado) {
-            case CASI_UNO -> aplicarCasiUno(tablero);
-            case DESCARTAR_NUMERO -> aplicarDescartarNumero(tablero);
-            case DESCARTAR_COLOR -> aplicarDescartarColor(tablero);
-            case ROBAR_HASTA_COLOR -> aplicarRobarHastaColor(tablero);
-            case GUERRA -> aplicarGuerra(tablero);
-            case MOSTRAR_MANO -> aplicarMostrarMano(tablero);
-            case INTERCAMBIO_MANOS -> aplicarIntercambioManos(tablero);
-            case PUNTUACION_BAJA -> aplicarPuntuacionBaja(tablero);
+            case CASI_UNO -> aplicarCasiUno();
+            case DESCARTAR_NUMERO -> aplicarDescartarNumero();
+            case DESCARTAR_COLOR -> aplicarDescartarColor();
+            case ROBAR_HASTA_COLOR -> aplicarRobarHastaColor();
+            case GUERRA -> aplicarGuerra();
+            case MOSTRAR_MANO -> aplicarMostrarMano();
+            case INTERCAMBIO_MANOS -> aplicarIntercambioManos();
+            case PUNTUACION_BAJA -> aplicarPuntuacionBaja();
             default -> tablero.siguienteTurno();
         }
     }
 
-    private void aplicarCasiUno(Tablero tablero) {
+    private void aplicarCasiUno() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
         
@@ -43,7 +45,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
 
-    private void aplicarDescartarNumero(Tablero tablero) {
+    private void aplicarDescartarNumero() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
 
@@ -67,7 +69,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
     
-    private void aplicarDescartarColor(Tablero tablero) {
+    private void aplicarDescartarColor() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
 
@@ -91,7 +93,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
     
-    private void aplicarRobarHastaColor(Tablero tablero) {
+    private void aplicarRobarHastaColor() {
         Jugador victima = tablero.getJugadorActual();
         Mazo mazo = tablero.getMazo();
         Colores objetivo = new Random().nextBoolean() ? Colores.ROJO : Colores.AZUL;
@@ -111,7 +113,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
     
-    private void aplicarGuerra(Tablero tablero) {
+    private void aplicarGuerra() {
         List<Jugador> jugadores = tablero.getJugadores();
         Carta cartaMasAltaGlobal = null;
         Jugador ganadorGuerra = null;
@@ -142,7 +144,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
     
-    private void aplicarMostrarMano(Tablero tablero) {
+    private void aplicarMostrarMano() {
         Jugador victima = tablero.getJugadorActual();
         System.out.println("[Ruleta] " + victima.getNombre() + " debe mostrar su mano.");
         
@@ -153,7 +155,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
     
-    private void aplicarIntercambioManos(Tablero tablero) {
+    private void aplicarIntercambioManos() {
         List<Jugador> jugadores = tablero.getJugadores();
         int numJugadores = jugadores.size();
         
@@ -181,7 +183,7 @@ public class Ruleta {
         tablero.siguienteTurno();
     }
     
-    private void aplicarPuntuacionBaja(Tablero tablero) {
+    private void aplicarPuntuacionBaja() {
         Jugador ganador = tablero.getJugadores().stream()
                 .min((j1, j2) -> Integer.compare(calcularPuntos(j1), calcularPuntos(j2)))
                 .orElse(null);

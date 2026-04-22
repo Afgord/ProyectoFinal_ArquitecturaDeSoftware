@@ -95,35 +95,6 @@ public class Mazo {
 
         return c;
     }
-    
-    public List<Carta> tomarDosCartas() {
-        System.out.println("[Mazo] Tomando 2 cartas...");
-        return tomarVariasCartas(2);
-    }
-    
-    public List<Carta> tomarCuatroCartas() {
-        System.out.println("[Mazo] Tomando 4 cartas...");
-        return tomarVariasCartas(4);
-    }
-     
-    private List<Carta> tomarVariasCartas(int cantidad) {
-        List<Carta> cartasTomadas = new ArrayList<>();
-
-        for (int i = 0; i < cantidad; i++) {
-            Carta c = tomarUnaCarta();
-            if (c != null) {
-                cartasTomadas.add(c);
-            }
-        }
-
-        System.out.println("[Mazo] Total cartas tomadas: " + cartasTomadas.size());
-
-        return cartasTomadas;
-    }
-    
-    public int getCantidadCartas() { 
-        return baraja.size(); 
-    }
 
     public boolean estaVacio() { 
         return baraja.isEmpty(); 

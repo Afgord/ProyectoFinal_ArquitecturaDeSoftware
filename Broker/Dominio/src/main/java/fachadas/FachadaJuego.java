@@ -6,7 +6,10 @@ package fachadas;
 
 import dtos.CartaDTO;
 import entidades.Tablero;
-
+/**
+ * 
+ * @author lagar
+ */
 public class FachadaJuego implements FachadaDominio {
     private Tablero tablero;
 
