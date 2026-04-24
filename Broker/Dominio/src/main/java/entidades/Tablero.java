@@ -38,16 +38,13 @@ public class Tablero {
         System.out.println("[Tablero] Turno inicial: " + getJugadorActual().getNombre());
     }
 
-    public boolean ejecutarJugada(CartaDTO cartaDto) {
+   public boolean ejecutarJugada(CartaDTO cartaDto) {
         Carta cartaReal = buscarCartaEnMano(cartaDto);
-
-        if (descarte.validarJugada(cartaReal)) {
+        if (cartaReal.esComodin()) {
+            cartaReal.setColor(cartaDto.getColor());
+        }
+        if (descarte.recibirCarta(cartaReal)) {
             getJugadorActual().tirarCarta(cartaReal);
-
-            if (cartaReal.esComodin()) {
-                cartaReal.setColor(cartaDto.getColor());
-            }
-            descarte.recibirCarta(cartaReal);
 
             if (cartaReal.esSpin()) {
                 siguienteTurno();
@@ -57,6 +54,7 @@ public class Tablero {
             }
             return true;
         }
+
         return false;
     }
         

@@ -7,7 +7,10 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Mazo {
     private final List<Carta> baraja;
 

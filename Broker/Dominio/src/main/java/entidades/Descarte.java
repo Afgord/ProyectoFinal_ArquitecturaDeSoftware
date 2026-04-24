@@ -16,17 +16,23 @@ public class Descarte {
         this.pila.push(cartaInicial);
     }
 
-    public void recibirCarta(Carta carta) {
-        System.out.println("[Descarte] Recibiendo carta: " 
-            + carta.getValor() + " de color " + carta.getColor());
+    public boolean recibirCarta(Carta carta) {
+        if (validarJugada(carta)) {
+            System.out.println("[Descarte] Recibiendo carta: " 
+                + carta.getValor() + " de color " + carta.getColor());
 
-        pila.push(carta);
+            pila.push(carta);
 
-        System.out.println("[Descarte] Nueva carta en cima: " 
-            + carta.getValor() + " de color " + carta.getColor());
+            System.out.println("[Descarte] Nueva carta en cima: " 
+                + carta.getValor() + " de color " + carta.getColor());
+            return true;
+        }
+        
+        System.out.println("[Descarte] Jugada inválida: " + carta.getValor() + " " + carta.getColor());
+        return false;
     }
-
-    public boolean validarJugada(Carta nueva) {
+    
+    private boolean validarJugada(Carta nueva) {
         Carta cima = getCartaCima();
         if (cima == null) return true;
         if (nueva.esComodin()) {

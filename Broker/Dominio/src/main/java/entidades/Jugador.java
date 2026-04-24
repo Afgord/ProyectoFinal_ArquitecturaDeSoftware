@@ -4,7 +4,6 @@
  */
 package entidades;
 
-import java.util.List;
 /**
  * 
  * @author lagar
