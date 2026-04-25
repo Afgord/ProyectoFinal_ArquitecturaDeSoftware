@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="fachadas.FachadaJuegoTest" time="0.665" tests="2" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="25"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\lagar\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\lagar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="America/Mexico_City"/>
+    <property name="user.country.format" value="US"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="25"/>
+    <property name="user.country" value="MX"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
+    <property name="sun.java.command" value="C:\Users\lagar\AppData\Local\Temp\surefire17469658560058649746\surefirebooter-20260425122657153_3.jar C:\Users\lagar\AppData\Local\Temp\surefire17469658560058649746 2026-04-25T12-26-56_959-jvmRun1 surefire-20260425122657153_1tmp surefire_0-20260425122657153_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="fachadas.FachadaJuegoTest"/>
+    <property name="surefire.test.class.path" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\lagar\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\lagar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\lagar"/>
+    <property name="user.language" value="es"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="C:\Program Files\Apache NetBeans\jdk"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\lagar\AppData\Local\Temp\surefire17469658560058649746\surefirebooter-20260425122657153_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="25.0.1+8-LTS"/>
+    <property name="user.name" value="lagar"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-25.0.1+8"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\Apache NetBeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="localRepository" value="C:\Users\lagar\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\lagar\AppData\Local\Temp\"/>
+    <property name="java.version" value="25.0.1"/>
+    <property name="user.dir" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.language.format" value="en"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-25\bin;C:\Program Files\nodejs\;C:\Program Files\Erlang OTP\bin;C:\Program Files\RabbitMQ Server\rabbitmq_server-4.2.5\sbin;C:\Users\lagar\AppData\Local\Microsoft\WindowsApps;C:\Users\lagar\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\lagar\AppData\Local\GitHubDesktop\bin;C:\Users\lagar\AppData\Roaming\npm;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="25.0.1+8-LTS"/>
+    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="69.0"/>
+  </properties>
+  <testcase name="testEfectoComodínCambioColor" classname="fachadas.FachadaJuegoTest" time="0.56">
+    <system-out><![CDATA[
+=== Configurando Entorno de Prueba ===
+[Mazo] --- Iniciando generación de baraja ---
+[Mazo] Generando cartas numéricas (Rango: 0 a 9)...
+[Mazo] Generando cartas de acción por color...
+[Mazo] [+] Añadida: MAS DOS (AZUL)
+[Mazo] [+] Añadida: REVERSA (AZUL)
+[Mazo] [+] Añadida: PROHIBIDO (AZUL)
+[Mazo] [+] Añadida: MAS DOS (ROJO)
+[Mazo] [+] Añadida: REVERSA (ROJO)
+[Mazo] [+] Añadida: PROHIBIDO (ROJO)
+[Mazo] [+] Añadida: MAS DOS (AMARILLO)
+[Mazo] [+] Añadida: REVERSA (AMARILLO)
+[Mazo] [+] Añadida: PROHIBIDO (AMARILLO)
+[Mazo] [+] Añadida: MAS DOS (VERDE)
+[Mazo] [+] Añadida: REVERSA (VERDE)
+[Mazo] [+] Añadida: PROHIBIDO (VERDE)
+[Mazo] Generando cartas comodín (Negras)...
+[Mazo] [+] Añadidas: 4 cartas MAS CUATRO
+[Mazo] [+] Añadidas: 4 cartas CAMBIO COLOR
+[Mazo] Total de cartas en baraja: 100
+[Mazo] Baraja mezclada correctamente.
+[Mazo] Buscando carta inicial válida (Numérica)...
+[Mazo] Carta inicial seleccionada: NUEVE VERDE
+[Tablero] Inicializando juego...
+[Tablero] Jugadores registrados: 4
+[Tablero] Turno inicial: Jugador 1
+[Mazo] Carta entregada: MASCUATRO [NEGRO]
+[Mazo] Cartas restantes: 98
+[Jugador: Jugador 1] Agregando carta: MASCUATRO de color NEGRO
+[Mano] [+] Carta añadida: MASCUATRO [NEGRO]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 1] Total de cartas ahora: 1
+[Mazo] Carta entregada: NUEVE [AMARILLO]
+[Mazo] Cartas restantes: 97
+[Jugador: Jugador 1] Agregando carta: NUEVE de color AMARILLO
+[Mano] [+] Carta añadida: NUEVE [AMARILLO]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 1] Total de cartas ahora: 2
+[Mazo] Carta entregada: CINCO [AMARILLO]
+[Mazo] Cartas restantes: 96
+[Jugador: Jugador 1] Agregando carta: CINCO de color AMARILLO
+[Mano] [+] Carta añadida: CINCO [AMARILLO]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 1] Total de cartas ahora: 3
+[Mazo] Carta entregada: CUATRO [AMARILLO]
+[Mazo] Cartas restantes: 95
+[Jugador: Jugador 1] Agregando carta: CUATRO de color AMARILLO
+[Mano] [+] Carta añadida: CUATRO [AMARILLO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 1] Total de cartas ahora: 4
+[Mazo] Carta entregada: NUEVE [AZUL]
+[Mazo] Cartas restantes: 94
+[Jugador: Jugador 1] Agregando carta: NUEVE de color AZUL
+[Mano] [+] Carta añadida: NUEVE [AZUL]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 1] Total de cartas ahora: 5
+[Mazo] Carta entregada: MASCUATRO [NEGRO]
+[Mazo] Cartas restantes: 93
+[Jugador: Jugador 1] Agregando carta: MASCUATRO de color NEGRO
+[Mano] [+] Carta añadida: MASCUATRO [NEGRO]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 1] Total de cartas ahora: 6
+[Mazo] Carta entregada: CUATRO [VERDE]
+[Mazo] Cartas restantes: 92
+[Jugador: Jugador 1] Agregando carta: CUATRO de color VERDE
+[Mano] [+] Carta añadida: CUATRO [VERDE]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 1] Total de cartas ahora: 7
+[Mazo] Carta entregada: CUATRO [AZUL]
+[Mazo] Cartas restantes: 91
+[Jugador: Jugador 2] Agregando carta: CUATRO de color AZUL
+[Mano] [+] Carta añadida: CUATRO [AZUL]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 2] Total de cartas ahora: 1
+[Mazo] Carta entregada: MASDOS [AMARILLO]
+[Mazo] Cartas restantes: 90
+[Jugador: Jugador 2] Agregando carta: MASDOS de color AMARILLO
+[Mano] [+] Carta añadida: MASDOS [AMARILLO]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 2] Total de cartas ahora: 2
+[Mazo] Carta entregada: MASDOS [VERDE]
+[Mazo] Cartas restantes: 89
+[Jugador: Jugador 2] Agregando carta: MASDOS de color VERDE
+[Mano] [+] Carta añadida: MASDOS [VERDE]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 2] Total de cartas ahora: 3
+[Mazo] Carta entregada: DOS [ROJO]
+[Mazo] Cartas restantes: 88
+[Jugador: Jugador 2] Agregando carta: DOS de color ROJO
+[Mano] [+] Carta añadida: DOS [ROJO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 2] Total de cartas ahora: 4
+[Mazo] Carta entregada: CERO [AZUL]
+[Mazo] Cartas restantes: 87
+[Jugador: Jugador 2] Agregando carta: CERO de color AZUL
+[Mano] [+] Carta añadida: CERO [AZUL]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 2] Total de cartas ahora: 5
+[Mazo] Carta entregada: MASDOS [AZUL]
+[Mazo] Cartas restantes: 86
+[Jugador: Jugador 2] Agregando carta: MASDOS de color AZUL
+[Mano] [+] Carta añadida: MASDOS [AZUL]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 2] Total de cartas ahora: 6
+[Mazo] Carta entregada: CINCO [VERDE]
+[Mazo] Cartas restantes: 85
+[Jugador: Jugador 2] Agregando carta: CINCO de color VERDE
+[Mano] [+] Carta añadida: CINCO [VERDE]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 2] Total de cartas ahora: 7
+[Mazo] Carta entregada: DOS [VERDE]
+[Mazo] Cartas restantes: 84
+[Jugador: Jugador 3] Agregando carta: DOS de color VERDE
+[Mano] [+] Carta añadida: DOS [VERDE]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 3] Total de cartas ahora: 1
+[Mazo] Carta entregada: OCHO [ROJO]
+[Mazo] Cartas restantes: 83
+[Jugador: Jugador 3] Agregando carta: OCHO de color ROJO
+[Mano] [+] Carta añadida: OCHO [ROJO]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 3] Total de cartas ahora: 2
+[Mazo] Carta entregada: OCHO [AZUL]
+[Mazo] Cartas restantes: 82
+[Jugador: Jugador 3] Agregando carta: OCHO de color AZUL
+[Mano] [+] Carta añadida: OCHO [AZUL]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 3] Total de cartas ahora: 3
+[Mazo] Carta entregada: TRES [AMARILLO]
+[Mazo] Cartas restantes: 81
+[Jugador: Jugador 3] Agregando carta: TRES de color AMARILLO
+[Mano] [+] Carta añadida: TRES [AMARILLO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 3] Total de cartas ahora: 4
+[Mazo] Carta entregada: UNO [VERDE]
+[Mazo] Cartas restantes: 80
+[Jugador: Jugador 3] Agregando carta: UNO de color VERDE
+[Mano] [+] Carta añadida: UNO [VERDE]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 3] Total de cartas ahora: 5
+[Mazo] Carta entregada: UNO [AZUL]
+[Mazo] Cartas restantes: 79
+[Jugador: Jugador 3] Agregando carta: UNO de color AZUL
+[Mano] [+] Carta añadida: UNO [AZUL]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 3] Total de cartas ahora: 6
+[Mazo] Carta entregada: CERO [VERDE]
+[Mazo] Cartas restantes: 78
+[Jugador: Jugador 3] Agregando carta: CERO de color VERDE
+[Mano] [+] Carta añadida: CERO [VERDE]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 3] Total de cartas ahora: 7
+[Mazo] Carta entregada: DOS [AMARILLO]
+[Mazo] Cartas restantes: 77
+[Jugador: Jugador 4] Agregando carta: DOS de color AMARILLO
+[Mano] [+] Carta añadida: DOS [AMARILLO]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 4] Total de cartas ahora: 1
+[Mazo] Carta entregada: SIETE [ROJO]
+[Mazo] Cartas restantes: 76
+[Jugador: Jugador 4] Agregando carta: SIETE de color ROJO
+[Mano] [+] Carta añadida: SIETE [ROJO]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 4] Total de cartas ahora: 2
+[Mazo] Carta entregada: OCHO [VERDE]
+[Mazo] Cartas restantes: 75
+[Jugador: Jugador 4] Agregando carta: OCHO de color VERDE
+[Mano] [+] Carta añadida: OCHO [VERDE]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 4] Total de cartas ahora: 3
+[Mazo] Carta entregada: SEIS [ROJO]
+[Mazo] Cartas restantes: 74
+[Jugador: Jugador 4] Agregando carta: SEIS de color ROJO
+[Mano] [+] Carta añadida: SEIS [ROJO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 4] Total de cartas ahora: 4
+[Mazo] Carta entregada: NUEVE [ROJO]
+[Mazo] Cartas restantes: 73
+[Jugador: Jugador 4] Agregando carta: NUEVE de color ROJO
+[Mano] [+] Carta añadida: NUEVE [ROJO]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 4] Total de cartas ahora: 5
+[Mazo] Carta entregada: SEIS [AZUL]
+[Mazo] Cartas restantes: 72
+[Jugador: Jugador 4] Agregando carta: SEIS de color AZUL
+[Mano] [+] Carta añadida: SEIS [AZUL]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 4] Total de cartas ahora: 6
+[Mazo] Carta entregada: OCHO [AMARILLO]
+[Mazo] Cartas restantes: 71
+[Jugador: Jugador 4] Agregando carta: OCHO de color AMARILLO
+[Mano] [+] Carta añadida: OCHO [AMARILLO]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 4] Total de cartas ahora: 7
+=== Configuración de Prueba Exitosa ===
+
+
+--- TEST: Validación de Comodín (Ruleta de Colores) ---
+[Jugador: Jugador 1] Agregando carta: CAMBIOCOLOR de color NEGRO
+[Mano] [+] Carta añadida: CAMBIOCOLOR [NEGRO]
+[Mano] Cartas actuales en mano: 8
+[Jugador: Jugador 1] Total de cartas ahora: 8
+[Test] Jugador intenta cambiar el color a AZUL
+[Fachada] Procesando jugada...
+[Tablero] Solicitud de jugada: CAMBIOCOLOR AZUL
+[Tablero] Comodín detectado. Cambiando color a: AZUL
+[Descarte] Validación: Comodín detectado (Permitido).
+[Descarte] Recibiendo carta: CAMBIOCOLOR de color AZUL
+[Descarte] Nueva carta en cima: CAMBIOCOLOR de color AZUL
+[Tablero] Carta aceptada en descarte: CAMBIOCOLOR
+[Jugador: Jugador 1] Tirando carta: CAMBIOCOLOR de color AZUL
+[Mano] [-] Intentando descartar: CAMBIOCOLOR [AZUL]
+[Mano] Descarte exitoso.
+[Mano] Cartas restantes: 7
+[Jugador: Jugador 1] Cartas restantes: 7
+[Tablero] Ejecutando efecto de carta: CAMBIOCOLOR
+[Tablero] Cambio de Turno: [Jugador 1] -> [Jugador 2]
+[Test] Cambio de color exitoso y validado.
+]]></system-out>
+  </testcase>
+  <testcase name="testActivacionRuletaPorCartaNumerica" classname="fachadas.FachadaJuegoTest" time="0.01">
+    <system-out><![CDATA[
+=== Configurando Entorno de Prueba ===
+[Mazo] --- Iniciando generación de baraja ---
+[Mazo] Generando cartas numéricas (Rango: 0 a 9)...
+[Mazo] Generando cartas de acción por color...
+[Mazo] [+] Añadida: MAS DOS (AZUL)
+[Mazo] [+] Añadida: REVERSA (AZUL)
+[Mazo] [+] Añadida: PROHIBIDO (AZUL)
+[Mazo] [+] Añadida: MAS DOS (ROJO)
+[Mazo] [+] Añadida: REVERSA (ROJO)
+[Mazo] [+] Añadida: PROHIBIDO (ROJO)
+[Mazo] [+] Añadida: MAS DOS (AMARILLO)
+[Mazo] [+] Añadida: REVERSA (AMARILLO)
+[Mazo] [+] Añadida: PROHIBIDO (AMARILLO)
+[Mazo] [+] Añadida: MAS DOS (VERDE)
+[Mazo] [+] Añadida: REVERSA (VERDE)
+[Mazo] [+] Añadida: PROHIBIDO (VERDE)
+[Mazo] Generando cartas comodín (Negras)...
+[Mazo] [+] Añadidas: 4 cartas MAS CUATRO
+[Mazo] [+] Añadidas: 4 cartas CAMBIO COLOR
+[Mazo] Total de cartas en baraja: 100
+[Mazo] Baraja mezclada correctamente.
+[Mazo] Buscando carta inicial válida (Numérica)...
+[Mazo] Carta inicial seleccionada: SEIS AMARILLO
+[Tablero] Inicializando juego...
+[Tablero] Jugadores registrados: 4
+[Tablero] Turno inicial: Jugador 1
+[Mazo] Carta entregada: SIETE [AZUL]
+[Mazo] Cartas restantes: 98
+[Jugador: Jugador 1] Agregando carta: SIETE de color AZUL
+[Mano] [+] Carta añadida: SIETE [AZUL]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 1] Total de cartas ahora: 1
+[Mazo] Carta entregada: CAMBIOCOLOR [NEGRO]
+[Mazo] Cartas restantes: 97
+[Jugador: Jugador 1] Agregando carta: CAMBIOCOLOR de color NEGRO
+[Mano] [+] Carta añadida: CAMBIOCOLOR [NEGRO]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 1] Total de cartas ahora: 2
+[Mazo] Carta entregada: CERO [VERDE]
+[Mazo] Cartas restantes: 96
+[Jugador: Jugador 1] Agregando carta: CERO de color VERDE
+[Mano] [+] Carta añadida: CERO [VERDE]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 1] Total de cartas ahora: 3
+[Mazo] Carta entregada: DOS [ROJO]
+[Mazo] Cartas restantes: 95
+[Jugador: Jugador 1] Agregando carta: DOS de color ROJO
+[Mano] [+] Carta añadida: DOS [ROJO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 1] Total de cartas ahora: 4
+[Mazo] Carta entregada: SEIS [VERDE]
+[Mazo] Cartas restantes: 94
+[Jugador: Jugador 1] Agregando carta: SEIS de color VERDE
+[Mano] [+] Carta añadida: SEIS [VERDE]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 1] Total de cartas ahora: 5
+[Mazo] Carta entregada: NUEVE [VERDE]
+[Mazo] Cartas restantes: 93
+[Jugador: Jugador 1] Agregando carta: NUEVE de color VERDE
+[Mano] [+] Carta añadida: NUEVE [VERDE]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 1] Total de cartas ahora: 6
+[Mazo] Carta entregada: REVERSA [AZUL]
+[Mazo] Cartas restantes: 92
+[Jugador: Jugador 1] Agregando carta: REVERSA de color AZUL
+[Mano] [+] Carta añadida: REVERSA [AZUL]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 1] Total de cartas ahora: 7
+[Mazo] Carta entregada: OCHO [VERDE]
+[Mazo] Cartas restantes: 91
+[Jugador: Jugador 2] Agregando carta: OCHO de color VERDE
+[Mano] [+] Carta añadida: OCHO [VERDE]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 2] Total de cartas ahora: 1
+[Mazo] Carta entregada: CUATRO [VERDE]
+[Mazo] Cartas restantes: 90
+[Jugador: Jugador 2] Agregando carta: CUATRO de color VERDE
+[Mano] [+] Carta añadida: CUATRO [VERDE]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 2] Total de cartas ahora: 2
+[Mazo] Carta entregada: REVERSA [AMARILLO]
+[Mazo] Cartas restantes: 89
+[Jugador: Jugador 2] Agregando carta: REVERSA de color AMARILLO
+[Mano] [+] Carta añadida: REVERSA [AMARILLO]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 2] Total de cartas ahora: 3
+[Mazo] Carta entregada: CUATRO [VERDE]
+[Mazo] Cartas restantes: 88
+[Jugador: Jugador 2] Agregando carta: CUATRO de color VERDE
+[Mano] [+] Carta añadida: CUATRO [VERDE]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 2] Total de cartas ahora: 4
+[Mazo] Carta entregada: SEIS [AZUL]
+[Mazo] Cartas restantes: 87
+[Jugador: Jugador 2] Agregando carta: SEIS de color AZUL
+[Mano] [+] Carta añadida: SEIS [AZUL]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 2] Total de cartas ahora: 5
+[Mazo] Carta entregada: SEIS [AMARILLO]
+[Mazo] Cartas restantes: 86
+[Jugador: Jugador 2] Agregando carta: SEIS de color AMARILLO
+[Mano] [+] Carta añadida: SEIS [AMARILLO]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 2] Total de cartas ahora: 6
+[Mazo] Carta entregada: UNO [AMARILLO]
+[Mazo] Cartas restantes: 85
+[Jugador: Jugador 2] Agregando carta: UNO de color AMARILLO
+[Mano] [+] Carta añadida: UNO [AMARILLO]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 2] Total de cartas ahora: 7
+[Mazo] Carta entregada: CERO [AMARILLO]
+[Mazo] Cartas restantes: 84
+[Jugador: Jugador 3] Agregando carta: CERO de color AMARILLO
+[Mano] [+] Carta añadida: CERO [AMARILLO]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 3] Total de cartas ahora: 1
+[Mazo] Carta entregada: DOS [AMARILLO]
+[Mazo] Cartas restantes: 83
+[Jugador: Jugador 3] Agregando carta: DOS de color AMARILLO
+[Mano] [+] Carta añadida: DOS [AMARILLO]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 3] Total de cartas ahora: 2
+[Mazo] Carta entregada: DOS [AZUL]
+[Mazo] Cartas restantes: 82
+[Jugador: Jugador 3] Agregando carta: DOS de color AZUL
+[Mano] [+] Carta añadida: DOS [AZUL]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 3] Total de cartas ahora: 3
+[Mazo] Carta entregada: SIETE [AMARILLO]
+[Mazo] Cartas restantes: 81
+[Jugador: Jugador 3] Agregando carta: SIETE de color AMARILLO
+[Mano] [+] Carta añadida: SIETE [AMARILLO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 3] Total de cartas ahora: 4
+[Mazo] Carta entregada: OCHO [VERDE]
+[Mazo] Cartas restantes: 80
+[Jugador: Jugador 3] Agregando carta: OCHO de color VERDE
+[Mano] [+] Carta añadida: OCHO [VERDE]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 3] Total de cartas ahora: 5
+[Mazo] Carta entregada: CAMBIOCOLOR [NEGRO]
+[Mazo] Cartas restantes: 79
+[Jugador: Jugador 3] Agregando carta: CAMBIOCOLOR de color NEGRO
+[Mano] [+] Carta añadida: CAMBIOCOLOR [NEGRO]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 3] Total de cartas ahora: 6
+[Mazo] Carta entregada: OCHO [AZUL]
+[Mazo] Cartas restantes: 78
+[Jugador: Jugador 3] Agregando carta: OCHO de color AZUL
+[Mano] [+] Carta añadida: OCHO [AZUL]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 3] Total de cartas ahora: 7
+[Mazo] Carta entregada: CAMBIOCOLOR [NEGRO]
+[Mazo] Cartas restantes: 77
+[Jugador: Jugador 4] Agregando carta: CAMBIOCOLOR de color NEGRO
+[Mano] [+] Carta añadida: CAMBIOCOLOR [NEGRO]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Jugador 4] Total de cartas ahora: 1
+[Mazo] Carta entregada: UNO [VERDE]
+[Mazo] Cartas restantes: 76
+[Jugador: Jugador 4] Agregando carta: UNO de color VERDE
+[Mano] [+] Carta añadida: UNO [VERDE]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 4] Total de cartas ahora: 2
+[Mazo] Carta entregada: SIETE [VERDE]
+[Mazo] Cartas restantes: 75
+[Jugador: Jugador 4] Agregando carta: SIETE de color VERDE
+[Mano] [+] Carta añadida: SIETE [VERDE]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 4] Total de cartas ahora: 3
+[Mazo] Carta entregada: TRES [VERDE]
+[Mazo] Cartas restantes: 74
+[Jugador: Jugador 4] Agregando carta: TRES de color VERDE
+[Mano] [+] Carta añadida: TRES [VERDE]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 4] Total de cartas ahora: 4
+[Mazo] Carta entregada: CERO [AMARILLO]
+[Mazo] Cartas restantes: 73
+[Jugador: Jugador 4] Agregando carta: CERO de color AMARILLO
+[Mano] [+] Carta añadida: CERO [AMARILLO]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 4] Total de cartas ahora: 5
+[Mazo] Carta entregada: CUATRO [AZUL]
+[Mazo] Cartas restantes: 72
+[Jugador: Jugador 4] Agregando carta: CUATRO de color AZUL
+[Mano] [+] Carta añadida: CUATRO [AZUL]
+[Mano] Cartas actuales en mano: 6
+[Jugador: Jugador 4] Total de cartas ahora: 6
+[Mazo] Carta entregada: DOS [VERDE]
+[Mazo] Cartas restantes: 71
+[Jugador: Jugador 4] Agregando carta: DOS de color VERDE
+[Mano] [+] Carta añadida: DOS [VERDE]
+[Mano] Cartas actuales en mano: 7
+[Jugador: Jugador 4] Total de cartas ahora: 7
+=== Configuración de Prueba Exitosa ===
+
+
+--- TEST: Activación de Ruleta (Carta 1-5) ---
+[Jugador: Jugador 1] Agregando carta: TRES de color AMARILLO
+[Mano] [+] Carta añadida: TRES [AMARILLO]
+[Mano] Cartas actuales en mano: 8
+[Jugador: Jugador 1] Total de cartas ahora: 8
+[Test] La cima es SEIS AMARILLO
+[Test] Jugador 1 tira un TRES AMARILLO (Jugada Legal)
+[Fachada] Procesando jugada...
+[Tablero] Solicitud de jugada: TRES AMARILLO
+[Descarte] Validación exitosa: Coincidencia de COLOR.
+[Descarte] Recibiendo carta: TRES de color AMARILLO
+[Descarte] Nueva carta en cima: TRES de color AMARILLO
+[Tablero] Carta aceptada en descarte: TRES
+[Jugador: Jugador 1] Tirando carta: TRES de color AMARILLO
+[Mano] [-] Intentando descartar: TRES [AMARILLO]
+[Mano] Descarte exitoso.
+[Mano] Cartas restantes: 7
+[Jugador: Jugador 1] Cartas restantes: 7
+[Tablero] ¡Efecto SPIN! Pasando turno antes de girar...
+[Tablero] Cambio de Turno: [Jugador 1] -> [Jugador 2]
+[Ruleta] ¡Girando...! Resultado: INTERCAMBIO_MANOS
+[Ruleta] ¡INTERCAMBIO DE MANOS!
+[Tablero] Cambio de Turno: [Jugador 2] -> [Jugador 3]
+[Tablero] Resultado Ruleta: INTERCAMBIO_MANOS
+]]></system-out>
+  </testcase>
+</testsuite>

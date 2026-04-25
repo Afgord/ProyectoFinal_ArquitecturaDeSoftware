@@ -34,11 +34,23 @@ public class Descarte {
     
     private boolean validarJugada(Carta nueva) {
         Carta cima = getCartaCima();
-        if (cima == null) return true;
-        if (nueva.esComodin()) {
+        if (cima == null) {
+            System.out.println("[Descarte] La pila está vacía, validación automática.");
             return true;
         }
-        return nueva.getColor() == cima.getColor() || nueva.getValor() == cima.getValor();
+
+        if (nueva.esComodin()) {
+            System.out.println("[Descarte] Validación: Comodín detectado (Permitido).");
+            return true;
+        }
+
+        boolean mismoColor = (nueva.getColor() == cima.getColor());
+        boolean mismoValor = (nueva.getValor() == cima.getValor());
+
+        if (mismoColor) System.out.println("[Descarte] Validación exitosa: Coincidencia de COLOR.");
+        if (mismoValor) System.out.println("[Descarte] Validación exitosa: Coincidencia de VALOR.");
+
+        return mismoColor || mismoValor;
     }
 
     public Carta getCartaCima() {

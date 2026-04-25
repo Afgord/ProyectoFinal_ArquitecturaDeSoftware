@@ -15,9 +15,9 @@ import static entidades.Valor.PROHIBIDO;
 import static entidades.Valor.REVERSA;
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
- * 
- * @author lagar
+ * * @author lagar
  */
 public class Tablero {
     private final Mazo mazo;
@@ -26,6 +26,7 @@ public class Tablero {
     private Ruleta ruleta;
     private int turnoActual;
     private boolean sentidoReloj;
+    private String estadoPendienteRuleta = null;
 
     public Tablero(Mazo mazo, Descarte descarte, List<Jugador> jugadores, Ruleta ruleta) {
         this.sentidoReloj = true;
@@ -33,10 +34,9 @@ public class Tablero {
         this.turnoActual = 0;
 
         System.out.println("[Tablero] Inicializando juego...");
-        System.out.println("[Tablero] Jugadores: " + jugadores.size());
+        System.out.println("[Tablero] Jugadores registrados: " + jugadores.size());
 
         this.mazo = mazo;
-
         this.descarte = descarte;
         this.ruleta = ruleta;
 
@@ -44,30 +44,44 @@ public class Tablero {
     }
 
     public Object ejecutarJugadaConRetorno(CartaDTO cartaDto) {
+        System.out.println("[Tablero] Solicitud de jugada: " + cartaDto.getValor() + " " + cartaDto.getColor());
+        
         if (ejecutarLogicaJugada(buscarCartaEnMano(cartaDto), cartaDto)) {
             JugadorDTO ganador = verificarGanador();
             String eventoFinal = (estadoPendienteRuleta != null) ? estadoPendienteRuleta : "NORMAL";
-            if (ganador != null) eventoFinal = "GANADOR";
+            
+            if (ganador != null) {
+                System.out.println("[Tablero] ¡TENEMOS UN GANADOR!: " + ganador.getNombre());
+                eventoFinal = "GANADOR";
+            }
 
             return new ResultadoJugadaDTO(true, eventoFinal, ganador, generarEstadoDTO(), obtenerCartaCimaDTO());
         }
+        
+        System.out.println("[Tablero] Jugada rechazada por el motor de reglas.");
         return new ResultadoJugadaDTO(false, "ERROR", null, generarEstadoDTO(), obtenerCartaCimaDTO());
     }
-    
-    private String estadoPendienteRuleta = null;
 
     private boolean ejecutarLogicaJugada(Carta cartaReal, CartaDTO datos) {
-        if (cartaReal == null) return false;
+        if (cartaReal == null) {
+            System.out.println("[Tablero] Error: El jugador no posee la carta solicitada.");
+            return false;
+        }
+
         if (cartaReal.esComodin()) {
+            System.out.println("[Tablero] Comodín detectado. Cambiando color a: " + datos.getColor());
             cartaReal.setColor(datos.getColor());
         }
 
         if (descarte.recibirCarta(cartaReal)) {
+            System.out.println("[Tablero] Carta aceptada en descarte: " + cartaReal.getValor());
             getJugadorActual().tirarCarta(cartaReal);
 
             if (cartaReal.esSpin()) {
+                System.out.println("[Tablero] ¡Efecto SPIN! Pasando turno antes de girar...");
                 siguienteTurno();
                 this.estadoPendienteRuleta = ruleta.girarYAplicar(this);
+                System.out.println("[Tablero] Resultado Ruleta: " + estadoPendienteRuleta);
             } else {
                 this.estadoPendienteRuleta = null; 
                 ejecutarEfecto(cartaReal);
@@ -76,9 +90,10 @@ public class Tablero {
         }
         return false;
     }
-    
+
     public void ejecutarEfecto(Carta carta) {
         Valor accion = carta.getValor();
+        System.out.println("[Tablero] Ejecutando efecto de carta: " + accion);
         switch (accion) {
             case REVERSA:
                 cambiarSentido();
@@ -88,6 +103,7 @@ public class Tablero {
                 siguienteTurno();
                 break;
             case PROHIBIDO:
+                System.out.println("[Tablero] Saltando turno del siguiente jugador.");
                 siguienteTurno(); 
                 siguienteTurno();
                 break;
@@ -105,19 +121,18 @@ public class Tablero {
                 break;
         }
     }
-    
+
     private void castigarSiguiente(int cantidad) {
         siguienteTurno(); 
         Jugador victima = getJugadorActual();
-
-        System.out.println("[Tablero] Castigando a: " + victima.getNombre());
+        System.out.println("[Tablero] Castigando a " + victima.getNombre() + " con " + cantidad + " cartas.");
 
         for (int i = 0; i < cantidad; i++) {
             darCartaAJugador(victima); 
         }
         siguienteTurno();
     }
-    
+
     public void darCartaAJugador(Jugador j) {
         if (!mazo.estaVacio()) {
             Carta c = mazo.tomarUnaCarta();
@@ -125,13 +140,12 @@ public class Tablero {
                 j.agregarCarta(c);
             }
         } else {
-            System.out.println("[Tablero] El mazo está vacío, " + j.getNombre() + " no recibe carta.");
+            System.out.println("[Tablero] ¡MAZO VACÍO! " + j.getNombre() + " no pudo robar.");
         }
     }
-    
+
     public void siguienteTurno() {
         if (jugadores.isEmpty()) return;
-
         int size = jugadores.size();
         int turnoAnterior = turnoActual;
 
@@ -139,33 +153,29 @@ public class Tablero {
             ? (turnoActual + 1) % size 
             : (turnoActual - 1 + size) % size;
 
-        System.out.println("[Tablero] Cambio de turno: " 
-            + jugadores.get(turnoAnterior).getNombre() 
-            + " -> " 
-            + getJugadorActual().getNombre());
+        System.out.println("[Tablero] Cambio de Turno: [" + jugadores.get(turnoAnterior).getNombre() 
+                         + "] -> [" + getJugadorActual().getNombre() + "]");
     }
 
     public void cambiarSentido() {
         sentidoReloj = !sentidoReloj;
-
-        System.out.println("[Tablero] Sentido cambiado: " 
-            + (sentidoReloj ? "Horario" : "Antihorario"));
+        System.out.println("[Tablero] Sentido de juego cambiado. ¿Horario?: " + sentidoReloj);
     }
-    
+
     public Object robarYPasarConRetorno() {
-        Jugador actual = getJugadorActual();
-        darCartaAJugador(actual);
+        System.out.println("[Tablero] " + getJugadorActual().getNombre() + " decide robar y pasar.");
+        darCartaAJugador(getJugadorActual());
         siguienteTurno();
         return new ResultadoJugadaDTO(true, "ROBO_Y_PASO", null, generarEstadoDTO(), obtenerCartaCimaDTO());
     }
-    
+
     private JugadorDTO verificarGanador() {
         for (Jugador j : jugadores) {
             if (j.getNumCartas() == 0) return new JugadorDTO(j.getIdJugador(), j.getNombre());
         }
         return null;
     }
-    
+
     private List<JugadorDTO> generarEstadoDTO() {
         return jugadores.stream().map(j -> {
             List<CartaDTO> manoDto = j.getMano().getCartasReales().stream()
@@ -174,12 +184,12 @@ public class Tablero {
             return new JugadorDTO(j.getIdJugador(), j.getNombre(), manoDto, false);
         }).collect(Collectors.toList());
     }
-    
+
     private CartaDTO obtenerCartaCimaDTO() {
         Carta cima = descarte.getCartaCima();
         return new CartaDTO(cima.getValor(), cima.getColor());
     }
-    
+
     private Carta buscarCartaEnMano(CartaDTO cartaDto) {
         return getJugadorActual().getMano().getCartasReales()
                 .stream()
@@ -188,22 +198,23 @@ public class Tablero {
                 .findFirst()
                 .orElse(null);
     }
-    
+
     public Object procesarGritoUno(JugadorDTO datosGrito) {
+        System.out.println("[Tablero] Procesando grito de UNO para: " + datosGrito.getNombre());
         Jugador actual = getJugadorActual();
         String idCastigado = null;
         String mensaje = "GRITO_INVALIDO";
         boolean exito = false;
+
         if (datosGrito.idJugador().equals(actual.getIdJugador())) {
             if (actual.getNumCartas() == 1) {
-                System.out.println("[Tablero] " + actual.getNombre() + " se ha salvado.");
+                System.out.println("[Tablero] Grito legítimo. El jugador está a salvo.");
                 mensaje = "SE_SALVO";
                 exito = true;
             }
-        } 
-        else {
+        } else {
             if (actual.getNumCartas() == 1) {
-                System.out.println("[Tablero] ¡Atrapado! " + actual.getNombre() + " recibe +2.");
+                System.out.println("[Tablero] ¡BOTÓN DE PÁNICO! Atrapado: " + actual.getNombre());
                 darCartaAJugador(actual);
                 darCartaAJugador(actual);
                 idCastigado = actual.getIdJugador();
@@ -213,26 +224,10 @@ public class Tablero {
         }
         return new ResultadoGritoDTO(exito, mensaje, idCastigado, generarEstadoDTO());
     }
-    
-    public Object procesarEleccionRuleta(String idJugador, CartaDTO cartaElegida) {
-        Jugador j = jugadores.stream()
-                    .filter(jug -> jug.getIdJugador().equals(idJugador))
-                    .findFirst().orElse(null);
 
-        if (j != null) {
-            Carta cartaReal = j.getMano().getCartasReales().stream()
-                    .filter(c -> c.getValor() == cartaElegida.getValor() && c.getColor() == cartaElegida.getColor())
-                    .findFirst().orElse(null);
-
-            if (cartaReal != null) {
-                j.getMano().getCartasReales().remove(cartaReal);
-                return new ResultadoJugadaDTO(true, "ACCION_COMPLETADA", verificarGanador(), generarEstadoDTO(), obtenerCartaCimaDTO());
-            }
-        }
-        return new ResultadoJugadaDTO(false, "CARTA_INVALIDA", null, generarEstadoDTO(), obtenerCartaCimaDTO());
-    }
-    
     public Object procesarDescarteEspecial(String idJugador, CartaDTO cartaDto) {
+        System.out.println("[Tablero] Procesando descarte especial (Guerra/Puntos) para: " + idJugador);
+        
         Jugador j = jugadores.stream()
                      .filter(jug -> jug.getIdJugador().equals(idJugador))
                      .findFirst().orElse(null);
@@ -243,12 +238,15 @@ public class Tablero {
                     .findFirst().orElse(null);
 
             if (cartaReal != null) {
+                System.out.println("[Tablero] Descarte exitoso: " + cartaReal.getValor() + " removida de " + j.getNombre());
                 j.getMano().getCartasReales().remove(cartaReal);
                 return new ResultadoJugadaDTO(true, "DESCARTE_EXITOSO", verificarGanador(), generarEstadoDTO(), obtenerCartaCimaDTO());
             }
         }
+        System.out.println("[Tablero] Error en descarte especial: Datos no coinciden.");
         return new ResultadoJugadaDTO(false, "ERROR_DESCARTE", null, generarEstadoDTO(), obtenerCartaCimaDTO());
     }
+
     public Jugador getJugadorActual() { return jugadores.get(turnoActual); }
     public Mazo getMazo() { return mazo; }
     public List<Jugador> getJugadores() { return jugadores; }

@@ -6,6 +6,7 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * 
  * @author lagar
@@ -20,30 +21,33 @@ public class Mano {
 
     public void agregarCarta(Carta carta) {
         if (carta != null) {
-            System.out.println("[Mano] Agregando carta: " 
-                + carta.getValor() + " de color " + carta.getColor());
-
             cartas.add(carta);
-
-            System.out.println("[Mano] Total de cartas: " + cartas.size());
+            System.out.println("[Mano] [+] Carta añadida: " 
+                + carta.getValor() + " [" + carta.getColor() + "]");
+            System.out.println("[Mano] Cartas actuales en mano: " + cartas.size());
         } else {
-            System.out.println("[Mano] Intento de agregar carta nula");
+            System.out.println("[Mano] [!] Error: Intento de agregar una carta nula.");
         }
     }
 
     public void removerCarta(Carta carta) {
-        System.out.println("[Mano] Intentando remover carta: " 
-            + carta.getValor() + " de color " + carta.getColor());
+        if (carta == null) {
+            System.out.println("[Mano] [!] Error: Intento de remover una referencia nula.");
+            return;
+        }
+
+        System.out.println("[Mano] [-] Intentando descartar: " 
+            + carta.getValor() + " [" + carta.getColor() + "]");
 
         boolean removida = cartas.remove(carta);
 
         if (removida) {
-            System.out.println("[Mano] Carta removida correctamente");
+            System.out.println("[Mano] Descarte exitoso.");
         } else {
-            System.out.println("[Mano] La carta no estaba en la mano");
+            System.out.println("[Mano] [!] Advertencia: La carta no se encontró en la mano.");
         }
 
-        System.out.println("[Mano] Total de cartas: " + cartas.size());
+        System.out.println("[Mano] Cartas restantes: " + cartas.size());
     }
 
     public int getSize() {
