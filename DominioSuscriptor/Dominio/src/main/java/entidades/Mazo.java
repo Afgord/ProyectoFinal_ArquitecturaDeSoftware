@@ -17,15 +17,10 @@ public class Mazo {
 
     public Mazo(int rangoInicio, int rangoFinal, boolean masDos, boolean prohibido, 
                 boolean reversa, boolean masCuatro, boolean cambioColor) {
-        
-        this.baraja = new ArrayList<>();
-        
-        System.out.println("[Mazo] --- Iniciando generación de baraja ---");
-        
-        generarCartas(rangoInicio, rangoFinal, masDos, prohibido, reversa, masCuatro, cambioColor);
-        
+        this.baraja = new ArrayList<>();       
+        System.out.println("[Mazo] --- Iniciando generación de baraja ---");       
+        generarCartas(rangoInicio, rangoFinal, masDos, prohibido, reversa, masCuatro, cambioColor);        
         System.out.println("[Mazo] Total de cartas en baraja: " + baraja.size());
-
         Collections.shuffle(baraja);
         System.out.println("[Mazo] Baraja mezclada correctamente.");
     }

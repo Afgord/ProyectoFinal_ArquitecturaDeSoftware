@@ -4,6 +4,7 @@
  */
 package dtos;
 
+import entidades.TipoEvento;
 import java.util.List;
 
 /**
@@ -12,11 +13,11 @@ import java.util.List;
  */
 public class ResultadoGritoDTO {
     private final boolean exitoGrito; 
-    private final String mensaje;      
+    private final TipoEvento mensaje;      
     private final String idCastigado;  
     private final List<JugadorDTO> estadoJugadores; 
     
-    public ResultadoGritoDTO(boolean exitoGrito, String mensaje, String idCastigado, List<JugadorDTO> estadoJugadores) {
+    public ResultadoGritoDTO(boolean exitoGrito, TipoEvento mensaje, String idCastigado, List<JugadorDTO> estadoJugadores) {
         this.exitoGrito = exitoGrito;
         this.mensaje = mensaje;
         this.idCastigado = idCastigado;
@@ -27,7 +28,7 @@ public class ResultadoGritoDTO {
         return exitoGrito;
     }
 
-    public String getMensaje() {
+    public TipoEvento getMensaje() {
         return mensaje;
     }
 
