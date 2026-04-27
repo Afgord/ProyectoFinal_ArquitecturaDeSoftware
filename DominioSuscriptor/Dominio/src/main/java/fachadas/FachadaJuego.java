@@ -18,13 +18,13 @@ public class FachadaJuego implements FachadaDominio {
     @Override
     public Object validarYPlay(CartaDTO carta) {
         System.out.println("[Fachada] Procesando jugada...");
-        return tablero.ejecutarJugadaConRetorno(carta);
+        return tablero.ejecutarJugada(carta);
     }
 
     @Override
     public Object robarCarta() {
         System.out.println("[Fachada] Procesando robo...");
-        return tablero.robarYPasarConRetorno();
+        return tablero.robarYPasar();
     }
 
     @Override

@@ -33,7 +33,6 @@ public class Mazo {
         
         for (int n = rI; n <= rF; n++) {
             for (Colores col : coloresValidos) {
-                // Se añaden dos de cada una según las reglas estándar
                 baraja.add(new Carta(valoresNumericos[n], col));
                 baraja.add(new Carta(valoresNumericos[n], col));
             }

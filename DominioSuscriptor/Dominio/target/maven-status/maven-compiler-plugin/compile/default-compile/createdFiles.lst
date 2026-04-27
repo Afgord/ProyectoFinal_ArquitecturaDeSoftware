@@ -10,7 +10,6 @@ entidades\Jugador.class
 entidades\Tablero$1.class
 dtos\JugadorDTO.class
 Ejecutador\Ejecutador.class
-dtos\InfoRuletaDTO.class
 dtos\ResultadoJugadaDTO.class
 entidades\Descarte.class
 entidades\ResultadoRuleta.class

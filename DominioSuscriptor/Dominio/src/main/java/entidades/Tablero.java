@@ -43,7 +43,7 @@ public class Tablero {
         System.out.println("[Tablero] Turno inicial: " + getJugadorActual().getNombre());
     }
 
-    public Object ejecutarJugadaConRetorno(CartaDTO cartaDto) {
+    public Object ejecutarJugada(CartaDTO cartaDto) {
         System.out.println("[Tablero] Solicitud de jugada: " + cartaDto.getValor() + " " + cartaDto.getColor());
 
         if (ejecutarLogicaJugada(buscarCartaEnMano(cartaDto), cartaDto)) {
@@ -63,34 +63,42 @@ public class Tablero {
         return new ResultadoJugadaDTO(false, TipoEvento.ERROR, null, generarEstadoDTO(), obtenerCartaCimaDTO(), "Jugada inválida");
     }
 
-    private boolean ejecutarLogicaJugada(Carta cartaReal, CartaDTO datos) {
-    if (cartaReal == null) {
-        System.out.println("[Tablero] Error: El jugador no posee la carta solicitada.");
+    private boolean ejecutarLogicaJugada(Carta cartaReal, CartaDTO carta) {
+        if (cartaReal == null) {
+            System.out.println("[Tablero] Error: El jugador no posee la carta solicitada.");
+            return false;
+        }
+
+        if (cartaReal.esComodin()) {
+            System.out.println("[Tablero] Comodín detectado. Cambiando color a: " + carta.getColor());
+            cartaReal.setColor(carta.getColor());
+        }
+
+        if (descarte.recibirCarta(cartaReal)) {
+            System.out.println("[Tablero] Carta aceptada en descarte: " + cartaReal.getValor());
+            getJugadorActual().tirarCarta(cartaReal);
+            
+            if (cartaReal.esSpin()) {
+                System.out.println("[Tablero] ¡Efecto SPIN! Pasando turno antes de girar...");
+                siguienteTurno();
+                this.estadoPendienteRuleta = ruleta.girarYAplicar(this);
+
+                String detalleExtra = ruleta.getDetalleUltimoEfecto();
+                System.out.println("[Tablero] Resultado Ruleta: " + estadoPendienteRuleta + " (Detalle: " + detalleExtra + ")");
+            } else {
+                this.estadoPendienteRuleta = null;
+                if (!cartaReal.esNumerica()) {
+
+                    ejecutarEfecto(cartaReal);
+                } else {
+                    System.out.println("[Tablero] Carta numérica estándar. Pasando turno...");
+                    siguienteTurno();
+                }
+            }
+            return true;
+        }
         return false;
     }
-
-    if (cartaReal.esComodin()) {
-        System.out.println("[Tablero] Comodín detectado. Cambiando color a: " + datos.getColor());
-        cartaReal.setColor(datos.getColor());
-    }
-
-    if (descarte.recibirCarta(cartaReal)) {
-        System.out.println("[Tablero] Carta aceptada en descarte: " + cartaReal.getValor());
-        getJugadorActual().tirarCarta(cartaReal);
-        if (cartaReal.esSpin()) {
-            System.out.println("[Tablero] ¡Efecto SPIN! Pasando turno antes de girar...");
-            siguienteTurno();
-            this.estadoPendienteRuleta = ruleta.girarYAplicar(this);
-            String detalleExtra = ruleta.getDetalleUltimoEfecto();
-            System.out.println("[Tablero] Resultado Ruleta: " + estadoPendienteRuleta + " (Detalle: " + detalleExtra + ")");
-        } else {
-            this.estadoPendienteRuleta = null; 
-            ejecutarEfecto(cartaReal);
-        }
-        return true;
-    }
-    return false;
-}
 
     public void ejecutarEfecto(Carta carta) {
         Valor accion = carta.getValor();
@@ -163,7 +171,7 @@ public class Tablero {
         System.out.println("[Tablero] Sentido de juego cambiado. ¿Horario?: " + sentidoReloj);
     }
 
-    public Object robarYPasarConRetorno() {
+    public Object robarYPasar() {
         System.out.println("[Tablero] " + getJugadorActual().getNombre() + " decide robar y pasar.");
         darCartaAJugador(getJugadorActual());
         siguienteTurno();
