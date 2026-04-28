@@ -10,11 +10,11 @@ import java.util.UUID;
  * 
  * @author lagar
  */
-public abstract class Evento implements Serializable {
+public abstract class EventoJuego implements Serializable {
     private static final long serialVersionUID = 1L;
     private final String idEvento;
 
-    public Evento() {
+    public EventoJuego() {
         this.idEvento = UUID.randomUUID().toString();
     }
 
