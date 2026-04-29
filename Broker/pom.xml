@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>Directorio</module>
-        <module>Componente_Red</module>
+        <module>ComponenteConexion</module>
         <module>Evento</module>
         <module>Code_Desc</module>
     </modules>

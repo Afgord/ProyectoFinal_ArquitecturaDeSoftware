@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package org.eventos.tipos;
-import org.eventos.comun.Evento;
+import org.eventos.comun.EventoJuego;
 /**
  * 
  * @author lagar
  */
-public class EventoControl extends Evento {
+public class EventoControl extends EventoJuego {
     private final String accion; 
     private final String mensaje;
     private Object configuracion;

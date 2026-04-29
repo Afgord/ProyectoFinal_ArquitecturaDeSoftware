@@ -7,6 +7,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>TraductorDominio</module>
+        <module>ComponenteConexion</module>
         <module>Dominio</module>
     </modules>
     <properties>

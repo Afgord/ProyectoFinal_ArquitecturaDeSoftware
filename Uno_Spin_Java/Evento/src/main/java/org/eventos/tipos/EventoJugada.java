@@ -4,9 +4,9 @@
  */
 package org.eventos.tipos;
 
-import org.eventos.comun.Evento;
+import org.eventos.comun.EventoJuego;
 
-public class EventoJugada extends Evento {
+public class EventoJugada extends EventoJuego {
     private final String color;
     private final String simbolo;
     private Object cartaObjeto;

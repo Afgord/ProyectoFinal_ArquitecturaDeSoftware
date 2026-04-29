@@ -1,70 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="fachadas.FachadaJuegoTest" time="0.103" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="fachadas.FachadaJuegoTest" time="0.075" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
-    <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\lagar\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\lagar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\cmartinez\Documents\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\cmartinez\Documents\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\cmartinez\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\cmartinez\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="java.vm.vendor" value="Eclipse Adoptium"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
     <property name="java.vendor.url" value="https://adoptium.net/"/>
-    <property name="user.timezone" value="America/Mexico_City"/>
-    <property name="user.country.format" value="US"/>
-    <property name="os.name" value="Windows 11"/>
+    <property name="user.timezone" value="America/Hermosillo"/>
+    <property name="os.name" value="Windows 10"/>
     <property name="java.vm.specification.version" value="25"/>
     <property name="user.country" value="MX"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
-    <property name="sun.java.command" value="C:\Users\lagar\AppData\Local\Temp\surefire9425263888288959545\surefirebooter-20260427133711001_3.jar C:\Users\lagar\AppData\Local\Temp\surefire9425263888288959545 2026-04-27T13-37-10_847-jvmRun1 surefire-20260427133711001_1tmp surefire_0-20260427133711001_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\cmartinez\AppData\Local\Temp\surefire3690675718702551326\surefirebooter-20260428174440990_3.jar C:\Users\cmartinez\AppData\Local\Temp\surefire3690675718702551326 2026-04-28T17-44-37_766-jvmRun1 surefire-20260428174440990_1tmp surefire_0-20260428174440990_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="fachadas.FachadaJuegoTest"/>
-    <property name="surefire.test.class.path" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\lagar\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\lagar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\cmartinez\Documents\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\cmartinez\Documents\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\cmartinez\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\cmartinez\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="C:\Users\lagar"/>
+    <property name="user.home" value="C:\Users\cmartinez"/>
     <property name="user.language" value="es"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.version.date" value="2026-01-20"/>
     <property name="java.home" value="C:\Program Files\Apache NetBeans\jdk"/>
     <property name="file.separator" value="\"/>
-    <property name="basedir" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio"/>
+    <property name="basedir" value="C:\Users\cmartinez\Documents\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\lagar\AppData\Local\Temp\surefire9425263888288959545\surefirebooter-20260427133711001_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\cmartinez\AppData\Local\Temp\surefire3690675718702551326\surefirebooter-20260428174440990_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="25.0.1+8-LTS"/>
-    <property name="user.name" value="lagar"/>
-    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="java.runtime.version" value="25.0.2+10-LTS"/>
+    <property name="user.name" value="cmartinez"/>
+    <property name="stdout.encoding" value="Cp1252"/>
     <property name="path.separator" value=";"/>
     <property name="os.version" value="10.0"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
-    <property name="java.vendor.version" value="Temurin-25.0.1+8"/>
+    <property name="java.vendor.version" value="Temurin-25.0.2+10"/>
     <property name="maven.ext.class.path" value="C:\Program Files\Apache NetBeans\java\maven-nblib\netbeans-eventspy.jar"/>
-    <property name="localRepository" value="C:\Users\lagar\.m2\repository"/>
+    <property name="localRepository" value="C:\Users\cmartinez\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
-    <property name="java.io.tmpdir" value="C:\Users\lagar\AppData\Local\Temp\"/>
-    <property name="java.version" value="25.0.1"/>
-    <property name="user.dir" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio"/>
+    <property name="java.io.tmpdir" value="C:\Users\CMARTI~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="25.0.2"/>
+    <property name="user.dir" value="C:\Users\cmartinez\Documents\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.language.format" value="en"/>
     <property name="sun.os.patch.level" value=""/>
-    <property name="native.encoding" value="UTF-8"/>
-    <property name="java.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Java\jdk-25\bin;C:\Program Files\nodejs\;C:\Program Files\Erlang OTP\bin;C:\Program Files\RabbitMQ Server\rabbitmq_server-4.2.5\sbin;C:\Users\lagar\AppData\Local\Microsoft\WindowsApps;C:\Users\lagar\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\lagar\AppData\Local\GitHubDesktop\bin;C:\Users\lagar\AppData\Roaming\npm;."/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\Microsoft SQL Server\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\cmartinez\AppData\Local\Programs\Python\Launcher\;C:\Users\cmartinez\AppData\Local\Microsoft\WindowsApps;C:\Users\cmartinez\AppData\Local\GitHubDesktop\bin;C:\Users\cmartinez\.dotnet\tools;C:\Users\cmartinez\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Apache NetBeans\bin\;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="stderr.encoding" value="Cp1252"/>
     <property name="java.vendor" value="Eclipse Adoptium"/>
-    <property name="java.vm.version" value="25.0.1+8-LTS"/>
-    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="java.vm.version" value="25.0.2+10-LTS"/>
+    <property name="stdin.encoding" value="Cp1252"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testActivacionRuletaPorCartaNumerica" classname="fachadas.FachadaJuegoTest" time="0.043">
+  <testcase name="testActivacionRuletaPorCartaNumerica" classname="fachadas.FachadaJuegoTest" time="0.034">
     <system-out><![CDATA[
 === Configurando Entorno de Prueba ===
 [Mazo] --- Iniciando generación de baraja ---
@@ -88,202 +85,202 @@
 [Mazo] Total de cartas en baraja: 100
 [Mazo] Baraja mezclada correctamente.
 [Mazo] Buscando carta inicial válida (Numérica)...
-[Mazo] Carta inicial seleccionada: UNO ROJO
+[Mazo] Carta inicial seleccionada: TRES AMARILLO
 [Tablero] Inicializando juego...
 [Tablero] Jugadores registrados: 4
 [Tablero] Turno inicial: Jugador 1
-[Mazo] Carta entregada: CERO [AMARILLO]
+[Mazo] Carta entregada: CUATRO [ROJO]
 [Mazo] Cartas restantes: 98
-[Jugador: Jugador 1] Agregando carta: CERO de color AMARILLO
-[Mano] [+] Carta añadida: CERO [AMARILLO]
+[Jugador: Jugador 1] Agregando carta: CUATRO de color ROJO
+[Mano] [+] Carta añadida: CUATRO [ROJO]
 [Mano] Cartas actuales en mano: 1
 [Jugador: Jugador 1] Total de cartas ahora: 1
-[Mazo] Carta entregada: SIETE [ROJO]
+[Mazo] Carta entregada: PROHIBIDO [AMARILLO]
 [Mazo] Cartas restantes: 97
-[Jugador: Jugador 1] Agregando carta: SIETE de color ROJO
-[Mano] [+] Carta añadida: SIETE [ROJO]
+[Jugador: Jugador 1] Agregando carta: PROHIBIDO de color AMARILLO
+[Mano] [+] Carta añadida: PROHIBIDO [AMARILLO]
 [Mano] Cartas actuales en mano: 2
 [Jugador: Jugador 1] Total de cartas ahora: 2
-[Mazo] Carta entregada: OCHO [AZUL]
+[Mazo] Carta entregada: CUATRO [VERDE]
 [Mazo] Cartas restantes: 96
-[Jugador: Jugador 1] Agregando carta: OCHO de color AZUL
-[Mano] [+] Carta añadida: OCHO [AZUL]
+[Jugador: Jugador 1] Agregando carta: CUATRO de color VERDE
+[Mano] [+] Carta añadida: CUATRO [VERDE]
 [Mano] Cartas actuales en mano: 3
 [Jugador: Jugador 1] Total de cartas ahora: 3
-[Mazo] Carta entregada: CINCO [AZUL]
-[Mazo] Cartas restantes: 95
-[Jugador: Jugador 1] Agregando carta: CINCO de color AZUL
-[Mano] [+] Carta añadida: CINCO [AZUL]
-[Mano] Cartas actuales en mano: 4
-[Jugador: Jugador 1] Total de cartas ahora: 4
-[Mazo] Carta entregada: DOS [AZUL]
-[Mazo] Cartas restantes: 94
-[Jugador: Jugador 1] Agregando carta: DOS de color AZUL
-[Mano] [+] Carta añadida: DOS [AZUL]
-[Mano] Cartas actuales en mano: 5
-[Jugador: Jugador 1] Total de cartas ahora: 5
 [Mazo] Carta entregada: NUEVE [VERDE]
-[Mazo] Cartas restantes: 93
+[Mazo] Cartas restantes: 95
 [Jugador: Jugador 1] Agregando carta: NUEVE de color VERDE
 [Mano] [+] Carta añadida: NUEVE [VERDE]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 1] Total de cartas ahora: 4
+[Mazo] Carta entregada: CINCO [VERDE]
+[Mazo] Cartas restantes: 94
+[Jugador: Jugador 1] Agregando carta: CINCO de color VERDE
+[Mano] [+] Carta añadida: CINCO [VERDE]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 1] Total de cartas ahora: 5
+[Mazo] Carta entregada: DOS [VERDE]
+[Mazo] Cartas restantes: 93
+[Jugador: Jugador 1] Agregando carta: DOS de color VERDE
+[Mano] [+] Carta añadida: DOS [VERDE]
 [Mano] Cartas actuales en mano: 6
 [Jugador: Jugador 1] Total de cartas ahora: 6
-[Mazo] Carta entregada: CUATRO [AZUL]
+[Mazo] Carta entregada: UNO [ROJO]
 [Mazo] Cartas restantes: 92
-[Jugador: Jugador 1] Agregando carta: CUATRO de color AZUL
-[Mano] [+] Carta añadida: CUATRO [AZUL]
+[Jugador: Jugador 1] Agregando carta: UNO de color ROJO
+[Mano] [+] Carta añadida: UNO [ROJO]
 [Mano] Cartas actuales en mano: 7
 [Jugador: Jugador 1] Total de cartas ahora: 7
-[Mazo] Carta entregada: DOS [ROJO]
+[Mazo] Carta entregada: CERO [ROJO]
 [Mazo] Cartas restantes: 91
-[Jugador: Jugador 2] Agregando carta: DOS de color ROJO
-[Mano] [+] Carta añadida: DOS [ROJO]
+[Jugador: Jugador 2] Agregando carta: CERO de color ROJO
+[Mano] [+] Carta añadida: CERO [ROJO]
 [Mano] Cartas actuales en mano: 1
 [Jugador: Jugador 2] Total de cartas ahora: 1
-[Mazo] Carta entregada: CERO [AMARILLO]
+[Mazo] Carta entregada: MASDOS [AMARILLO]
 [Mazo] Cartas restantes: 90
-[Jugador: Jugador 2] Agregando carta: CERO de color AMARILLO
-[Mano] [+] Carta añadida: CERO [AMARILLO]
+[Jugador: Jugador 2] Agregando carta: MASDOS de color AMARILLO
+[Mano] [+] Carta añadida: MASDOS [AMARILLO]
 [Mano] Cartas actuales en mano: 2
 [Jugador: Jugador 2] Total de cartas ahora: 2
-[Mazo] Carta entregada: OCHO [AMARILLO]
+[Mazo] Carta entregada: SEIS [ROJO]
 [Mazo] Cartas restantes: 89
-[Jugador: Jugador 2] Agregando carta: OCHO de color AMARILLO
-[Mano] [+] Carta añadida: OCHO [AMARILLO]
+[Jugador: Jugador 2] Agregando carta: SEIS de color ROJO
+[Mano] [+] Carta añadida: SEIS [ROJO]
 [Mano] Cartas actuales en mano: 3
 [Jugador: Jugador 2] Total de cartas ahora: 3
-[Mazo] Carta entregada: SIETE [VERDE]
+[Mazo] Carta entregada: MASDOS [AZUL]
 [Mazo] Cartas restantes: 88
-[Jugador: Jugador 2] Agregando carta: SIETE de color VERDE
-[Mano] [+] Carta añadida: SIETE [VERDE]
+[Jugador: Jugador 2] Agregando carta: MASDOS de color AZUL
+[Mano] [+] Carta añadida: MASDOS [AZUL]
 [Mano] Cartas actuales en mano: 4
 [Jugador: Jugador 2] Total de cartas ahora: 4
-[Mazo] Carta entregada: CUATRO [VERDE]
+[Mazo] Carta entregada: PROHIBIDO [VERDE]
 [Mazo] Cartas restantes: 87
-[Jugador: Jugador 2] Agregando carta: CUATRO de color VERDE
-[Mano] [+] Carta añadida: CUATRO [VERDE]
+[Jugador: Jugador 2] Agregando carta: PROHIBIDO de color VERDE
+[Mano] [+] Carta añadida: PROHIBIDO [VERDE]
 [Mano] Cartas actuales en mano: 5
 [Jugador: Jugador 2] Total de cartas ahora: 5
-[Mazo] Carta entregada: CERO [AZUL]
+[Mazo] Carta entregada: CINCO [AMARILLO]
 [Mazo] Cartas restantes: 86
-[Jugador: Jugador 2] Agregando carta: CERO de color AZUL
-[Mano] [+] Carta añadida: CERO [AZUL]
+[Jugador: Jugador 2] Agregando carta: CINCO de color AMARILLO
+[Mano] [+] Carta añadida: CINCO [AMARILLO]
 [Mano] Cartas actuales en mano: 6
 [Jugador: Jugador 2] Total de cartas ahora: 6
-[Mazo] Carta entregada: UNO [AMARILLO]
+[Mazo] Carta entregada: NUEVE [ROJO]
 [Mazo] Cartas restantes: 85
-[Jugador: Jugador 2] Agregando carta: UNO de color AMARILLO
-[Mano] [+] Carta añadida: UNO [AMARILLO]
+[Jugador: Jugador 2] Agregando carta: NUEVE de color ROJO
+[Mano] [+] Carta añadida: NUEVE [ROJO]
 [Mano] Cartas actuales en mano: 7
 [Jugador: Jugador 2] Total de cartas ahora: 7
-[Mazo] Carta entregada: SIETE [VERDE]
+[Mazo] Carta entregada: TRES [AZUL]
 [Mazo] Cartas restantes: 84
-[Jugador: Jugador 3] Agregando carta: SIETE de color VERDE
-[Mano] [+] Carta añadida: SIETE [VERDE]
+[Jugador: Jugador 3] Agregando carta: TRES de color AZUL
+[Mano] [+] Carta añadida: TRES [AZUL]
 [Mano] Cartas actuales en mano: 1
 [Jugador: Jugador 3] Total de cartas ahora: 1
-[Mazo] Carta entregada: CUATRO [ROJO]
+[Mazo] Carta entregada: PROHIBIDO [AZUL]
 [Mazo] Cartas restantes: 83
-[Jugador: Jugador 3] Agregando carta: CUATRO de color ROJO
-[Mano] [+] Carta añadida: CUATRO [ROJO]
+[Jugador: Jugador 3] Agregando carta: PROHIBIDO de color AZUL
+[Mano] [+] Carta añadida: PROHIBIDO [AZUL]
 [Mano] Cartas actuales en mano: 2
 [Jugador: Jugador 3] Total de cartas ahora: 2
-[Mazo] Carta entregada: OCHO [ROJO]
+[Mazo] Carta entregada: MASCUATRO [NEGRO]
 [Mazo] Cartas restantes: 82
-[Jugador: Jugador 3] Agregando carta: OCHO de color ROJO
-[Mano] [+] Carta añadida: OCHO [ROJO]
+[Jugador: Jugador 3] Agregando carta: MASCUATRO de color NEGRO
+[Mano] [+] Carta añadida: MASCUATRO [NEGRO]
 [Mano] Cartas actuales en mano: 3
 [Jugador: Jugador 3] Total de cartas ahora: 3
-[Mazo] Carta entregada: OCHO [AZUL]
+[Mazo] Carta entregada: SEIS [AZUL]
 [Mazo] Cartas restantes: 81
-[Jugador: Jugador 3] Agregando carta: OCHO de color AZUL
-[Mano] [+] Carta añadida: OCHO [AZUL]
+[Jugador: Jugador 3] Agregando carta: SEIS de color AZUL
+[Mano] [+] Carta añadida: SEIS [AZUL]
 [Mano] Cartas actuales en mano: 4
 [Jugador: Jugador 3] Total de cartas ahora: 4
-[Mazo] Carta entregada: CAMBIOCOLOR [NEGRO]
+[Mazo] Carta entregada: DOS [ROJO]
 [Mazo] Cartas restantes: 80
-[Jugador: Jugador 3] Agregando carta: CAMBIOCOLOR de color NEGRO
-[Mano] [+] Carta añadida: CAMBIOCOLOR [NEGRO]
+[Jugador: Jugador 3] Agregando carta: DOS de color ROJO
+[Mano] [+] Carta añadida: DOS [ROJO]
 [Mano] Cartas actuales en mano: 5
 [Jugador: Jugador 3] Total de cartas ahora: 5
-[Mazo] Carta entregada: SEIS [AMARILLO]
+[Mazo] Carta entregada: SEIS [ROJO]
 [Mazo] Cartas restantes: 79
-[Jugador: Jugador 3] Agregando carta: SEIS de color AMARILLO
-[Mano] [+] Carta añadida: SEIS [AMARILLO]
+[Jugador: Jugador 3] Agregando carta: SEIS de color ROJO
+[Mano] [+] Carta añadida: SEIS [ROJO]
 [Mano] Cartas actuales en mano: 6
 [Jugador: Jugador 3] Total de cartas ahora: 6
-[Mazo] Carta entregada: CINCO [ROJO]
+[Mazo] Carta entregada: REVERSA [ROJO]
 [Mazo] Cartas restantes: 78
-[Jugador: Jugador 3] Agregando carta: CINCO de color ROJO
-[Mano] [+] Carta añadida: CINCO [ROJO]
+[Jugador: Jugador 3] Agregando carta: REVERSA de color ROJO
+[Mano] [+] Carta añadida: REVERSA [ROJO]
 [Mano] Cartas actuales en mano: 7
 [Jugador: Jugador 3] Total de cartas ahora: 7
-[Mazo] Carta entregada: TRES [VERDE]
+[Mazo] Carta entregada: OCHO [AMARILLO]
 [Mazo] Cartas restantes: 77
-[Jugador: Jugador 4] Agregando carta: TRES de color VERDE
-[Mano] [+] Carta añadida: TRES [VERDE]
+[Jugador: Jugador 4] Agregando carta: OCHO de color AMARILLO
+[Mano] [+] Carta añadida: OCHO [AMARILLO]
 [Mano] Cartas actuales en mano: 1
 [Jugador: Jugador 4] Total de cartas ahora: 1
-[Mazo] Carta entregada: OCHO [VERDE]
-[Mazo] Cartas restantes: 76
-[Jugador: Jugador 4] Agregando carta: OCHO de color VERDE
-[Mano] [+] Carta añadida: OCHO [VERDE]
-[Mano] Cartas actuales en mano: 2
-[Jugador: Jugador 4] Total de cartas ahora: 2
-[Mazo] Carta entregada: DOS [VERDE]
-[Mazo] Cartas restantes: 75
-[Jugador: Jugador 4] Agregando carta: DOS de color VERDE
-[Mano] [+] Carta añadida: DOS [VERDE]
-[Mano] Cartas actuales en mano: 3
-[Jugador: Jugador 4] Total de cartas ahora: 3
-[Mazo] Carta entregada: UNO [VERDE]
-[Mazo] Cartas restantes: 74
-[Jugador: Jugador 4] Agregando carta: UNO de color VERDE
-[Mano] [+] Carta añadida: UNO [VERDE]
-[Mano] Cartas actuales en mano: 4
-[Jugador: Jugador 4] Total de cartas ahora: 4
-[Mazo] Carta entregada: MASDOS [VERDE]
-[Mazo] Cartas restantes: 73
-[Jugador: Jugador 4] Agregando carta: MASDOS de color VERDE
-[Mano] [+] Carta añadida: MASDOS [VERDE]
-[Mano] Cartas actuales en mano: 5
-[Jugador: Jugador 4] Total de cartas ahora: 5
 [Mazo] Carta entregada: SIETE [AZUL]
-[Mazo] Cartas restantes: 72
+[Mazo] Cartas restantes: 76
 [Jugador: Jugador 4] Agregando carta: SIETE de color AZUL
 [Mano] [+] Carta añadida: SIETE [AZUL]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Jugador 4] Total de cartas ahora: 2
+[Mazo] Carta entregada: REVERSA [AMARILLO]
+[Mazo] Cartas restantes: 75
+[Jugador: Jugador 4] Agregando carta: REVERSA de color AMARILLO
+[Mano] [+] Carta añadida: REVERSA [AMARILLO]
+[Mano] Cartas actuales en mano: 3
+[Jugador: Jugador 4] Total de cartas ahora: 3
+[Mazo] Carta entregada: SEIS [AMARILLO]
+[Mazo] Cartas restantes: 74
+[Jugador: Jugador 4] Agregando carta: SEIS de color AMARILLO
+[Mano] [+] Carta añadida: SEIS [AMARILLO]
+[Mano] Cartas actuales en mano: 4
+[Jugador: Jugador 4] Total de cartas ahora: 4
+[Mazo] Carta entregada: CAMBIOCOLOR [NEGRO]
+[Mazo] Cartas restantes: 73
+[Jugador: Jugador 4] Agregando carta: CAMBIOCOLOR de color NEGRO
+[Mano] [+] Carta añadida: CAMBIOCOLOR [NEGRO]
+[Mano] Cartas actuales en mano: 5
+[Jugador: Jugador 4] Total de cartas ahora: 5
+[Mazo] Carta entregada: SIETE [ROJO]
+[Mazo] Cartas restantes: 72
+[Jugador: Jugador 4] Agregando carta: SIETE de color ROJO
+[Mano] [+] Carta añadida: SIETE [ROJO]
 [Mano] Cartas actuales en mano: 6
 [Jugador: Jugador 4] Total de cartas ahora: 6
-[Mazo] Carta entregada: CERO [ROJO]
+[Mazo] Carta entregada: TRES [ROJO]
 [Mazo] Cartas restantes: 71
-[Jugador: Jugador 4] Agregando carta: CERO de color ROJO
-[Mano] [+] Carta añadida: CERO [ROJO]
+[Jugador: Jugador 4] Agregando carta: TRES de color ROJO
+[Mano] [+] Carta añadida: TRES [ROJO]
 [Mano] Cartas actuales en mano: 7
 [Jugador: Jugador 4] Total de cartas ahora: 7
 === Configuración de Prueba Exitosa ===
 
 
 --- TEST: Activación de Ruleta (Carta 1-5) ---
-[Jugador: Jugador 1] Agregando carta: TRES de color ROJO
-[Mano] [+] Carta añadida: TRES [ROJO]
+[Jugador: Jugador 1] Agregando carta: TRES de color AMARILLO
+[Mano] [+] Carta añadida: TRES [AMARILLO]
 [Mano] Cartas actuales en mano: 8
 [Jugador: Jugador 1] Total de cartas ahora: 8
 [Fachada] Procesando jugada...
-[Tablero] Solicitud de jugada: TRES ROJO
+[Tablero] Solicitud de jugada: TRES AMARILLO
 [Descarte] Validación exitosa: Coincidencia de COLOR.
-[Descarte] Recibiendo carta: TRES de color ROJO
-[Descarte] Nueva carta en cima: TRES de color ROJO
+[Descarte] Validación exitosa: Coincidencia de VALOR.
+[Descarte] Recibiendo carta: TRES de color AMARILLO
+[Descarte] Nueva carta en cima: TRES de color AMARILLO
 [Tablero] Carta aceptada en descarte: TRES
-[Jugador: Jugador 1] Tirando carta: TRES de color ROJO
-[Mano] [-] Intentando descartar: TRES [ROJO]
+[Jugador: Jugador 1] Tirando carta: TRES de color AMARILLO
+[Mano] [-] Intentando descartar: TRES [AMARILLO]
 [Mano] Descarte exitoso.
 [Mano] Cartas restantes: 7
 [Jugador: Jugador 1] Cartas restantes: 7
 [Tablero] ¡Efecto SPIN! Pasando turno antes de girar...
 [Tablero] Cambio de Turno: [Jugador 1] -> [Jugador 2]
-[Ruleta] ¡Girando...! Resultado: CASI_UNO
-[Tablero] Cambio de Turno: [Jugador 2] -> [Jugador 3]
-[Tablero] Resultado Ruleta: CASI_UNO_APLICADO (Detalle: )
+[Ruleta] ¡Girando...! Resultado: PUNTUACION_BAJA
+[Tablero] Resultado Ruleta: PUNTUACION_BAJA_WAIT (Detalle: 1)
 ]]></system-out>
   </testcase>
 </testsuite>
