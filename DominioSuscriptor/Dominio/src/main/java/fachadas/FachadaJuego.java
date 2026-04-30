@@ -37,10 +37,4 @@ public class FachadaJuego implements FachadaDominio {
         System.out.println("[Fachada] Procesando grito de UNO...");
         return tablero.procesarGritoUno(datosGrito);
     }
-    
-    @Override
-    public Object aplicarDescarteEspecial(String idJugador, CartaDTO cartaElegida) {
-        System.out.println("[Fachada] Procesando descarte especial de Ruleta para: " + idJugador);
-        return tablero.procesarDescarteEspecial(idJugador, cartaElegida);
-    }
 }

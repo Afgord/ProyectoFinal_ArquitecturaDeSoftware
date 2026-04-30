@@ -16,5 +16,4 @@ public interface FachadaDominio {
     public Object validarYPlay(CartaDTO carta);
     public void pasarTurno();
     public Object gritarUno(JugadorDTO datosGrito);
-    public Object aplicarDescarteEspecial(String idJugador, CartaDTO cartaElegida);
 }

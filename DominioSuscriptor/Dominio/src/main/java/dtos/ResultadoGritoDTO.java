@@ -6,39 +6,25 @@ package dtos;
 
 import entidades.TipoEvento;
 import java.util.List;
-
 /**
- *
+ * 
  * @author lagar
  */
 public class ResultadoGritoDTO {
     private final boolean exitoGrito; 
-    private final TipoEvento mensaje;      
+    private final TipoEvento evento;      
     private final String idCastigado;  
     private final List<JugadorDTO> estadoJugadores; 
     
-    public ResultadoGritoDTO(boolean exitoGrito, TipoEvento mensaje, String idCastigado, List<JugadorDTO> estadoJugadores) {
+    public ResultadoGritoDTO(boolean exitoGrito, TipoEvento evento, String idCastigado, List<JugadorDTO> estadoJugadores) {
         this.exitoGrito = exitoGrito;
-        this.mensaje = mensaje;
+        this.evento = evento;
         this.idCastigado = idCastigado;
         this.estadoJugadores = estadoJugadores;
     }
 
-    public boolean isExitoGrito() {
-        return exitoGrito;
-    }
-
-    public TipoEvento getMensaje() {
-        return mensaje;
-    }
-
-    public String getIdCastigado() {
-        return idCastigado;
-    }
-
-    public List<JugadorDTO> getEstadoJugadores() {
-        return estadoJugadores;
-    }
-    
-    
+    public boolean isExitoGrito() { return exitoGrito; }
+    public TipoEvento getEvento() { return evento; }
+    public String getIdCastigado() { return idCastigado; }
+    public List<JugadorDTO> getEstadoJugadores() { return estadoJugadores; }
 }
