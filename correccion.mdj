@@ -44093,7 +44093,7 @@
 											"top": 346,
 											"width": 135.0498046875,
 											"height": 13,
-											"text": "EventoJuego"
+											"text": "Evento"
 										},
 										{
 											"_type": "LabelView",

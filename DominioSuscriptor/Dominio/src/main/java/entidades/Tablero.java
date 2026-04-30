@@ -47,10 +47,10 @@ public class Tablero {
                 eventoFinal = TipoEvento.GANADOR;
             }
 
-            return new ResultadoJugadaDTO(true, eventoFinal, ganador, generarEstadoDTO(), obtenerCartaCimaDTO());
+            return new ResultadoJugadaDTO(true, eventoFinal, ganador, generarEstadoDTO(), obtenerCartaCimaDTO(),getJugadorActual().getIdJugador());
         }
 
-        return new ResultadoJugadaDTO(false, TipoEvento.ERROR, null, generarEstadoDTO(), obtenerCartaCimaDTO());
+        return new ResultadoJugadaDTO(false, TipoEvento.ERROR, null, generarEstadoDTO(), obtenerCartaCimaDTO(),getJugadorActual().getIdJugador());
     }
 
     private boolean ejecutarLogicaJugada(Carta cartaReal, CartaDTO cartaDto) {
@@ -130,7 +130,7 @@ public class Tablero {
     public Object robarYPasar() {
         darCartaAJugador(getJugadorActual());
         siguienteTurno();
-        return new ResultadoJugadaDTO(true, TipoEvento.ROBO_Y_PASO, null, generarEstadoDTO(), obtenerCartaCimaDTO());
+        return new ResultadoJugadaDTO(true, TipoEvento.ROBO_Y_PASO, null, generarEstadoDTO(), obtenerCartaCimaDTO(),getJugadorActual().getIdJugador());
     }
 
     private JugadorDTO verificarGanador() {

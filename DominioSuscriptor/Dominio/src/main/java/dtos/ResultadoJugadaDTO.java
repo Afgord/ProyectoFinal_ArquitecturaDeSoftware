@@ -16,14 +16,16 @@ public class ResultadoJugadaDTO {
     private final JugadorDTO ganador; 
     private final List<JugadorDTO> estadoJugadores;
     private final CartaDTO cartaCima;
+    private String idJugadorActual;
 
     public ResultadoJugadaDTO(boolean exito, TipoEvento eventoTipo, JugadorDTO ganador, 
-                               List<JugadorDTO> estadoJugadores, CartaDTO cartaCima) {
+                               List<JugadorDTO> estadoJugadores, CartaDTO cartaCima, String idJugadorActual) {
         this.exito = exito;
         this.eventoTipo = eventoTipo;
         this.ganador = ganador;
         this.estadoJugadores = estadoJugadores;
         this.cartaCima = cartaCima;
+        this.idJugadorActual = idJugadorActual;
     }
     
     public boolean isExito() { return exito; }
@@ -31,4 +33,9 @@ public class ResultadoJugadaDTO {
     public JugadorDTO getGanador() { return ganador; }
     public List<JugadorDTO> getEstadoJugadores() { return estadoJugadores; }
     public CartaDTO getCartaCima() { return cartaCima; }
+
+    public String getIdJugadorActual() {
+        return idJugadorActual;
+    }
+    
 }
