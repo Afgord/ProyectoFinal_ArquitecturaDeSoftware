@@ -8,7 +8,6 @@
     <modules>
         <module>Directorio</module>
         <module>ComponenteConexion</module>
-        <module>Evento</module>
         <module>Code_Desc</module>
     </modules>
     <properties>

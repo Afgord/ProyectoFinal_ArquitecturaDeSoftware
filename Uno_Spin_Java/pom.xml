@@ -10,7 +10,6 @@
         <module>Libreria_Sonido</module>
         <module>ComponenteConexion</module>
         <module>Dominio</module>
-        <module>Evento</module>
         <module>Code_Desc</module>
     </modules>
     <properties>
