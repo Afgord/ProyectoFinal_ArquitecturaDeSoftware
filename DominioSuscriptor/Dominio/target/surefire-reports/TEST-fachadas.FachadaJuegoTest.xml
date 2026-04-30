@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="fachadas.FachadaJuegoTest" time="0.212" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="fachadas.FachadaJuegoTest" time="0.138" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="user.country" value="MX"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
-    <property name="sun.java.command" value="C:\Users\lagar\AppData\Local\Temp\surefire291861362593534828\surefirebooter-20260430163006275_3.jar C:\Users\lagar\AppData\Local\Temp\surefire291861362593534828 2026-04-30T16-30-01_513-jvmRun1 surefire-20260430163006275_1tmp surefire_0-20260430163006275_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\lagar\AppData\Local\Temp\surefire12682799643964328391\surefirebooter-20260430164415022_3.jar C:\Users\lagar\AppData\Local\Temp\surefire12682799643964328391 2026-04-30T16-44-11_824-jvmRun1 surefire-20260430164415022_1tmp surefire_0-20260430164415022_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\test-classes;C:\Users\lagar\OneDrive\Documentos\GitHub\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\target\classes;C:\Users\lagar\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\lagar\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\lagar\AppData\Local\Temp\surefire291861362593534828\surefirebooter-20260430163006275_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\lagar\AppData\Local\Temp\surefire12682799643964328391\surefirebooter-20260430164415022_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.1+8-LTS"/>
@@ -63,7 +63,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testEfectosDeCastigo" classname="fachadas.FachadaJuegoTest" time="0.055">
+  <testcase name="testEfectosDeCastigo" classname="fachadas.FachadaJuegoTest" time="0.039">
     <system-out><![CDATA[[Mazo] --- Iniciando generación de baraja ---
 [Mazo] Generando cartas numéricas (Rango: 0 a 9)...
 [Mazo] Generando cartas de acción por color...
@@ -99,21 +99,21 @@
 [Mano] Descarte exitoso.
 [Mano] Cartas restantes: 0
 [Jugador: David] Cartas restantes: 0
-[Mazo] Carta entregada: PROHIBIDO [AMARILLO]
+[Mazo] Carta entregada: MASDOS [AZUL]
 [Mazo] Cartas restantes: 99
-[Jugador: IA] Agregando carta: PROHIBIDO de color AMARILLO
-[Mano] [+] Carta añadida: PROHIBIDO [AMARILLO]
+[Jugador: IA] Agregando carta: MASDOS de color AZUL
+[Mano] [+] Carta añadida: MASDOS [AZUL]
 [Mano] Cartas actuales en mano: 1
 [Jugador: IA] Total de cartas ahora: 1
-[Mazo] Carta entregada: SEIS [AZUL]
+[Mazo] Carta entregada: CUATRO [AMARILLO]
 [Mazo] Cartas restantes: 98
-[Jugador: IA] Agregando carta: SEIS de color AZUL
-[Mano] [+] Carta añadida: SEIS [AZUL]
+[Jugador: IA] Agregando carta: CUATRO de color AMARILLO
+[Mano] [+] Carta añadida: CUATRO [AMARILLO]
 [Mano] Cartas actuales en mano: 2
 [Jugador: IA] Total de cartas ahora: 2
 ]]></system-out>
   </testcase>
-  <testcase name="testCasosDeJugadas" classname="fachadas.FachadaJuegoTest" time="0.003">
+  <testcase name="testCasosDeJugadas" classname="fachadas.FachadaJuegoTest" time="0.007">
     <system-out><![CDATA[[Mazo] --- Iniciando generación de baraja ---
 [Mazo] Generando cartas numéricas (Rango: 0 a 9)...
 [Mazo] Generando cartas de acción por color...
@@ -149,7 +149,13 @@
 [Mano] Descarte exitoso.
 [Mano] Cartas restantes: 0
 [Jugador: David] Cartas restantes: 0
-[Ruleta] ¡Girando...! Resultado: DESCARTAR_COLOR
+[Ruleta] ¡Girando...! Resultado: ROBAR_HASTA_COLOR
+[Mazo] Carta entregada: CINCO [AZUL]
+[Mazo] Cartas restantes: 99
+[Jugador: IA] Agregando carta: CINCO de color AZUL
+[Mano] [+] Carta añadida: CINCO [AZUL]
+[Mano] Cartas actuales en mano: 1
+[Jugador: IA] Total de cartas ahora: 1
 [Jugador: Oportunidad] Agregando carta: CINCO de color VERDE
 [Mano] [+] Carta añadida: CINCO [VERDE]
 [Mano] Cartas actuales en mano: 1
@@ -164,7 +170,19 @@
 [Mano] Descarte exitoso.
 [Mano] Cartas restantes: 0
 [Jugador: Oportunidad] Cartas restantes: 0
-[Ruleta] ¡Girando...! Resultado: CASI_UNO
+[Ruleta] ¡Girando...! Resultado: ROBAR_HASTA_COLOR
+[Mazo] Carta entregada: MASCUATRO [NEGRO]
+[Mazo] Cartas restantes: 98
+[Jugador: Digital] Agregando carta: MASCUATRO de color NEGRO
+[Mano] [+] Carta añadida: MASCUATRO [NEGRO]
+[Mano] Cartas actuales en mano: 1
+[Jugador: Digital] Total de cartas ahora: 1
+[Mazo] Carta entregada: SIETE [AZUL]
+[Mazo] Cartas restantes: 97
+[Jugador: Digital] Agregando carta: SIETE de color AZUL
+[Mano] [+] Carta añadida: SIETE [AZUL]
+[Mano] Cartas actuales en mano: 2
+[Jugador: Digital] Total de cartas ahora: 2
 [Jugador: David] Agregando carta: DOS de color AZUL
 [Mano] [+] Carta añadida: DOS [AZUL]
 [Mano] Cartas actuales en mano: 1
@@ -174,7 +192,7 @@
 [Descarte] Jugada inválida: DOS AZUL
 ]]></system-out>
   </testcase>
-  <testcase name="testComodinesYAsignacionDeColor" classname="fachadas.FachadaJuegoTest" time="0.003">
+  <testcase name="testComodinesYAsignacionDeColor" classname="fachadas.FachadaJuegoTest" time="0.006">
     <system-out><![CDATA[[Mazo] --- Iniciando generación de baraja ---
 [Mazo] Generando cartas numéricas (Rango: 0 a 9)...
 [Mazo] Generando cartas de acción por color...
@@ -213,7 +231,7 @@
 [Jugador: David] Cartas restantes: 0
 ]]></system-out>
   </testcase>
-  <testcase name="testActivacionRuletaSpin" classname="fachadas.FachadaJuegoTest" time="0.004">
+  <testcase name="testActivacionRuletaSpin" classname="fachadas.FachadaJuegoTest" time="0.001">
     <system-out><![CDATA[[Mazo] --- Iniciando generación de baraja ---
 [Mazo] Generando cartas numéricas (Rango: 0 a 9)...
 [Mazo] Generando cartas de acción por color...
@@ -249,7 +267,7 @@
 [Mano] Descarte exitoso.
 [Mano] Cartas restantes: 0
 [Jugador: David] Cartas restantes: 0
-[Ruleta] ¡Girando...! Resultado: PUNTUACION_BAJA
+[Ruleta] ¡Girando...! Resultado: CASI_UNO
 ]]></system-out>
   </testcase>
   <testcase name="testRobarYPasar" classname="fachadas.FachadaJuegoTest" time="0.002">
@@ -275,15 +293,15 @@
 [Mazo] Baraja mezclada correctamente.
 --- Probando: Robar y Pasar ---
 [Fachada] Procesando robo...
-[Mazo] Carta entregada: REVERSA [ROJO]
+[Mazo] Carta entregada: CUATRO [ROJO]
 [Mazo] Cartas restantes: 99
-[Jugador: David] Agregando carta: REVERSA de color ROJO
-[Mano] [+] Carta añadida: REVERSA [ROJO]
+[Jugador: David] Agregando carta: CUATRO de color ROJO
+[Mano] [+] Carta añadida: CUATRO [ROJO]
 [Mano] Cartas actuales en mano: 1
 [Jugador: David] Total de cartas ahora: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testGritoUnoPenalizacion" classname="fachadas.FachadaJuegoTest" time="0.006">
+  <testcase name="testGritoUnoPenalizacion" classname="fachadas.FachadaJuegoTest" time="0.003">
     <system-out><![CDATA[[Mazo] --- Iniciando generación de baraja ---
 [Mazo] Generando cartas numéricas (Rango: 0 a 9)...
 [Mazo] Generando cartas de acción por color...
@@ -310,16 +328,16 @@
 [Mano] Cartas actuales en mano: 1
 [Jugador: David] Total de cartas ahora: 1
 [Fachada] Procesando grito de UNO...
-[Mazo] Carta entregada: DOS [ROJO]
+[Mazo] Carta entregada: CUATRO [AMARILLO]
 [Mazo] Cartas restantes: 99
-[Jugador: David] Agregando carta: DOS de color ROJO
-[Mano] [+] Carta añadida: DOS [ROJO]
+[Jugador: David] Agregando carta: CUATRO de color AMARILLO
+[Mano] [+] Carta añadida: CUATRO [AMARILLO]
 [Mano] Cartas actuales en mano: 2
 [Jugador: David] Total de cartas ahora: 2
-[Mazo] Carta entregada: PROHIBIDO [VERDE]
+[Mazo] Carta entregada: CERO [AZUL]
 [Mazo] Cartas restantes: 98
-[Jugador: David] Agregando carta: PROHIBIDO de color VERDE
-[Mano] [+] Carta añadida: PROHIBIDO [VERDE]
+[Jugador: David] Agregando carta: CERO de color AZUL
+[Mano] [+] Carta añadida: CERO [AZUL]
 [Mano] Cartas actuales en mano: 3
 [Jugador: David] Total de cartas ahora: 3
 ]]></system-out>

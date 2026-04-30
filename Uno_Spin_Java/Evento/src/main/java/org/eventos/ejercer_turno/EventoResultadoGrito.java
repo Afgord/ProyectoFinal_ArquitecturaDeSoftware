@@ -13,13 +13,13 @@ import org.evento.dto.JugadorDTO;
  */
 public class EventoResultadoGrito extends Evento{
     private boolean exitoGrito;
-    private String idGriton;
+    private String idCastigado;
     private List<JugadorDTO> estadoJugadores; 
 
-    public EventoResultadoGrito(boolean exitoGrito, String idGriton, List<JugadorDTO> estadoJugadores, String idEvento) {
+    public EventoResultadoGrito(boolean exitoGrito, String idCastigado, List<JugadorDTO> estadoJugadores, String idEvento) {
         super(idEvento);
         this.exitoGrito = exitoGrito;
-        this.idGriton = idGriton;
+        this.idCastigado = idCastigado;
         this.estadoJugadores = estadoJugadores;
     }
     
