@@ -31823,8 +31823,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 454,
-									"top": 284,
+									"left": 201,
+									"top": 144,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -31844,8 +31844,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 465,
-									"top": 274,
+									"left": 193,
+									"top": 157,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -31865,8 +31865,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 433,
-									"top": 305,
+									"left": 218,
+									"top": 119,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -32786,7 +32786,7 @@
 											"top": 922,
 											"width": 135.0498046875,
 											"height": 13,
-											"text": "EventoJuego"
+											"text": "Evento"
 										},
 										{
 											"_type": "LabelView",
@@ -40355,8 +40355,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 769,
-									"top": 901,
+									"left": 312,
+									"top": 464,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -40376,8 +40376,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 769,
-									"top": 886,
+									"left": 300,
+									"top": 473,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -40397,8 +40397,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 770,
-									"top": 930,
+									"left": 337,
+									"top": 447,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -41347,7 +41347,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGdskcfBEZDv+k="
 							},
-							"name": "EventoJuego",
+							"name": "Evento",
 							"attributes": [
 								{
 									"_type": "UMLAttribute",
@@ -62855,7 +62855,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGdy3Rii++QUlQ="
 											},
-											"name": "PUNTUACION_BAJA_APLICADO"
+											"name": "PUNTUACION_BAJA_APLICADO",
+											"type": ""
 										},
 										{
 											"_type": "UMLAttribute",
