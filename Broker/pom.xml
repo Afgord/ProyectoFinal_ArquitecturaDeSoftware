@@ -9,6 +9,7 @@
         <module>Directorio</module>
         <module>ComponenteConexion</module>
         <module>Code_Desc</module>
+        <module>Evento</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

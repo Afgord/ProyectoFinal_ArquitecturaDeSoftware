@@ -33,9 +33,5 @@ public class ResultadoJugadaDTO {
     public JugadorDTO getGanador() { return ganador; }
     public List<JugadorDTO> getEstadoJugadores() { return estadoJugadores; }
     public CartaDTO getCartaCima() { return cartaCima; }
-
-    public String getIdJugadorActual() {
-        return idJugadorActual;
-    }
-    
+    public String getIdJugadorActual() { return idJugadorActual;}   
 }
