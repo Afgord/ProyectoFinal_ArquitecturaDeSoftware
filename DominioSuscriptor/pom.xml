@@ -9,6 +9,7 @@
         <module>TraductorDominio</module>
         <module>ComponenteConexion</module>
         <module>Dominio</module>
+        <module>Code_Desc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
