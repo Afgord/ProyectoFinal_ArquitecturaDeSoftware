@@ -14,8 +14,8 @@ import org.codedesc.ISerializador;
 import org.eventos.ejercer_turno.*;
 import dtos.*; 
 import entidades.TipoEvento;
-
 /**
+ * 
  * @author lagar
  */
 public class TraductorEventos implements Observer {
@@ -46,8 +46,9 @@ public class TraductorEventos implements Observer {
             } else if (eventoEntrante instanceof EventoGritar) {
                 resultadoDominio = fachada.gritarUno(((EventoGritar) eventoEntrante).getJugador());
             }
+            
             if (resultadoDominio != null) {
-                enviarRespuesta(resultadoDominio, contexto.getHost(), contexto.getPuerto());
+                enviarRespuesta(resultadoDominio, contexto.getHost(), 5001);
             }
         }
     }
