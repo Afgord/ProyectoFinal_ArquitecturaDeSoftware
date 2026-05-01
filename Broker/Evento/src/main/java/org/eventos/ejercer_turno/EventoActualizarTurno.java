@@ -5,8 +5,8 @@
 package org.eventos.ejercer_turno;
 
 import java.util.List;
-import org.evento.dto.CartaDTO;
-import org.evento.dto.JugadorDTO;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
 
 /**
  *
@@ -17,10 +17,11 @@ public class EventoActualizarTurno extends Evento{
     private CartaDTO cartaEnCima;
     private String idJugadorTurnoActual;
 
-    public EventoActualizarTurno(List<JugadorDTO> jugadores, CartaDTO cartaEnCima, String idEvento) {
+    public EventoActualizarTurno(List<JugadorDTO> jugadores, CartaDTO cartaEnCima, String idJugadorTurnoActual, String idEvento) {
         super(idEvento);
         this.jugadores = jugadores;
         this.cartaEnCima = cartaEnCima;
+        this.idJugadorTurnoActual = idJugadorTurnoActual;
     }
 
     public List<JugadorDTO> getJugadores() {

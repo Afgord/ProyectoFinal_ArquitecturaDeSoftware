@@ -4,12 +4,15 @@
  */
 package org.eventos.ejercer_turno;
 
+import java.io.Serializable;
+
 /**
  *
  * @author lagar
  */
-public class Evento {
+public class Evento implements Serializable {
     private String idEvento;
+    private static final long serialVersionUID = 1L;
 
     public Evento(String idEvento) {
         this.idEvento = idEvento;

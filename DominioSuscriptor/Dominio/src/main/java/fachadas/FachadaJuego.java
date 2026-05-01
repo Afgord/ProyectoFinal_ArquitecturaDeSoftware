@@ -28,8 +28,8 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public void pasarTurno() {
-        tablero.siguienteTurno();
+    public Object pasarTurno() {
+        return tablero.pasarTurno();
     }
     
     @Override

@@ -14,6 +14,6 @@ import dtos.JugadorDTO;
 public interface FachadaDominio {
     public Object robarCarta();
     public Object validarYPlay(CartaDTO carta);
-    public void pasarTurno();
+    public Object pasarTurno();
     public Object gritarUno(JugadorDTO datosGrito);
 }

@@ -5,12 +5,14 @@
 package dtos;
 
 import entidades.TipoEvento;
+import java.io.Serializable;
 import java.util.List;
 /**
  * 
  * @author lagar
  */
-public class ResultadoGritoDTO {
+public class ResultadoGritoDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
     private final boolean exitoGrito; 
     private final TipoEvento evento;      
     private final String idCastigado;  

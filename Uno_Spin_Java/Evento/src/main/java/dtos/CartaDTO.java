@@ -4,9 +4,8 @@
  */
 package dtos;
 
-import entidades.Colores;
-import entidades.Valor;
 import java.io.Serializable;
+
 /**
  *
  * @author lagar

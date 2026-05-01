@@ -35,22 +35,35 @@ public class Tablero {
 
     public Object ejecutarJugada(CartaDTO cartaDto) {
         System.out.println("[Tablero] Solicitud de jugada: " + cartaDto.getValor());
-
         if (ejecutarLogicaJugada(buscarCartaEnMano(cartaDto), cartaDto)) {
             JugadorDTO ganador = verificarGanador();
             TipoEvento eventoFinal = TipoEvento.DESCARTE_EXITOSO;
-
             if (estadoPendienteRuleta != null) {
                 eventoFinal = estadoPendienteRuleta;
             }
             if (ganador != null) {
                 eventoFinal = TipoEvento.GANADOR;
             }
-
-            return new ResultadoJugadaDTO(true, eventoFinal, ganador, generarEstadoDTO(), obtenerCartaCimaDTO(),getJugadorActual().getIdJugador());
+            return new ResultadoJugadaDTO(
+                true, 
+                eventoFinal, 
+                ganador, 
+                generarEstadoDTO(), 
+                obtenerCartaCimaDTO(), 
+                getJugadorActual().getIdJugador(),
+                (eventoFinal == TipoEvento.RULETA_ACTIVADA) ? ruleta.getUltimoResultado() : null
+            );
         }
 
-        return new ResultadoJugadaDTO(false, TipoEvento.ERROR, null, generarEstadoDTO(), obtenerCartaCimaDTO(),getJugadorActual().getIdJugador());
+        return new ResultadoJugadaDTO(
+            false, 
+            TipoEvento.ERROR, 
+            null, 
+            generarEstadoDTO(), 
+            obtenerCartaCimaDTO(), 
+            getJugadorActual().getIdJugador(),
+            null
+        );
     }
 
     private boolean ejecutarLogicaJugada(Carta cartaReal, CartaDTO cartaDto) {
@@ -122,6 +135,21 @@ public class Tablero {
             ? (turnoActual + 1) % size 
             : (turnoActual - 1 + size) % size;
     }
+    
+    public Object pasarTurno() {
+        System.out.println("[Tablero] El jugador " + getJugadorActual().getNombre() + " pasa el turno.");
+        siguienteTurno();
+
+        return new ResultadoJugadaDTO(
+            true, 
+            TipoEvento.CAMBIO_TURNO, 
+            null, 
+            generarEstadoDTO(), 
+            obtenerCartaCimaDTO(), 
+            getJugadorActual().getIdJugador(), 
+            null 
+        );
+    }
 
     public void cambiarSentido() {
         sentidoReloj = !sentidoReloj;
@@ -130,7 +158,15 @@ public class Tablero {
     public Object robarYPasar() {
         darCartaAJugador(getJugadorActual());
         siguienteTurno();
-        return new ResultadoJugadaDTO(true, TipoEvento.ROBO_Y_PASO, null, generarEstadoDTO(), obtenerCartaCimaDTO(),getJugadorActual().getIdJugador());
+        return new ResultadoJugadaDTO(
+            true, 
+            TipoEvento.ROBO_Y_PASO, 
+            null, 
+            generarEstadoDTO(), 
+            obtenerCartaCimaDTO(), 
+            getJugadorActual().getIdJugador(),
+            null
+        );
     }
 
     private JugadorDTO verificarGanador() {

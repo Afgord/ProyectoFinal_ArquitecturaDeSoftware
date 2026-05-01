@@ -5,8 +5,8 @@
 package org.eventos.ejercer_turno;
 
 import java.util.List;
-import org.evento.dto.CartaDTO;
-import org.evento.dto.JugadorDTO;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
 
 /**
  *
@@ -40,7 +40,5 @@ public class EventoResultadoRuleta extends Evento{
 
     public String getIdJugadorTurnoActual() {
         return idJugadorTurnoActual;
-    }
-    
-    
+    }  
 }

@@ -6,11 +6,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>TraductorDominio</module>
         <module>ComponenteConexion</module>
         <module>Dominio</module>
         <module>Code_Desc</module>
         <module>Evento</module>
+        <module>TraductorEventos</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

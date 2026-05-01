@@ -4,7 +4,7 @@
  */
 package org.eventos.ejercer_turno;
 
-import org.evento.dto.JugadorDTO;
+import dtos.JugadorDTO;
 
 /**
  *

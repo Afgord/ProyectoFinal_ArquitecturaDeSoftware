@@ -4,7 +4,10 @@
  */
 package fachadas;
 
-import dtos.*;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
+import dtos.ResultadoGritoDTO;
+import dtos.ResultadoJugadaDTO;
 import entidades.*;
 import java.util.ArrayList;
 import java.util.List;

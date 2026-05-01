@@ -2,14 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.evento.dto;
+package dtos;
 
+import java.io.Serializable;
 import java.util.List;
 /**
  * 
  * @author lagar
  */
-public class JugadorDTO {
+public class JugadorDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
     private final String idJugador;
     private final String nombre;
     private List<CartaDTO> mano; 

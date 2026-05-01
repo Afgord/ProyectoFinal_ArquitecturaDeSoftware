@@ -5,7 +5,7 @@
 package org.eventos.ejercer_turno;
 
 import java.util.List;
-import org.evento.dto.JugadorDTO;
+import dtos.JugadorDTO;
 
 /**
  *
@@ -21,6 +21,18 @@ public class EventoResultadoGrito extends Evento{
         this.exitoGrito = exitoGrito;
         this.idCastigado = idCastigado;
         this.estadoJugadores = estadoJugadores;
+    }
+
+    public boolean isExitoGrito() {
+        return exitoGrito;
+    }
+
+    public String getIdCastigado() {
+        return idCastigado;
+    }
+
+    public List<JugadorDTO> getEstadoJugadores() {
+        return estadoJugadores;
     }
     
     
