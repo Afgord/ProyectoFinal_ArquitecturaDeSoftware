@@ -4,26 +4,23 @@
  */
 package org.traductor;
 
-import comunes.ContextoConexion;
-import comunes.Observer;
 import salida.IDispatcher;
 import fachadas.FachadaDominio;
-import org.codedesc.CodeDescFactory;
-import org.codedesc.IDeserializador;
-import org.codedesc.ISerializador;
+import org.codedesc.*;
 import org.eventos.ejercer_turno.*;
-import dtos.*; 
+import dtos.*;
 import entidades.TipoEvento;
 /**
  * 
  * @author lagar
  */
-public class TraductorEventos implements Observer {
-
+public class TraductorEventos {
     private final FachadaDominio fachada;
     private final IDispatcher dispatcher;
     private final IDeserializador<EventoAccion> deserializador;
     private final ISerializador<Evento> serializador;
+    private final String BROKER_IP = "192.168.100.12";
+    private final int BROKER_PUERTO = 5002;
 
     public TraductorEventos(FachadaDominio fachada, IDispatcher dispatcher) {
         this.fachada = fachada;
@@ -31,29 +28,27 @@ public class TraductorEventos implements Observer {
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
     }
+    public void procesarEntrada(byte[] bytes) {
+        EventoAccion eventoEntrante = deserializador.bytesAObjeto(bytes);
+        if (eventoEntrante == null) return;
 
-    @Override
-    public void update(ContextoConexion contexto) {
-        EventoAccion eventoEntrante = deserializador.bytesAObjeto(contexto.getBytes());
-        if (eventoEntrante != null) {
-            Object resultadoDominio = null;
-            if (eventoEntrante instanceof EventoTirarCarta) {
-                resultadoDominio = fachada.validarYPlay(((EventoTirarCarta) eventoEntrante).getCarta());
-            } else if (eventoEntrante instanceof EventoRobarCarta) {
-                resultadoDominio = fachada.robarCarta();
-            } else if (eventoEntrante instanceof EventoPasarTurno) {
-                resultadoDominio = fachada.pasarTurno(); 
-            } else if (eventoEntrante instanceof EventoGritar) {
-                resultadoDominio = fachada.gritarUno(((EventoGritar) eventoEntrante).getJugador());
-            }
-            
-            if (resultadoDominio != null) {
-                enviarRespuesta(resultadoDominio, contexto.getHost(), 5001);
-            }
+        Object resultadoDominio = null;
+        if (eventoEntrante instanceof EventoTirarCarta) {
+            resultadoDominio = fachada.validarYPlay(((EventoTirarCarta) eventoEntrante).getCarta());
+        } else if (eventoEntrante instanceof EventoRobarCarta) {
+            resultadoDominio = fachada.robarCarta();
+        } else if (eventoEntrante instanceof EventoPasarTurno) {
+            resultadoDominio = fachada.pasarTurno();
+        } else if (eventoEntrante instanceof EventoGritar) {
+            resultadoDominio = fachada.gritarUno(((EventoGritar) eventoEntrante).getJugador());
+        }
+
+        if (resultadoDominio != null) {
+            enviarRespuesta(resultadoDominio);
         }
     }
 
-    private void enviarRespuesta(Object resultado, String host, int puerto) {
+    private void enviarRespuesta(Object resultado) {
         Evento eventoSalida = null;
 
         if (resultado instanceof ResultadoJugadaDTO) {
@@ -105,7 +100,7 @@ public class TraductorEventos implements Observer {
 
         if (eventoSalida != null) {
             byte[] bytesAEnviar = serializador.objetoABytes(eventoSalida);
-            dispatcher.dispatch(host, puerto, bytesAEnviar);
+            dispatcher.dispatch(BROKER_IP, BROKER_PUERTO, bytesAEnviar);
         }
     }
 }

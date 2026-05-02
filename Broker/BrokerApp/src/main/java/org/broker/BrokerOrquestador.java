@@ -4,63 +4,56 @@
  */
 package org.broker;
 
-import comunes.ContextoConexion;
-import comunes.Observer;
-import entrada.IReceptorExterno;
-import org.codedesc.CodeDescFactory;
-import org.codedesc.IDeserializador;
-import org.codedesc.ISerializador;
-import org.directorios.DirectorioFactory;
-import org.directorios.IDirectorio;
-import org.eventos.ejercer_turno.Evento;
-import org.eventos.ejercer_turno.EventoAccion;
-import org.eventos.ejercer_turno.EventoFallo;
-import org.eventos.ejercer_turno.EventoGritar;
-import org.eventos.ejercer_turno.EventoPasarTurno;
-import org.eventos.ejercer_turno.EventoRobarCarta;
-import org.eventos.ejercer_turno.EventoTirarCarta;
 import salida.IDispatcher;
-
+import org.codedesc.*;
+import org.directorios.*;
+import org.eventos.ejercer_turno.*;
 /**
- *
+ * 
  * @author lagar
  */
-public class BrokerOrquestador implements Observer{
+public class BrokerOrquestador {
     private final IDispatcher dispatcher;
-    private final IReceptorExterno receptor;
-    private final IDeserializador<EventoAccion> deserializador;
+    private final IDeserializador<Evento> deserializador;
     private final ISerializador<Evento> serializador;
     private final IDirectorio directorio;
+    private final String ID_DOMINIO = "DOMINIO_SISTEMA";
 
-    public BrokerOrquestador(IDispatcher dispatcher, IReceptorExterno receptor) {
+    public BrokerOrquestador(IDispatcher dispatcher) {
         this.dispatcher = dispatcher;
-        this.receptor = receptor;
         this.directorio = DirectorioFactory.crearNuevoDirectorio();
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
+        directorio.registrarConexion(new Conexion(ID_DOMINIO, "192.168.100.12", 5000));
     }
-    
-    @Override
-    public void update(ContextoConexion contexto) {
-        Evento evento = deserializador.bytesAObjeto(contexto.getBytes());
-        if(evento != null){
-            if(evento instanceof EventoTirarCarta ||
-                evento instanceof EventoRobarCarta ||
-                    evento instanceof EventoGritar ||
-                    evento instanceof EventoPasarTurno){
-                byte[] bytesAEnviar = serializador.objetoABytes(evento);
-                dispatcher.dispatch("192.168.100.12", 5000, bytesAEnviar);
-            } else if (evento instanceof EventoFallo){
-                byte[] bytesAEnviar = serializador.objetoABytes(evento);
-                dispatcher.dispatch("192.168.100.12", 5002, bytesAEnviar);
-            } else {
-                byte[] bytesAEnviar = serializador.objetoABytes(evento);
-                dispatcher.dispatch("192.168.100.12", 5002, bytesAEnviar);
-                dispatcher.dispatch("192.168.100.12", 5003, bytesAEnviar);
-                dispatcher.dispatch("192.168.100.12", 5004, bytesAEnviar);
-                dispatcher.dispatch("192.168.100.12", 5005, bytesAEnviar);
-            }  
+
+    public void rutarEvento(byte[] bytes) {
+        Evento evento = deserializador.bytesAObjeto(bytes);
+        if (evento == null) return;
+
+        byte[] bytesAEnviar = serializador.objetoABytes(evento);
+
+        if (evento instanceof EventoAccion) {
+            enviarAEntidad(ID_DOMINIO, bytesAEnviar);
+        } else if (evento instanceof EventoFallo) {
+            enviarAEntidad("J1", bytesAEnviar);
+        } else {
+            hacerBroadcast(bytesAEnviar);
         }
     }
-    
+
+    private void enviarAEntidad(String id, byte[] datos) {
+        Conexion con = directorio.obtenerConexion(id);
+        if (con != null) dispatcher.dispatch(con.getIp(), con.getPuerto(), datos);
+    }
+
+    private void hacerBroadcast(byte[] datos) {
+        for (Conexion con : directorio.obtenerTodos()) {
+            if (!con.getIdJugador().equals(ID_DOMINIO)) {
+                dispatcher.dispatch(con.getIp(), con.getPuerto(), datos);
+            }
+        }
+    }
+
+    public IDirectorio getDirectorio() { return directorio; }
 }

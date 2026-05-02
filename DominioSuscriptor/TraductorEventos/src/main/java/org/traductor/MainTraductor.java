@@ -5,6 +5,7 @@
 package org.traductor;
 
 import entidades.*;
+import entrada.Receptor;
 import fachadas.FachadaDominio;
 import fachadas.FachadaJuego;
 import entrada.ServidorTCP;
@@ -12,7 +13,10 @@ import salida.DispatcherFactory;
 import salida.IDispatcher;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 
+ * @author lagar
+ */
 public class MainTraductor {
 
     public static void main(String[] args) {
@@ -43,18 +47,16 @@ public class MainTraductor {
 
         Tablero tablero = new Tablero(mazo, descarte, listaJugadores, ruleta);
         FachadaDominio fachada = new FachadaJuego(tablero);
-        
         ServidorTCP servidor = new ServidorTCP(PUERTO);
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
-
         TraductorEventos traductor = new TraductorEventos(fachada, dispatcher);
-        servidor.addObserver(traductor);
+        Receptor receptorPuente = new Receptor(bytes -> traductor.procesarEntrada(bytes));
+        servidor.addObserver(receptorPuente);
 
         try {
-            System.out.println("[RED] Servidor activo en puerto: " + PUERTO);
+            System.out.println("=== [TRADUCTOR] Escuchando en puerto: " + PUERTO + " ===");
             servidor.iniciar();
             Thread.currentThread().join();
-            
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
