@@ -45,8 +45,8 @@ public class PruebaComportamientoTraductor {
         try {
             Thread.sleep(2000);
 
-            CartaDTO carta = new CartaDTO(Valor.CERO, Colores.AZUL);
-            EventoTirarCarta evento = new EventoTirarCarta(carta, "3", "TIRAR_CARTA");
+            CartaDTO carta = new CartaDTO(Valor.DOS, Colores.ROJO);
+            EventoRobarCarta evento = new EventoRobarCarta(true, "1", "Robar");
 
             byte[] payload = serializador.objetoABytes(evento);
             

@@ -31,4 +31,10 @@ public class EventoActualizarTurno extends Evento{
     public CartaDTO getCartaEnCima() {
         return cartaEnCima;
     }
+
+    public String getIdJugadorTurnoActual() {
+        return idJugadorTurnoActual;
+    }
+    
+    
 }
