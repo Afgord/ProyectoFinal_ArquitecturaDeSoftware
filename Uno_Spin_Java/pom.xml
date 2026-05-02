@@ -12,6 +12,7 @@
         <module>Dominio</module>
         <module>Code_Desc</module>
         <module>Evento</module>
+        <module>EventoTraductor</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
