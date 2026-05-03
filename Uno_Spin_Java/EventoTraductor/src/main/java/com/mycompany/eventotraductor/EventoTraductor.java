@@ -1,20 +1,21 @@
 package com.mycompany.eventotraductor;
 
+import comunes.IPublicador;
 import dtos.CartaDTO;
 import java.awt.Color;
 import java.util.UUID;
 
-import Ejercer_Turno.Interfaces.IModeloAcciones;;
-import org.code.infraestructura.red.ISerializador;
-import org.code.infraestructura.red.IDeserializador;
-import org.eventos.ejercer_turno.*;
-
+import Ejercer_Turno.Interfaces.IModelEventos;
+import org.codedesc.ISerializador;
+import org.eventos.ejercer_turno.Evento;
+import org.eventos.ejercer_turno.EventoRobarCarta;
+import org.eventos.ejercer_turno.EventoTirarCarta;
 
 /**
  * Clase 1: EventoTraductor (Flujo Outbound)
  * Convierte las acciones locales en eventos de red.
  */
-public class EventoTraductor implements IModelEvents {
+public class EventoTraductor implements IModelEventos {
 
     private final IPublicador publicador;
     private final ISerializador<Evento> serializador;
@@ -25,6 +26,10 @@ public class EventoTraductor implements IModelEvents {
         this.publicador = publicador;
         this.serializador = serializador;
         this.idJugadorLocal = idJugadorLocal;
+    }
+
+    void setBloqueadoPorRed(boolean bloqueadoPorRed) {
+        this.bloqueadoPorRed = bloqueadoPorRed;
     }
 
     @Override

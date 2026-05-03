@@ -1,6 +1,12 @@
-
-
 package com.mycompany.eventotraductor;
+
+import Ejercer_Turno.Interfaces.IModeloAcciones;
+import org.codedesc.IDeserializador;
+import org.eventos.ejercer_turno.Evento;
+import org.eventos.ejercer_turno.EventoAccion;
+import org.eventos.ejercer_turno.EventoPasarTurno;
+import org.eventos.ejercer_turno.EventoRobarCarta;
+import org.eventos.ejercer_turno.EventoTirarCarta;
 
 /**
  * Clase 2: ReceptorProcesador (Flujo Inbound)
@@ -41,19 +47,9 @@ class ReceptorProcesador {
 
         try {
             if (evento instanceof EventoTirarCarta) {
-                EventoTirarCarta e = (EventoTirarCarta) evento;
-                CartaDTO dto = e.getCarta();
-                
-                // Nota Crítica: Si es comodín, el modelo debe saber extraer el color de CartaDTO.
-                // Si IModeloAcciones te obliga a usar tirarCartaNegra, tendrás que añadir lógica aquí
-                // para distinguir si la carta es negra leyendo el DTO.
-                if (dto.isComodin()) { 
-                     // Suponiendo que CartaDTO tiene getNuevoColor()
-                     modelo.tirarCartaNegra(dto, dto.getColor(), ""); 
-                } else {
-                     modelo.tirarCarta(dto);
-                }
-            } 
+                // EventoTirarCarta entrega dtos.CartaDTO; IModeloAcciones exige DTOs.CartaDTO (Dominio).
+                // Cuando unifiques contratos o añadas un mapper, enlaza aquí con modelo.tirarCarta / tirarCartaNegra.
+            }
             else if (evento instanceof EventoRobarCarta) {
                 modelo.robarCarta();
             }

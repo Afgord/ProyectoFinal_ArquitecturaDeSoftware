@@ -1,6 +1,6 @@
 package Ejercer_Turno.Interfaces;
 
-import DTOS.*;
+import dtos.CartaDTO;
 import java.awt.Color;
 
 /**
