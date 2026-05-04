@@ -38606,7 +38606,7 @@
 								"$ref": "AAAAAAGdfrM0Z5hEx7E="
 							},
 							"lineStyle": 1,
-							"points": "651:925;890.875244140625:919.48330078125",
+							"points": "651:925;0:0",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGdrAa8ugMkFkM="
@@ -47289,7 +47289,7 @@
 											"top": 821,
 											"width": 362.384765625,
 											"height": 13,
-											"text": "+pasarTurno()",
+											"text": "+pasarTurno(): Object",
 											"horizontalAlignment": 0
 										},
 										{
@@ -47559,7 +47559,7 @@
 											"top": 724,
 											"width": 375,
 											"height": 13,
-											"text": "+pasarTurno()",
+											"text": "+pasarTurno(): Object",
 											"horizontalAlignment": 0
 										},
 										{
@@ -47811,9 +47811,9 @@
 												"$ref": "AAAAAAGdkpQnyPLyC8U="
 											},
 											"font": "Arial;13;1",
-											"left": 2517,
+											"left": 2493,
 											"top": 430,
-											"width": 2167,
+											"width": 2191,
 											"height": 13,
 											"text": "Entidades"
 										},
@@ -47846,9 +47846,9 @@
 										}
 									],
 									"font": "Arial;13;0",
-									"left": 2512,
+									"left": 2488,
 									"top": 423,
-									"width": 2177,
+									"width": 2201,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGdkpQnyPLztIs="
@@ -47901,9 +47901,9 @@
 							],
 							"font": "Arial;13;0",
 							"containerChangeable": true,
-							"left": 2512,
+							"left": 2488,
 							"top": 408,
-							"width": 2176,
+							"width": 2200,
 							"height": 968,
 							"nameCompartment": {
 								"$ref": "AAAAAAGdkpQnyPLyC8U="
@@ -51165,13 +51165,30 @@
 											"height": 13,
 											"text": "-verificarGanador(): JugadorDTO",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGd8yOyks3/chk=",
+											"_parent": {
+												"$ref": "AAAAAAGdkrbxbSr2c0Y="
+											},
+											"model": {
+												"$ref": "AAAAAAGd8yOyhM3tt14="
+											},
+											"font": "Arial;13;0",
+											"left": 2725,
+											"top": 1101,
+											"width": 495,
+											"height": 13,
+											"text": "+pasarTurno(): Object",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 2720,
 									"top": 826,
 									"width": 505,
-									"height": 278
+									"height": 293
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -59506,7 +59523,18 @@
 											"_parent": {
 												"$ref": "AAAAAAGdkmcU6vExDy0="
 											},
-											"name": "pasarTurno"
+											"name": "pasarTurno",
+											"parameters": [
+												{
+													"_type": "UMLParameter",
+													"_id": "AAAAAAGd8yA0RVZyygw=",
+													"_parent": {
+														"$ref": "AAAAAAGdkmlFbvGw3Io="
+													},
+													"type": "Object",
+													"direction": "return"
+												}
+											]
 										},
 										{
 											"_type": "UMLOperation",
@@ -59674,7 +59702,18 @@
 											"_parent": {
 												"$ref": "AAAAAAGdkmdfRPFdHGI="
 											},
-											"name": "pasarTurno"
+											"name": "pasarTurno",
+											"parameters": [
+												{
+													"_type": "UMLParameter",
+													"_id": "AAAAAAGd8yBoFHDfO4k=",
+													"_parent": {
+														"$ref": "AAAAAAGdknfGx/KfsQ0="
+													},
+													"type": "Object",
+													"direction": "return"
+												}
+											]
 										},
 										{
 											"_type": "UMLOperation",
@@ -61415,6 +61454,25 @@
 													"direction": "return"
 												}
 											]
+										},
+										{
+											"_type": "UMLOperation",
+											"_id": "AAAAAAGd8yOyhM3tt14=",
+											"_parent": {
+												"$ref": "AAAAAAGdkrbxbSrtlpI="
+											},
+											"name": "pasarTurno",
+											"parameters": [
+												{
+													"_type": "UMLParameter",
+													"_id": "AAAAAAGd8yPuM9BhPTQ=",
+													"_parent": {
+														"$ref": "AAAAAAGd8yOyhM3tt14="
+													},
+													"type": "Object",
+													"direction": "return"
+												}
+											]
 										}
 									]
 								},
@@ -62782,9 +62840,9 @@
 														"$ref": "AAAAAAGdzwjDuhp0HVo="
 													},
 													"font": "Arial;13;0",
-													"left": 32.72998046875,
+													"left": 30.55908203125,
 													"top": 13,
-													"width": 54.90087890625,
+													"width": 50.15283203125,
 													"height": 13,
 													"text": "tirar carta"
 												},
@@ -62797,7 +62855,7 @@
 													"font": "Arial;13;1",
 													"left": 13,
 													"top": 13,
-													"width": 13.72998046875,
+													"width": 11.55908203125,
 													"height": 13,
 													"text": "sd"
 												}
@@ -65861,9 +65919,9 @@
 														"$ref": "AAAAAAGdz6bkGCepto0="
 													},
 													"font": "Arial;13;0",
-													"left": 223.9599609375,
+													"left": 220.3291015625,
 													"top": 149,
-													"width": 229.07421875,
+													"width": 205.7529296875,
 													"height": 13,
 													"text": "si la carta existe en la mano del jugador"
 												},
@@ -65876,7 +65934,7 @@
 													"font": "Arial;13;1",
 													"left": 197,
 													"top": 149,
-													"width": 20.9599609375,
+													"width": 17.3291015625,
 													"height": 13,
 													"text": "seq"
 												},
@@ -65962,9 +66020,9 @@
 														"$ref": "AAAAAAGdz6fH4yfC3Rg="
 													},
 													"font": "Arial;13;0",
-													"left": 119.9599609375,
+													"left": 116.3291015625,
 													"top": 293,
-													"width": 111.97900390625,
+													"width": 101.765625,
 													"height": 13,
 													"text": "tirar carta numerica"
 												},
@@ -65977,7 +66035,7 @@
 													"font": "Arial;13;1",
 													"left": 93,
 													"top": 293,
-													"width": 20.9599609375,
+													"width": 17.3291015625,
 													"height": 13,
 													"text": "seq"
 												},
@@ -66042,7 +66100,7 @@
 																	"font": "Arial;13;0",
 																	"left": 108,
 																	"top": 719,
-																	"width": 606.302734375,
+																	"width": 549.37060546875,
 																	"height": 13,
 																	"text": "[en cualquier carta, si fue rechazada por el dominio, siempre retornara una dto con el tipo de evento fallo]"
 																}
@@ -66096,9 +66154,9 @@
 														"$ref": "AAAAAAGdz6t1Gyf0aJE="
 													},
 													"font": "Arial;13;0",
-													"left": 119.9599609375,
+													"left": 116.3291015625,
 													"top": 781,
-													"width": 79.47265625,
+													"width": 71.8427734375,
 													"height": 13,
 													"text": "tirar un mas 2"
 												},
@@ -66111,7 +66169,7 @@
 													"font": "Arial;13;1",
 													"left": 93,
 													"top": 781,
-													"width": 20.9599609375,
+													"width": 17.3291015625,
 													"height": 13,
 													"text": "seq"
 												},
@@ -66144,7 +66202,7 @@
 																	"font": "Arial;13;0",
 																	"left": 108,
 																	"top": 814,
-																	"width": 442.9775390625,
+																	"width": 394.1259765625,
 																	"height": 13,
 																	"text": "[despues de que el descarte reciba la carta y  la carta eliminada de la mano ]"
 																}
@@ -66563,9 +66621,9 @@
 														"$ref": "AAAAAAGdz7FQ6yic1cs="
 													},
 													"font": "Arial;13;0",
-													"left": 239.9599609375,
+													"left": 236.3291015625,
 													"top": 901,
-													"width": 235.59326171875,
+													"width": 210.4501953125,
 													"height": 13,
 													"text": "loop hasta que halla recibido las 2 cartas"
 												},
@@ -66578,7 +66636,7 @@
 													"font": "Arial;13;1",
 													"left": 213,
 													"top": 901,
-													"width": 20.9599609375,
+													"width": 17.3291015625,
 													"height": 13,
 													"text": "seq"
 												},
@@ -75027,9 +75085,9 @@
 												"$ref": "AAAAAAGd8OiqCTfkK9I="
 											},
 											"font": "Arial;13;0",
-											"left": 32.72998046875,
+											"left": 30.55908203125,
 											"top": 5,
-											"width": 265.43994140625,
+											"width": 239.21142578125,
 											"height": 13,
 											"text": "DiagramaDeSecuenciaEventoTraductorSalida"
 										},
@@ -75042,7 +75100,7 @@
 											"font": "Arial;13;1",
 											"left": 13,
 											"top": 5,
-											"width": 13.72998046875,
+											"width": 11.55908203125,
 											"height": 13,
 											"text": "sd"
 										}
@@ -76466,7 +76524,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OiqCDfhCwY="
 					},
-					"name": "Role1"
+					"name": "Role1",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -76474,7 +76533,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OiqCDfhCwY="
 					},
-					"name": "Role2"
+					"name": "Role2",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -76482,7 +76542,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OiqCDfhCwY="
 					},
-					"name": "Role3"
+					"name": "Role3",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -76490,7 +76551,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OiqCDfhCwY="
 					},
-					"name": "Role4"
+					"name": "Role4",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -76498,7 +76560,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OiqCDfhCwY="
 					},
-					"name": "Role5"
+					"name": "Role5",
+					"type": ""
 				}
 			]
 		},
@@ -76543,9 +76606,9 @@
 												"$ref": "AAAAAAGd8OzUxzncfz4="
 											},
 											"font": "Arial;13;0",
-											"left": 72.72998046875,
+											"left": 70.55908203125,
 											"top": 13,
-											"width": 114.9052734375,
+											"width": 101.791015625,
 											"height": 13,
 											"text": "SequenceDiagram1"
 										},
@@ -76558,7 +76621,7 @@
 											"font": "Arial;13;1",
 											"left": 53,
 											"top": 13,
-											"width": 13.72998046875,
+											"width": 11.55908203125,
 											"height": 13,
 											"text": "sd"
 										}
@@ -78263,7 +78326,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OzUxznZtww="
 					},
-					"name": "Role1"
+					"name": "Role1",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -78271,7 +78335,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OzUxznZtww="
 					},
-					"name": "Role2"
+					"name": "Role2",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -78279,7 +78344,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OzUxznZtww="
 					},
-					"name": "Role3"
+					"name": "Role3",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -78287,7 +78353,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OzUxznZtww="
 					},
-					"name": "Role4"
+					"name": "Role4",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -78295,7 +78362,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OzUxznZtww="
 					},
-					"name": "Role5"
+					"name": "Role5",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -78312,7 +78380,8 @@
 					"_parent": {
 						"$ref": "AAAAAAGd8OzUxznZtww="
 					},
-					"name": "Role7"
+					"name": "Role7",
+					"type": ""
 				}
 			]
 		}
