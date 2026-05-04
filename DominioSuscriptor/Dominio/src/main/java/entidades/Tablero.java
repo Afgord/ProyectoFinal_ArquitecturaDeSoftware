@@ -197,26 +197,40 @@ public class Tablero {
     }
 
     public Object procesarGritoUno(JugadorDTO datosGrito) {
-        Jugador actual = getJugadorActual();
+        Jugador quienPresionaBtn = buscarJugadorPorId(datosGrito.idJugador());
+
+        List<Jugador> sospechosos = jugadores.stream()
+                .filter(j -> j.getNumCartas() == 1)
+                .collect(Collectors.toList());
+
         String idCastigado = null;
         TipoEvento evento = TipoEvento.GRITO_INVALIDO;
         boolean exito = false;
 
-        if (datosGrito.idJugador().equals(actual.getIdJugador())) {
-            if (actual.getNumCartas() == 1) {
+        if (!sospechosos.isEmpty()) {
+            if (quienPresionaBtn.getNumCartas() == 1) {
                 evento = TipoEvento.SE_SALVO;
                 exito = true;
-            }
-        } else {
-            if (actual.getNumCartas() == 1) {
-                darCartaAJugador(actual);
-                darCartaAJugador(actual);
-                idCastigado = actual.getIdJugador();
+            } 
+            else {
+                for (Jugador s : sospechosos) {
+                    darCartaAJugador(s);
+                    darCartaAJugador(s);
+                    idCastigado = s.getIdJugador();
+                }
                 evento = TipoEvento.ATRAPADO;
                 exito = true;
             }
         }
+
         return new ResultadoGritoDTO(exito, evento, idCastigado, generarEstadoDTO());
+    }
+
+    private Jugador buscarJugadorPorId(String id) {
+        return jugadores.stream()
+                .filter(j -> j.getIdJugador().equals(id))
+                .findFirst()
+                .orElse(null);
     }
     
     public Jugador getJugadorActual() { return jugadores.get(turnoActual); }
