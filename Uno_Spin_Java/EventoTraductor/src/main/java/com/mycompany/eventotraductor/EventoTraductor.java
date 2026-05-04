@@ -1,7 +1,7 @@
 package com.mycompany.eventotraductor;
 
 import comunes.IPublicador;
-import dtos.CartaDTO;
+import DTOs.CartaDTO;
 import java.awt.Color;
 import java.util.UUID;
 

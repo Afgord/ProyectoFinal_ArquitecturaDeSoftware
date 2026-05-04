@@ -4,29 +4,33 @@
  */
 package DTOs;
 
+import java.io.Serializable;
 import java.util.List;
-
 /**
- * * @author Luis Rafael
+ * 
+ * @author lagar
  */
-public class JugadorDTO {
-    private final String rutaAvatar; 
+public class JugadorDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private final String idJugador;
     private final String nombre;
-    private final int numCartas;
-    private final boolean esTurnoActual;
-    private final List<CartaDTO> cartas; 
-
-    public JugadorDTO(String rutaAvatar, String nombre, int numCartas, boolean esTurnoActual, List<CartaDTO> cartas) {
-        this.rutaAvatar = rutaAvatar;
+    private List<CartaDTO> mano; 
+    private boolean grito;
+    
+    public JugadorDTO(String idJugador, String nombre) {
+        this.idJugador = idJugador;
         this.nombre = nombre;
-        this.numCartas = numCartas;
-        this.esTurnoActual = esTurnoActual;
-        this.cartas = cartas;
     }
-
-    public String getRutaAvatar() { return rutaAvatar; }
+    
+    public JugadorDTO(String idJugador, String nombre, List<CartaDTO> mano, boolean grito) {
+        this.idJugador = idJugador;
+        this.nombre = nombre;
+        this.mano = mano;
+    }
+    
+    public boolean isGrito() { return grito; }
+    public String idJugador(){ return idJugador; }
     public String getNombre() { return nombre; }
-    public int getNumCartas() { return numCartas; }
-    public boolean isEsTurnoActual() { return esTurnoActual; }
-    public List<CartaDTO> getCartas() { return cartas; }
+    public List<CartaDTO> getMano() { return mano; }
+    public int getNumCartas() { return mano.size(); }
 }

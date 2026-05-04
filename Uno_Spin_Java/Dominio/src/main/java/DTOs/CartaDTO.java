@@ -4,26 +4,24 @@
  */
 package DTOs;
 
-import java.awt.Color;
+import Entidades.Colores;
+import Entidades.Valor;
+import java.io.Serializable;
+
 /**
- * 
- * @author Luis Rafael
+ *
+ * @author lagar
  */
-public class CartaDTO {
-    private final String id;
-    private final Color color;
-    private final String simbolo;
-    private final boolean esComodin; 
+public class CartaDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private final Valor valor;
+    private final Colores color;
 
-    public CartaDTO(String id, Color color, String simbolo, boolean esComodin) {
-        this.id = id;
+    public CartaDTO(Valor valor, Colores color) {
+        this.valor = valor;
         this.color = color;
-        this.simbolo = simbolo;
-        this.esComodin = esComodin;
     }
-
-    public String getId() { return id; }
-    public Color getColor() { return color; }
-    public String getSimbolo() { return simbolo; }
-    public boolean isEsComodin() { return esComodin; } 
+    
+    public Valor getValor() { return valor; }
+    public Colores getColor() { return color; }
 }
