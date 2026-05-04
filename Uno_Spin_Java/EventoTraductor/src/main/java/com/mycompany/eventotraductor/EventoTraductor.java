@@ -1,25 +1,30 @@
 package com.mycompany.eventotraductor;
 
 import comunes.IPublicador;
-import DTOs.CartaDTO;
-import java.awt.Color;
+import dtos.CartaDTO;
 import java.util.UUID;
 
 import Ejercer_Turno.Interfaces.IModelEventos;
 import org.codedesc.ISerializador;
 import org.eventos.ejercer_turno.Evento;
+import org.eventos.ejercer_turno.EventoGritar;
+import org.eventos.ejercer_turno.EventoPasarTurno;
 import org.eventos.ejercer_turno.EventoRobarCarta;
 import org.eventos.ejercer_turno.EventoTirarCarta;
 
 /**
- * Clase 1: EventoTraductor (Flujo Outbound)
- * Convierte las acciones locales en eventos de red.
+ * Flujo Outbound.
+ *
+ * Convierte las intenciones del MVC (IModelEventos) en eventos serializables
+ * y los publica vía IPublicador. La selección de color para comodines ocurre
+ * antes (en ControlJuego), por lo que la carta que llega aquí ya trae el
+ * Colores elegido.
  */
 public class EventoTraductor implements IModelEventos {
 
     private final IPublicador publicador;
     private final ISerializador<Evento> serializador;
-    private final String idJugadorLocal; // Identificador de ESTE cliente
+    private final String idJugadorLocal;
     private boolean bloqueadoPorRed = false;
 
     public EventoTraductor(IPublicador publicador, ISerializador<Evento> serializador, String idJugadorLocal) {
@@ -34,38 +39,30 @@ public class EventoTraductor implements IModelEventos {
 
     @Override
     public void emitirTirarCarta(CartaDTO carta) {
-        if (!bloqueadoPorRed) {
-            String idEvento = generarId();
-            Evento evt = new EventoTirarCarta(carta, idJugadorLocal, idEvento);
-            enviar(evt);
-        }
-    }
-
-    @Override
-    public void emitirTirarCartaNegra(CartaDTO carta, Color color, String nombreColor) {
-        if (!bloqueadoPorRed) {
-            // Como afirmas que CartaDTO tiene el color, reutilizamos EventoTirarCarta
-            // Si esto falla en el futuro, es porque tu DTO no encapsulaba el color realmente.
-            String idEvento = generarId();
-            Evento evt = new EventoTirarCarta(carta, idJugadorLocal, idEvento);
-            enviar(evt);
-        }
+        if (bloqueadoPorRed) return;
+        Evento evt = new EventoTirarCarta(carta, idJugadorLocal, generarId());
+        enviar(evt);
     }
 
     @Override
     public void emitirRobarCarta() {
-        if (!bloqueadoPorRed) {
-            String idEvento = generarId();
-            Evento evt = new EventoRobarCarta(true, idJugadorLocal, idEvento);
-            enviar(evt);
-        }
+        if (bloqueadoPorRed) return;
+        Evento evt = new EventoRobarCarta(true, idJugadorLocal, generarId());
+        enviar(evt);
     }
 
     @Override
-    public void emitirAplicarCastigo() {
-        if (!bloqueadoPorRed) {
-            System.err.println("Falta implementar EventoAplicarCastigo en el paquete de eventos.");
-        }
+    public void emitirPasarTurno() {
+        if (bloqueadoPorRed) return;
+        Evento evt = new EventoPasarTurno(true, idJugadorLocal, generarId());
+        enviar(evt);
+    }
+
+    @Override
+    public void emitirGritar() {
+        if (bloqueadoPorRed) return;
+        Evento evt = new EventoGritar(null, idJugadorLocal, generarId());
+        enviar(evt);
     }
 
     private String generarId() {
@@ -78,5 +75,4 @@ public class EventoTraductor implements IModelEventos {
             publicador.enviar(datos);
         }
     }
-
 }

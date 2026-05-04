@@ -1,21 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
 import Ejercer_Turno.MVC.ControlJuego;
+import Ejercer_Turno.MVC.UtilCarta;
+import dtos.CartaDTO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class PanelCarta extends JPanel {
 
     private final CartaDTO modelo;
@@ -36,8 +30,8 @@ public class PanelCarta extends JPanel {
             if (urlAtras != null) {
                 imgAtras = ImageIO.read(urlAtras);
             }
-            
-            String ruta = modelo.getId(); 
+
+            String ruta = UtilCarta.rutaImagen(modelo);
             if (ruta != null && !ruta.isEmpty()) {
                 URL urlAdelante = getClass().getResource(ruta);
                 if (urlAdelante != null) {
@@ -57,9 +51,10 @@ public class PanelCarta extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        
-        if (modelo.getColor() != null) {
-            g2d.setColor(modelo.getColor());
+
+        Color fondo = UtilCarta.toAwtColor(modelo.getColor());
+        if (fondo != null) {
+            g2d.setColor(fondo);
             g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         }
 
@@ -68,7 +63,7 @@ public class PanelCarta extends JPanel {
         } else if (imgAtras != null) {
             g2d.drawImage(imgAtras, 0, 0, getWidth(), getHeight(), this);
         }
-        
+
         if (seleccionada) {
             g2d.setColor(new Color(255, 255, 255, 180));
             g2d.setStroke(new BasicStroke(4));

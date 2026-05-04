@@ -55,10 +55,11 @@ public class PanelUno extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (unoActivo) {
                     if (audio != null) audio.playEffect("uno");
+                    control.solicitarGritar();
                     desactivarTodo();
                 } else if (alertaActivo) {
                     if (audio != null) audio.playEffect("alerta");
-                    control.solicitarAplicarCastigo();
+                    control.solicitarGritar();
                     desactivarTodo();
                 }
             }

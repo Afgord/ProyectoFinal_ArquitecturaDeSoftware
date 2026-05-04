@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
+import Ejercer_Turno.MVC.UtilCarta;
+import dtos.CartaDTO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -13,10 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class PanelCartaSeleccionada extends JPanel {
 
     private CartaDTO cartaActual;
@@ -29,9 +23,9 @@ public class PanelCartaSeleccionada extends JPanel {
     }
 
     public void mostrarCarta(CartaDTO carta) {
-        this.cartaActual = carta;      
+        this.cartaActual = carta;
         if (carta != null) {
-            setBackground(carta.getColor());
+            setBackground(UtilCarta.toAwtColor(carta.getColor()));
         } else {
             setBackground(new Color(50, 50, 50));
         }
@@ -46,20 +40,20 @@ public class PanelCartaSeleccionada extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);        
-        if (cartaActual != null) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 35));
-            
-            String texto = cartaActual.getSimbolo();
-            if (texto != null) {
-                FontMetrics metrics = g2d.getFontMetrics();
-                int x = (getWidth() - metrics.stringWidth(texto)) / 2;
-                int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
-                g2d.drawString(texto, x, y);
-            }
+        super.paintComponent(g);
+        if (cartaActual == null) return;
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.BOLD, 35));
+
+        String texto = UtilCarta.simbolo(cartaActual.getValor());
+        if (texto != null) {
+            FontMetrics metrics = g2d.getFontMetrics();
+            int x = (getWidth() - metrics.stringWidth(texto)) / 2;
+            int y = ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+            g2d.drawString(texto, x, y);
         }
     }
 }

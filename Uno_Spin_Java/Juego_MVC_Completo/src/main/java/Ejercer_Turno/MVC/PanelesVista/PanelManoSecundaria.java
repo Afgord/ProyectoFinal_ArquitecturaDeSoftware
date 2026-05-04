@@ -1,23 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.JugadorDTO;
+import dtos.JugadorDTO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class PanelManoSecundaria extends JPanel {
 
-    private final JugadorDTO oponente; 
+    private final JugadorDTO oponente;
     private final String ubicacion;
     private BufferedImage atrasRotado;
     private final int ANCHO_CARTA_VERT = 80;
@@ -67,8 +60,8 @@ public class PanelManoSecundaria extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        int separacion = 15; 
+
+        int separacion = 15;
 
         if (ubicacion.equals("arriba")) {
             int anchoTotal = (totalCartas - 1) * separacion + ANCHO_CARTA_VERT;

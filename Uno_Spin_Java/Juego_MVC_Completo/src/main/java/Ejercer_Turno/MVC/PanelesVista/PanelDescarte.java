@@ -1,21 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
 import Ejercer_Turno.Interfaces.IModeloDatos;
+import Ejercer_Turno.MVC.UtilCarta;
+import dtos.CartaDTO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class PanelDescarte extends JPanel {
 
     private final IModeloDatos modeloJuego;
@@ -33,26 +27,26 @@ public class PanelDescarte extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         CartaDTO cartaCima = modeloJuego.getCartaDescarteDTO();
+        if (cartaCima == null) return;
 
-        if (cartaCima != null) {
-            if (cartaCima.getColor() != null) {
-                g2d.setColor(cartaCima.getColor());
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-            }
-
-            try {
-                URL url = getClass().getResource(cartaCima.getId());
-                if (url != null) {
-                    BufferedImage img = ImageIO.read(url);
-                    g2d.drawImage(img, 5, 5, getWidth() - 10, getHeight() - 10, this);
-                }
-            } catch (IOException e) {
-                System.err.println("Error al cargar imagen en descarte");
-            }
-
-            g2d.setColor(Color.WHITE);
-            g2d.setStroke(new BasicStroke(2));
-            g2d.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 15, 15);
+        Color fondo = UtilCarta.toAwtColor(cartaCima.getColor());
+        if (fondo != null) {
+            g2d.setColor(fondo);
+            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
         }
+
+        try {
+            URL url = getClass().getResource(UtilCarta.rutaImagen(cartaCima));
+            if (url != null) {
+                BufferedImage img = ImageIO.read(url);
+                g2d.drawImage(img, 5, 5, getWidth() - 10, getHeight() - 10, this);
+            }
+        } catch (IOException e) {
+            System.err.println("Error al cargar imagen en descarte");
+        }
+
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 15, 15);
     }
 }

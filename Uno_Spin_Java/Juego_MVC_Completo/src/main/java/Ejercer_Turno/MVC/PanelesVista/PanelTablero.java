@@ -1,25 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import Girar_Ruleta.PanelRuleta;
-import DTOs.JugadorDTO;
+import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.ControlJuego;
-import Ejercer_Turno.Interfaces.IModeloDatos; 
-import java.awt.*;
+import Girar_Ruleta.PanelRuleta;
 import contenido.AudioManager;
+import dtos.JugadorDTO;
+import java.awt.*;
 import java.util.List;
 import javax.swing.*;
-/**
- * 
- * @author Luis Rafael
- */
+
 public class PanelTablero extends JPanel {
 
     private final ControlJuego control;
-    private final IModeloDatos modelo; 
+    private final IModeloDatos modelo;
 
     private PanelMazo panelMazo;
     private PanelDescarte panelDescarte;
@@ -29,7 +22,7 @@ public class PanelTablero extends JPanel {
     private PanelRuleta panelRuleta;
     private AudioManager audioModel;
     private JLabel lbTextoEstado;
-   
+
     private Timer timerError;
 
     public PanelTablero(ControlJuego control, IModeloDatos modelo, AudioManager audioModel) {
@@ -51,7 +44,7 @@ public class PanelTablero extends JPanel {
             lbTextoEstado.setText("Carta Seleccionada");
             lbTextoEstado.setForeground(Color.WHITE);
         });
-        timerError.setRepeats(false); 
+        timerError.setRepeats(false);
 
         inicializarComponentes();
     }
@@ -61,7 +54,7 @@ public class PanelTablero extends JPanel {
         panelUno.setBounds(1040, 600, 150, 100);
         add(panelUno);
 
-        panelMazo = new PanelMazo(control, modelo);
+        panelMazo = new PanelMazo(control);
         panelMazo.setBounds(610, 280, 100, 120);
         add(panelMazo);
 
@@ -87,7 +80,7 @@ public class PanelTablero extends JPanel {
     public void actualizarEstadoVisual(IModeloDatos contexto) {
         if (!contexto.isUltimaJugadaValida()) {
             if (timerError.isRunning()) timerError.restart();
-            
+
             lbTextoEstado.setText("¡CARTA NO VÁLIDA!");
             lbTextoEstado.setForeground(Color.YELLOW);
             timerError.start();
@@ -107,12 +100,16 @@ public class PanelTablero extends JPanel {
         }
 
         List<JugadorDTO> jugadores = modelo.getJugadoresDTO();
+        String idLocal = modelo.getIdJugadorLocal();
+        String idTurno = modelo.getIdJugadorTurnoActual();
+
         int rivalIdx = 0;
+        for (int i = 0; i < jugadores.size(); i++) {
+            JugadorDTO j = jugadores.get(i);
+            if (j.idJugador() != null && j.idJugador().equals(idLocal)) continue;
 
-        for (JugadorDTO j : jugadores) {
-            if (j.isEsTurnoActual()) continue;
-
-            PanelJugador pj = new PanelJugador(j);
+            boolean esTurno = j.idJugador() != null && j.idJugador().equals(idTurno);
+            PanelJugador pj = new PanelJugador(j, i, esTurno);
             PanelManoSecundaria pms;
 
             switch (rivalIdx) {
@@ -143,14 +140,14 @@ public class PanelTablero extends JPanel {
 
     public void actualizarMazo() { panelMazo.repaint(); }
     public void actualizarDescarte() { panelDescarte.repaint(); }
-    
-    public void actualizarManos() { 
-        panelManoJugador.refrescarMano(); 
+
+    public void actualizarManos() {
+        panelManoJugador.refrescarMano();
         actualizarRivales();
     }
-    
+
     public void refrescarTurno() { actualizarManos(); }
-    
+
     public PanelCartaSeleccionada getPanelZoom() { return panelZoom; }
     public PanelUno getPanelUno() { return panelUno; }
 }

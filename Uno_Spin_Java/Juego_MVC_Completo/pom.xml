@@ -14,7 +14,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     
     <properties>
         <maven.compiler.release>25</maven.compiler.release>
-        <exec.mainClass>Ejercer_Turno.Ejecutador.Ejecutador</exec.mainClass>
+        <!-- exec.mainClass movido a EventoTraductor -->
     </properties>
 
     <dependencies>
