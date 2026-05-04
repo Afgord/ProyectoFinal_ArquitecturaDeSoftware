@@ -1,12 +1,10 @@
-package Ejercer_Turno.Ejecutador;
+package com.mycompany.eventotraductor;
 
 import Cambiar_Color.Implementacion.SwingSeleccionColor;
 import Ejercer_Turno.Interfaces.IServicioSeleccionColor;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;
-import com.mycompany.eventotraductor.BootstrapRed;
-import com.mycompany.eventotraductor.EventoTraductor;
 import contenido.AudioManager;
 
 /**
