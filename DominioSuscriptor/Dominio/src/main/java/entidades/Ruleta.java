@@ -6,6 +6,7 @@ package entidades;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Ruleta {
@@ -22,51 +23,25 @@ public class Ruleta {
         System.out.println("[Ruleta] ¡Girando...! Resultado: " + ultimoResultado);
 
         switch (ultimoResultado) {
-            case CASI_UNO -> {
-                aplicarCasiUno();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case DESCARTAR_NUMERO -> {
-                aplicarDescartarNumero();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case DESCARTAR_COLOR -> {
-                aplicarDescartarColor();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case ROBAR_HASTA_COLOR -> {
-                aplicarRobarHastaColor();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case GUERRA -> {
-                aplicarGuerra();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case MOSTRAR_MANO -> {
-                aplicarMostrarMano();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case INTERCAMBIO_MANOS -> {
-                aplicarIntercambioManos();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
-            case PUNTUACION_BAJA -> {
-                aplicarPuntuacionBaja();
-                return TipoEvento.RULETA_ACTIVADA;
-            }
+            case CASI_UNO -> aplicarCasiUno();
+            case DESCARTAR_NUMERO -> aplicarDescartarNumero();
+            case DESCARTAR_COLOR -> aplicarDescartarColor();
+            case ROBAR_HASTA_COLOR -> aplicarRobarHastaColor();
+            case GUERRA -> aplicarGuerra();
+            case MOSTRAR_MANO -> aplicarMostrarMano();
+            case INTERCAMBIO_MANOS -> aplicarIntercambioManos();
+            case PUNTUACION_BAJA -> aplicarPuntuacionBaja();
             default -> {
                 tablero.siguienteTurno();
                 return TipoEvento.CAMBIO_TURNO;
             }
         }
-    }
-
-    public ResultadoRuleta getUltimoResultado() {
-        return ultimoResultado;
+        return TipoEvento.RULETA_ACTIVADA;
     }
 
     private void aplicarGuerra() {
         List<Jugador> jugadores = tablero.getJugadores();
+        // Encontrar el valor numérico más alto en juego entre todos los jugadores
         int valorMaximo = jugadores.stream()
                 .flatMap(j -> j.getMano().getCartasReales().stream())
                 .filter(Carta::esNumerica)
@@ -75,6 +50,7 @@ public class Ruleta {
                 .orElse(-1);
 
         if (valorMaximo != -1) {
+            System.out.println("[Ruleta - Guerra] Eliminando cartas con valor ordinal: " + valorMaximo);
             for (Jugador j : jugadores) {
                 j.getMano().getCartasReales().removeIf(c -> 
                     c.esNumerica() && c.getValor().ordinal() == valorMaximo
@@ -92,6 +68,7 @@ public class Ruleta {
         if (victima != null && !victima.getMano().getCartasReales().isEmpty()) {
             List<Carta> cartas = victima.getMano().getCartasReales();
             cartas.remove(random.nextInt(cartas.size()));
+            System.out.println("[Ruleta] Puntuación baja aplicada a: " + victima.getNombre());
         }
         tablero.siguienteTurno();
     }
@@ -99,8 +76,17 @@ public class Ruleta {
     private void aplicarCasiUno() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
-        while (cartas.size() > 2) {
-            cartas.remove(cartas.size() - 1);
+
+        if (cartas.size() > 2) {
+            System.out.println("[Ruleta] Casi Uno para: " + victima.getNombre());
+            while (cartas.size() > 2) {
+                cartas.remove(cartas.size() - 1);
+            }
+            Mano nuevaMano = new Mano();
+            for(Carta c : cartas) {
+                nuevaMano.agregarCarta(c);
+            }
+            victima.setMano(nuevaMano);
         }
         tablero.siguienteTurno();
     }
@@ -113,11 +99,12 @@ public class Ruleta {
                 .filter(Carta::esNumerica)
                 .collect(Collectors.groupingBy(Carta::getValor, Collectors.counting()))
                 .entrySet().stream()
-                .max(java.util.Map.Entry.comparingByValue())
-                .map(java.util.Map.Entry::getKey)
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
                 .orElse(null);
 
             if (valorMasFrecuente != null) {
+                System.out.println("[Ruleta] Descartando número: " + valorMasFrecuente);
                 cartas.removeIf(c -> c.getValor() == valorMasFrecuente);
             }
         }
@@ -132,11 +119,12 @@ public class Ruleta {
                 .filter(c -> c.getColor() != Colores.NEGRO)
                 .collect(Collectors.groupingBy(Carta::getColor, Collectors.counting()))
                 .entrySet().stream()
-                .max(java.util.Map.Entry.comparingByValue())
-                .map(java.util.Map.Entry::getKey)
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
                 .orElse(null);
 
             if (colorMasFrecuente != null) {
+                System.out.println("[Ruleta] Descartando color: " + colorMasFrecuente);
                 cartas.removeIf(c -> c.getColor() == colorMasFrecuente);
             }
         }
@@ -146,7 +134,12 @@ public class Ruleta {
     private void aplicarRobarHastaColor() {
         Jugador victima = tablero.getJugadorActual();
         Mazo mazo = tablero.getMazo();
-        Colores objetivo = random.nextBoolean() ? Colores.ROJO : Colores.AZUL;
+        // Elige un color aleatorio entre los 4 principales
+        Colores[] coloresValidos = {Colores.ROJO, Colores.AZUL, Colores.VERDE, Colores.AMARILLO};
+        Colores objetivo = coloresValidos[random.nextInt(coloresValidos.length)];
+        
+        System.out.println("[Ruleta] " + victima.getNombre() + " roba hasta encontrar: " + objetivo);
+        
         boolean encontrado = false;
         while (!encontrado && !mazo.estaVacio()) {
             Carta c = mazo.tomarUnaCarta();
@@ -159,17 +152,18 @@ public class Ruleta {
     }
 
     private void aplicarMostrarMano() {
+        // En un entorno de red, aquí dispararías un evento de notificación
+        System.out.println("[Ruleta] Se ha revelado la mano del jugador actual.");
         tablero.siguienteTurno();
     }
 
     private void aplicarIntercambioManos() {
         List<Jugador> jugadores = tablero.getJugadores();
         int n = jugadores.size();
-        if (n < 2) {
-            tablero.siguienteTurno();
-            return;
-        }
+        if (n < 2) return;
 
+        System.out.println("[Ruleta] ¡Intercambiando manos!");
+        
         if (tablero.isSentidoReloj()) {
             Mano primeraMano = jugadores.get(0).getMano();
             for (int i = 0; i < n - 1; i++) {
@@ -193,5 +187,9 @@ public class Ruleta {
                     if (c.esAccion()) return 20;
                     return c.getValor().ordinal(); 
                 }).sum();
+    }
+    
+    public ResultadoRuleta getUltimoResultado() {
+        return ultimoResultado;
     }
 }
