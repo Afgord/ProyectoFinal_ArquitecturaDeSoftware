@@ -4,11 +4,15 @@
  */
 package entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+/**
+ * 
+ * @author lagar
+ */
 public class Ruleta {
 
     private final Random random = new Random();
@@ -41,7 +45,6 @@ public class Ruleta {
 
     private void aplicarGuerra() {
         List<Jugador> jugadores = tablero.getJugadores();
-        // Encontrar el valor numérico más alto en juego entre todos los jugadores
         int valorMaximo = jugadores.stream()
                 .flatMap(j -> j.getMano().getCartasReales().stream())
                 .filter(Carta::esNumerica)
@@ -50,7 +53,7 @@ public class Ruleta {
                 .orElse(-1);
 
         if (valorMaximo != -1) {
-            System.out.println("[Ruleta - Guerra] Eliminando cartas con valor ordinal: " + valorMaximo);
+            System.out.println("[Ruleta - Guerra] Eliminando cartas de valor: " + valorMaximo);
             for (Jugador j : jugadores) {
                 j.getMano().getCartasReales().removeIf(c -> 
                     c.esNumerica() && c.getValor().ordinal() == valorMaximo
@@ -61,14 +64,25 @@ public class Ruleta {
     }
 
     private void aplicarPuntuacionBaja() {
-        Jugador victima = tablero.getJugadores().stream()
-                .min((j1, j2) -> Integer.compare(calcularPuntos(j1), calcularPuntos(j2)))
-                .orElse(null);
+        List<Jugador> jugadores = tablero.getJugadores();
+        if (jugadores.isEmpty()) return;
 
-        if (victima != null && !victima.getMano().getCartasReales().isEmpty()) {
+        int minPuntos = jugadores.stream()
+                .mapToInt(this::calcularPuntos)
+                .min()
+                .orElse(0);
+
+        List<Jugador> victimas = jugadores.stream()
+                .filter(j -> calcularPuntos(j) == minPuntos)
+                .collect(Collectors.toList());
+
+        System.out.println("[Ruleta] Castigando a " + victimas.size() + " jugador(es) con " + minPuntos + " puntos.");
+
+        for (Jugador victima : victimas) {
             List<Carta> cartas = victima.getMano().getCartasReales();
-            cartas.remove(random.nextInt(cartas.size()));
-            System.out.println("[Ruleta] Puntuación baja aplicada a: " + victima.getNombre());
+            if (!cartas.isEmpty()) {
+                cartas.remove(random.nextInt(cartas.size()));
+            }
         }
         tablero.siguienteTurno();
     }
@@ -76,17 +90,11 @@ public class Ruleta {
     private void aplicarCasiUno() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
-
         if (cartas.size() > 2) {
-            System.out.println("[Ruleta] Casi Uno para: " + victima.getNombre());
-            while (cartas.size() > 2) {
-                cartas.remove(cartas.size() - 1);
-            }
-            Mano nuevaMano = new Mano();
-            for(Carta c : cartas) {
-                nuevaMano.agregarCarta(c);
-            }
-            victima.setMano(nuevaMano);
+            System.out.println("[Ruleta] Podando mano de: " + victima.getNombre());
+            List<Carta> nuevasCartas = new ArrayList<>(cartas.subList(0, 2));
+            cartas.clear();
+            cartas.addAll(nuevasCartas);
         }
         tablero.siguienteTurno();
     }
@@ -94,6 +102,7 @@ public class Ruleta {
     private void aplicarDescartarNumero() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
+        
         if (!cartas.isEmpty()) {
             Valor valorMasFrecuente = cartas.stream()
                 .filter(Carta::esNumerica)
@@ -104,7 +113,7 @@ public class Ruleta {
                 .orElse(null);
 
             if (valorMasFrecuente != null) {
-                System.out.println("[Ruleta] Descartando número: " + valorMasFrecuente);
+                System.out.println("[Ruleta] Descarte masivo de: " + valorMasFrecuente);
                 cartas.removeIf(c -> c.getValor() == valorMasFrecuente);
             }
         }
@@ -114,6 +123,7 @@ public class Ruleta {
     private void aplicarDescartarColor() {
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
+        
         if (!cartas.isEmpty()) {
             Colores colorMasFrecuente = cartas.stream()
                 .filter(c -> c.getColor() != Colores.NEGRO)
@@ -124,7 +134,7 @@ public class Ruleta {
                 .orElse(null);
 
             if (colorMasFrecuente != null) {
-                System.out.println("[Ruleta] Descartando color: " + colorMasFrecuente);
+                System.out.println("[Ruleta] Descarte masivo de color: " + colorMasFrecuente);
                 cartas.removeIf(c -> c.getColor() == colorMasFrecuente);
             }
         }
@@ -134,26 +144,28 @@ public class Ruleta {
     private void aplicarRobarHastaColor() {
         Jugador victima = tablero.getJugadorActual();
         Mazo mazo = tablero.getMazo();
-        // Elige un color aleatorio entre los 4 principales
+        
         Colores[] coloresValidos = {Colores.ROJO, Colores.AZUL, Colores.VERDE, Colores.AMARILLO};
         Colores objetivo = coloresValidos[random.nextInt(coloresValidos.length)];
         
-        System.out.println("[Ruleta] " + victima.getNombre() + " roba hasta encontrar: " + objetivo);
+        System.out.println("[Ruleta] " + victima.getNombre() + " busca " + objetivo + " en el mazo...");
         
         boolean encontrado = false;
         while (!encontrado && !mazo.estaVacio()) {
             Carta c = mazo.tomarUnaCarta();
             if (c != null) {
                 victima.agregarCarta(c);
-                if (c.getColor() == objetivo) encontrado = true;
+                if (c.getColor() == objetivo) {
+                    encontrado = true;
+                    System.out.println("[Ruleta] ¡Carta encontrada!");
+                }
             }
         }
         tablero.siguienteTurno();
     }
 
     private void aplicarMostrarMano() {
-        // En un entorno de red, aquí dispararías un evento de notificación
-        System.out.println("[Ruleta] Se ha revelado la mano del jugador actual.");
+        System.out.println("[Ruleta] Evento: MANO_REVELADA para " + tablero.getJugadorActual().getNombre());
         tablero.siguienteTurno();
     }
 
@@ -162,8 +174,7 @@ public class Ruleta {
         int n = jugadores.size();
         if (n < 2) return;
 
-        System.out.println("[Ruleta] ¡Intercambiando manos!");
-        
+        System.out.println("[Ruleta] Rotando manos de todos los jugadores...");
         if (tablero.isSentidoReloj()) {
             Mano primeraMano = jugadores.get(0).getMano();
             for (int i = 0; i < n - 1; i++) {
@@ -188,7 +199,7 @@ public class Ruleta {
                     return c.getValor().ordinal(); 
                 }).sum();
     }
-    
+
     public ResultadoRuleta getUltimoResultado() {
         return ultimoResultado;
     }
