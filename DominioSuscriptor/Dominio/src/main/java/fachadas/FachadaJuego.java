@@ -29,6 +29,7 @@ public class FachadaJuego implements FachadaDominio {
 
     @Override
     public Object pasarTurno() {
+        System.out.println("[Fachada] Procesando pasar turno...");
         return tablero.pasarTurno();
     }
     

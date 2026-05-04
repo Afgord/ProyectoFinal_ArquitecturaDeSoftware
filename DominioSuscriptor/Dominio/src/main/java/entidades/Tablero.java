@@ -67,7 +67,6 @@ public class Tablero {
     }
 
     private boolean ejecutarLogicaJugada(Carta cartaReal, CartaDTO cartaDto) {
-        if (cartaReal == null) return false;
         if (cartaReal.esComodin()) {
             System.out.println("[Tablero] Aplicando color elegido al comodín: " + cartaDto.getColor());
             cartaReal.setColor(cartaDto.getColor());
