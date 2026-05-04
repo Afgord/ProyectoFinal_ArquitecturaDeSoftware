@@ -1,34 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.JugadorDTO;
+import Ejercer_Turno.MVC.UtilCarta;
+import dtos.JugadorDTO;
 import java.awt.*;
 import javax.swing.*;
+
 /**
- * 
- * @author Luis Rafael
+ * Tarjeta de un jugador (rival). El avatar se asigna por índice porque
+ * dtos.JugadorDTO no transporta esa información.
  */
 public class PanelJugador extends JPanel {
-    private final JugadorDTO jugador; 
-    
+    private final JugadorDTO jugador;
+    private final boolean esTurnoActual;
+
     private JLabel lbUsuario;
     private JLabel lbNumCartas;
     private PanelAvatar panelAvatar;
 
-    public PanelJugador(JugadorDTO jugador) {
+    public PanelJugador(JugadorDTO jugador, int indice, boolean esTurnoActual) {
         this.jugador = jugador;
+        this.esTurnoActual = esTurnoActual;
         configurarPanel();
-        inicializarComponentes();
-        actualizarDatos(); 
+        inicializarComponentes(indice);
+        actualizarDatos();
     }
 
     private void configurarPanel() {
-        setLayout(null); 
+        setLayout(null);
         setPreferredSize(new Dimension(250, 80));
-        if (jugador.isEsTurnoActual()) {
+        if (esTurnoActual) {
             setBackground(new Color(255, 255, 150));
             setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
         } else {
@@ -37,7 +37,7 @@ public class PanelJugador extends JPanel {
         }
     }
 
-    private void inicializarComponentes() {
+    private void inicializarComponentes(int indice) {
         lbUsuario = new JLabel();
         lbUsuario.setBounds(90, 10, 150, 25);
         lbUsuario.setFont(new Font("Arial", Font.BOLD, 16));
@@ -47,7 +47,8 @@ public class PanelJugador extends JPanel {
         lbNumCartas.setBounds(90, 40, 150, 25);
         lbNumCartas.setFont(new Font("Arial", Font.PLAIN, 14));
         add(lbNumCartas);
-        panelAvatar = new PanelAvatar(jugador.getRutaAvatar()); 
+
+        panelAvatar = new PanelAvatar(UtilCarta.avatarPorIndice(indice));
         panelAvatar.setBounds(10, 5, 70, 70);
         add(panelAvatar);
     }

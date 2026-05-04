@@ -1,30 +1,46 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC;
 
-import DTOs.*;
-import Entidades.*;
-import Fachadas.FachadaDominio;
-import Ejercer_Turno.Interfaces.*;
-import java.awt.Color;
+import Ejercer_Turno.Interfaces.IModeloDatos;
+import Ejercer_Turno.Interfaces.Observador;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import org.eventos.ejercer_turno.EventoActualizarTurno;
+import org.eventos.ejercer_turno.EventoAnuciarGanador;
+import org.eventos.ejercer_turno.EventoFallo;
+import org.eventos.ejercer_turno.EventoResultadoGrito;
+import org.eventos.ejercer_turno.EventoResultadoRuleta;
 
-public class ModeloJuego implements IModeloDatos, IModeloAcciones {
+/**
+ * Modelo del MVC en modo event-driven.
+ *
+ * Su estado solo se modifica al recibir eventos entrantes desde la red
+ * (a través de los métodos aplicarXxx que invoca el ReceptorProcesador).
+ * No toca FachadaDominio: cualquier validación corre en el subscriptor
+ * Dominio del otro lado del broker.
+ */
+public class ModeloJuego implements IModeloDatos {
 
-    private final FachadaDominio fachada;
     private final List<Observador> observadores = new ArrayList<>();
-    private boolean ultimaJugadaValida = true;
+    private final String idJugadorLocal;
 
-    public ModeloJuego(FachadaDominio fachada) {
-        this.fachada = fachada;
+    private List<JugadorDTO> jugadores = new ArrayList<>();
+    private CartaDTO cartaCima = null;
+    private String idJugadorTurnoActual = null;
+    private boolean ultimaJugadaValida = true;
+    private String ganador = null;
+
+    public ModeloJuego(String idJugadorLocal) {
+        this.idJugadorLocal = idJugadorLocal;
     }
 
     @Override
     public void registrarObservador(Observador o) {
-        observadores.add(o);
+        if (o != null && !observadores.contains(o)) {
+            observadores.add(o);
+        }
     }
 
     private void notificar() {
@@ -33,101 +49,68 @@ public class ModeloJuego implements IModeloDatos, IModeloAcciones {
         }
     }
 
-    @Override
-    public void tirarCarta(CartaDTO cartaDTO) {
-        Carta cartaReal = buscarCartaEnMano(cartaDTO);
-        if (cartaReal != null) {
-            ultimaJugadaValida = fachada.validarYPlay(cartaReal);
-            if (ultimaJugadaValida) {
-                fachada.pasarTurno();
-            }
-            notificar();
-        }
-    }
-
-    @Override
-    public void tirarCartaNegra(CartaDTO cartaDTO, Color nuevoColor, String nombreColor) {
-        Carta cartaReal = buscarCartaEnMano(cartaDTO);
-        if (cartaReal != null) {
-            ultimaJugadaValida = fachada.validarYPlay(cartaReal);
-            if (ultimaJugadaValida) {
-                fachada.aplicarEfectoCarta(cartaReal, nuevoColor);
-                fachada.pasarTurno();
-            }
-            notificar();
-        }
-    }
-
-    @Override
-    public void robarCarta() {
-        fachada.robarCarta();
-        fachada.pasarTurno();
+    public void aplicarActualizacion(EventoActualizarTurno e) {
+        this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
+        this.cartaCima = e.getCartaEnCima();
+        this.idJugadorTurnoActual = e.getIdJugadorTurnoActual();
         this.ultimaJugadaValida = true;
         notificar();
     }
 
-    @Override
-    public void aplicarCastigo() {
-        int cantidad = fachada.getAcumulacionCastigo();
-        for (int i = 0; i < cantidad; i++) {
-            fachada.robarCarta();
-        }
-        fachada.limpiarCastigo();
-        fachada.pasarTurno();
+    public void aplicarFallo(EventoFallo e) {
+        this.ultimaJugadaValida = false;
         notificar();
     }
 
-    private Carta buscarCartaEnMano(CartaDTO dto) {
-        for (Carta c : fachada.getTablero().getJugadorActual().getCartasModelo()) {
-            if (c.getRutaImagen().equals(dto.getId()) && c.getSimbolo().equals(dto.getSimbolo())) {
-                return c;
-            }
+    public void aplicarResultadoRuleta(EventoResultadoRuleta e) {
+        this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
+        this.cartaCima = e.getCartaEnCima();
+        this.idJugadorTurnoActual = e.getIdJugadorTurnoActual();
+        this.ultimaJugadaValida = true;
+        notificar();
+    }
+
+    public void aplicarResultadoGrito(EventoResultadoGrito e) {
+        if (e.getEstadoJugadores() != null) {
+            this.jugadores = new ArrayList<>(e.getEstadoJugadores());
         }
-        return null;
+        notificar();
     }
 
-    @Override
-    public TableroDTO getTableroDTO() {
-        Tablero t = fachada.getTablero();
-        return new TableroDTO(t.getDescarte().getCartaCima().getColorExterno(), 
-                              t.isSentidoReloj(), 
-                              t.getJugadorActual().getNombre());
-    }
-
-    @Override
-    public MazoDTO getMazoDTO() {
-        return new MazoDTO(fachada.getTablero().getMazo().getCantidadCartas());
+    public void aplicarGanador(EventoAnuciarGanador e) {
+        if (e.getGanador() != null) {
+            this.ganador = e.getGanador().getNombre();
+        }
+        notificar();
     }
 
     @Override
     public CartaDTO getCartaDescarteDTO() {
-        Carta c = fachada.getTablero().getDescarte().getCartaCima();
-        return new CartaDTO(c.getRutaImagen(), c.getColorExterno(), c.getSimbolo(), c.esComodin());
+        return cartaCima;
     }
 
     @Override
     public List<JugadorDTO> getJugadoresDTO() {
-        List<JugadorDTO> lista = new ArrayList<>();
-        Tablero t = fachada.getTablero();
-        for (Jugador j : t.getJugadores()) {
-            boolean esTurno = (j == t.getJugadorActual());
-            List<CartaDTO> cartasDto = new ArrayList<>();
-            if (esTurno) {
-                for (Carta c : j.getCartasModelo()) {
-                    cartasDto.add(new CartaDTO(c.getRutaImagen(), c.getColorExterno(), c.getSimbolo(), c.esComodin()));
-                }
-            }
-            lista.add(new JugadorDTO(j.getUrlAvatar(), j.getNombre(), j.getNumCartas(), esTurno, cartasDto));
-        }
-        return lista;
+        return Collections.unmodifiableList(jugadores);
     }
 
     @Override
-    public boolean isUltimaJugadaValida() { return ultimaJugadaValida; }
+    public boolean isUltimaJugadaValida() {
+        return ultimaJugadaValida;
+    }
 
     @Override
-    public Color[] obtenerColoresConfigurados() {
-        Mazo m = fachada.getTablero().getMazo();
-        return new Color[]{m.getcAzul(), m.getcRojo(), m.getcAmarillo(), m.getcVerde()};
+    public String getIdJugadorLocal() {
+        return idJugadorLocal;
+    }
+
+    @Override
+    public String getIdJugadorTurnoActual() {
+        return idJugadorTurnoActual;
+    }
+
+    @Override
+    public String getGanador() {
+        return ganador;
     }
 }

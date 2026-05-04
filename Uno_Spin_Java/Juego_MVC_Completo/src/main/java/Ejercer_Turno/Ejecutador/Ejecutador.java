@@ -1,68 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.Ejecutador;
 
-import Entidades.*;
-import Fachadas.FachadaJuego;
-import Ejercer_Turno.MVC.*;
-import Ejercer_Turno.Interfaces.*;
-import Cambiar_Color.MVC.ModeloColor;
-import Cambiar_Color.MVC.ControlColor;
-import Cambiar_Color.MVC.PanelSelectorColor;
+import Cambiar_Color.Implementacion.SwingSeleccionColor;
+import Ejercer_Turno.Interfaces.IServicioSeleccionColor;
+import Ejercer_Turno.MVC.ControlJuego;
+import Ejercer_Turno.MVC.FrameTablero;
+import Ejercer_Turno.MVC.ModeloJuego;
+import com.mycompany.eventotraductor.BootstrapRed;
+import com.mycompany.eventotraductor.EventoTraductor;
 import contenido.AudioManager;
-import DTOs.ColorDTO;
-import java.awt.Color;
-import java.awt.Frame;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Punto de entrada del nodo Publicador/Consumidor.
+ *
+ * Cablea la frontera de red vía BootstrapRed y arranca el MVC. Los
+ * parámetros de conexión y la identidad del jugador los suministrará el
+ * módulo Directorio (lobby) en una iteración futura; por ahora se
+ * hardcodean para debug.
+ */
 public class Ejecutador {
+
+    private static final String HOST_BROKER = "127.0.0.1";
+    private static final int PUERTO_BROKER = 5555;
+    private static final int PUERTO_LOCAL = 6001;
+    private static final String ID_JUGADOR_LOCAL = "jugador-local";
+
     public static void main(String[] args) {
-        Color cAzul = Color.CYAN;
-        Color cRojo = Color.PINK;
-        Color cAmarillo = Color.ORANGE;
-        Color cVerde = Color.MAGENTA;
-        Color cNegro = Color.BLACK;
+        BootstrapRed bootstrap = BootstrapRed.iniciar(HOST_BROKER, PUERTO_BROKER, PUERTO_LOCAL, ID_JUGADOR_LOCAL);
+        ModeloJuego modelo = bootstrap.getModelo();
+        EventoTraductor eventos = bootstrap.getTraductor();
 
-        List<Jugador> listaJugadores = new ArrayList<>();
-        listaJugadores.add(new Jugador("Xrapayel", "/avatares/XD.jpg"));
-        listaJugadores.add(new Jugador("Mondongo", "/avatares/mondongo.jpg"));
-        listaJugadores.add(new Jugador("Verch", "/avatares/queHiciste.jpg"));
-        listaJugadores.add(new Jugador("Gilberto", "/avatares/gilberto.jpg"));
-
-        Tablero tablero = new Tablero(
-            listaJugadores, 0, 9,
-            true, true, true, true, true, 
-            cAzul, cRojo, cAmarillo, cVerde, cNegro
-        );
-
-        Mazo mazo = tablero.getMazo();
-        for (Jugador j : listaJugadores) {
-            for (int i = 0; i < 7; i++) {
-                j.agregarCarta(mazo.tomarUnaCarta());
-            }
-        }
-
-        FachadaJuego fachada = new FachadaJuego();
-        fachada.inyectarTablero(tablero);
-
-        ModeloJuego modeloReal = new ModeloJuego(fachada);
-
-        IServicioSeleccionColor servicioColor = new IServicioSeleccionColor() {
-            @Override
-            public void solicitarColor(Frame padre, Color[] opciones, IResultadoColor callback) {
-                ModeloColor mColor = new ModeloColor();
-                mColor.registrar(contexto -> callback.onResultado(contexto.getDatosColor()));
-                
-                ControlColor cColor = new ControlColor(mColor, opciones[0], opciones[1], opciones[2], opciones[3]);
-                PanelSelectorColor vistaColor = new PanelSelectorColor(padre, cColor);
-                vistaColor.setVisible(true);
-            }
-        };
-
-        ControlJuego control = new ControlJuego(modeloReal, servicioColor);
+        IServicioSeleccionColor servicioColor = new SwingSeleccionColor();
+        ControlJuego control = new ControlJuego(eventos, servicioColor);
 
         AudioManager audioModel = new AudioManager();
         audioModel.loadMusic("/sound/music/dkc1_achuatic.wav");
@@ -71,8 +39,6 @@ public class Ejecutador {
         audioModel.loadEffect("uno", "/sound/effect/uno.wav", 5);
         audioModel.loadEffect("alerta", "/sound/effect/alerta.wav", 5);
 
-        java.awt.EventQueue.invokeLater(() -> {
-            new FrameTablero(control, modeloReal, audioModel).setVisible(true);
-        });
+        java.awt.EventQueue.invokeLater(() -> new FrameTablero(control, modelo, audioModel).setVisible(true));
     }
 }

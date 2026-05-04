@@ -1,42 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Cambiar_Color.MVC;
 
-import Fachadas.FachadaSelectorColor;
-import Fachadas.FachadaColor;
-import Entidades.SeleccionColor;
-import DTOs.ColorDTO;
-import Cambiar_Color.Interfaces.*;
+import Cambiar_Color.Interfaces.IColorAcciones;
+import Cambiar_Color.Interfaces.ObservadorColor;
+import entidades.Colores;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Modelo del selector de color, simplificado: solo guarda el Colores
+ * elegido y notifica a sus observadores. Sin dependencia con FachadaSelectorColor.
+ */
 public class ModeloColor implements IColorAcciones {
-    private SeleccionColor seleccion;
-    private final List<ObservadorColor> observadores = new ArrayList<>();
-    private final FachadaColor fachada;
 
-    public ModeloColor() {
-        this.fachada = new FachadaSelectorColor();
-    }
+    private Colores seleccion;
+    private final List<ObservadorColor> observadores = new ArrayList<>();
 
     @Override
-    public void confirmarSeleccion(ColorDTO dto) {
-        fachada.procesarSeleccion(dto.getColor(), dto.getNombre());
-        this.seleccion = new SeleccionColor(dto.getColor(), dto.getNombre());
+    public void confirmarSeleccion(Colores color) {
+        this.seleccion = color;
         notificar();
     }
 
     @Override
-    public void cancelar() {}
-
-    public void registrar(ObservadorColor o) { 
-        observadores.add(o); 
+    public void cancelar() {
+        this.seleccion = null;
+        notificar();
     }
 
-    public ColorDTO getDatosColor() {
-        return (seleccion != null) ? new ColorDTO(seleccion.getColor(), seleccion.getNombre()) : null;
+    public void registrar(ObservadorColor o) {
+        if (o != null && !observadores.contains(o)) {
+            observadores.add(o);
+        }
+    }
+
+    public Colores getSeleccion() {
+        return seleccion;
     }
 
     private void notificar() {

@@ -1,23 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC.PanelesVista;
 
-import DTOs.CartaDTO;
-import DTOs.JugadorDTO;
+import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
-import Ejercer_Turno.Interfaces.IModeloDatos;
+import Ejercer_Turno.MVC.UtilCarta;
+import dtos.CartaDTO;
+import dtos.JugadorDTO;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 /**
- * 
- * @author Luis Rafael
+ * Mano del jugador local.
+ *
+ * Se identifica al usuario por idJugadorLocal (no por turno actual): así
+ * pinta su mano siempre, incluso cuando es el turno de un rival. Solo
+ * permite tirar/seleccionar carta cuando el turno actual coincide con
+ * el jugador local.
  */
 public class PanelMano extends JPanel {
     private final ControlJuego control;
@@ -33,28 +35,22 @@ public class PanelMano extends JPanel {
 
     public void refrescarMano() {
         removeAll();
-        
-        List<JugadorDTO> jugadores = modeloJuego.getJugadoresDTO();
-        JugadorDTO usuario = null;
-        
-        for (JugadorDTO j : jugadores) {
-            if (j.isEsTurnoActual()) {
-                usuario = j;
-                break;
-            }
-        }
 
-        if (usuario == null) return;
-
-        List<CartaDTO> cartas = usuario.getCartas();
-        int n = cartas.size();
-        
-        if (n == 0) {
+        JugadorDTO local = jugadorLocal();
+        if (local == null) {
             revalidate();
             repaint();
             return;
         }
 
+        List<CartaDTO> cartas = local.getMano();
+        if (cartas == null || cartas.isEmpty()) {
+            revalidate();
+            repaint();
+            return;
+        }
+
+        int n = cartas.size();
         int anchoPanel = getWidth() > 0 ? getWidth() : 800;
         int altoPanel = getHeight() > 0 ? getHeight() : 150;
         int anchoCarta = 100;
@@ -73,6 +69,21 @@ public class PanelMano extends JPanel {
 
         revalidate();
         repaint();
+    }
+
+    private JugadorDTO jugadorLocal() {
+        String idLocal = modeloJuego.getIdJugadorLocal();
+        if (idLocal == null) return null;
+        for (JugadorDTO j : modeloJuego.getJugadoresDTO()) {
+            if (idLocal.equals(j.idJugador())) return j;
+        }
+        return null;
+    }
+
+    private boolean esMiTurno() {
+        String idLocal = modeloJuego.getIdJugadorLocal();
+        String idTurno = modeloJuego.getIdJugadorTurnoActual();
+        return idLocal != null && idLocal.equals(idTurno);
     }
 
     private void configurarEventoCarta(PanelCarta pCarta) {
@@ -99,7 +110,9 @@ public class PanelMano extends JPanel {
     }
 
     private void intentarLanzar(CartaDTO modeloCarta) {
-        if (modeloCarta.isEsComodin()) {
+        if (!esMiTurno()) return;
+
+        if (UtilCarta.esComodin(modeloCarta.getValor())) {
             Frame padre = (Frame) SwingUtilities.getWindowAncestor(this);
             control.solicitarSeleccionColor(modeloCarta, padre);
         } else {

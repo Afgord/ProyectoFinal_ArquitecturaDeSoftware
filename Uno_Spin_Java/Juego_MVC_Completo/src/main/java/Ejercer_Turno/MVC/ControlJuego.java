@@ -1,42 +1,49 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Ejercer_Turno.MVC;
 
-import DTOs.CartaDTO;
-import Ejercer_Turno.Interfaces.IModeloAcciones;
+import Ejercer_Turno.Interfaces.IModelEventos;
 import Ejercer_Turno.Interfaces.IServicioSeleccionColor;
-import java.awt.Color;
+import dtos.CartaDTO;
+import entidades.Colores;
 import java.awt.Frame;
 
+/**
+ * Controlador del MVC.
+ *
+ * No mantiene estado: traduce las acciones de la vista en intenciones
+ * publicables hacia la red a través de IModelEventos. La vista se actualiza
+ * cuando el ModeloJuego recibe el evento de estado correspondiente.
+ */
 public class ControlJuego {
-    private final IModeloAcciones modeloAcciones;
+
+    private final IModelEventos eventos;
     private final IServicioSeleccionColor servicioColor;
 
-    public ControlJuego(IModeloAcciones modeloAcciones, IServicioSeleccionColor servicioColor) {
-        this.modeloAcciones = modeloAcciones;
+    public ControlJuego(IModelEventos eventos, IServicioSeleccionColor servicioColor) {
+        this.eventos = eventos;
         this.servicioColor = servicioColor;
     }
 
     public void solicitarTirarCarta(CartaDTO carta) {
-        modeloAcciones.tirarCarta(carta);
+        eventos.emitirTirarCarta(carta);
     }
 
     public void solicitarRobarCarta() {
-        modeloAcciones.robarCarta();
+        eventos.emitirRobarCarta();
     }
 
-    public void solicitarAplicarCastigo() {
-        modeloAcciones.aplicarCastigo();
+    public void solicitarPasarTurno() {
+        eventos.emitirPasarTurno();
     }
 
-    public void solicitarSeleccionColor(CartaDTO carta, Frame padre) {
-        Color[] colores = modeloAcciones.obtenerColoresConfigurados();
-        
-        servicioColor.solicitarColor(padre, colores, (resultado) -> {
-            if (resultado != null) {
-                modeloAcciones.tirarCartaNegra(carta, resultado.getColor(), resultado.getNombre());
+    public void solicitarGritar() {
+        eventos.emitirGritar();
+    }
+
+    public void solicitarSeleccionColor(CartaDTO comodin, Frame padre) {
+        servicioColor.solicitarColor(padre, UtilCarta.coloresConfigurados(), (Colores elegido) -> {
+            if (elegido != null) {
+                CartaDTO conColor = new CartaDTO(comodin.getValor(), elegido);
+                eventos.emitirTirarCarta(conColor);
             }
         });
     }

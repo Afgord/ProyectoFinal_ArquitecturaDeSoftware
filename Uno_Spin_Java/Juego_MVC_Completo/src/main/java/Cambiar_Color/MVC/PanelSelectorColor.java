@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Cambiar_Color.MVC;
 
+import entidades.Colores;
 import java.awt.*;
 import javax.swing.*;
-/**
- * 
- * @author lagar
- */
+
 public class PanelSelectorColor extends JDialog {
 
     private final ControlColor controlColor;
@@ -17,7 +11,7 @@ public class PanelSelectorColor extends JDialog {
     public PanelSelectorColor(Frame padre, ControlColor controlColor) {
         super(padre, true);
         this.controlColor = controlColor;
-        
+
         setUndecorated(true);
         initComponents();
         pack();
@@ -38,28 +32,28 @@ public class PanelSelectorColor extends JDialog {
         JPanel pnlBotones = new JPanel(new GridLayout(2, 2, 10, 10));
         pnlBotones.setOpaque(false);
         pnlBotones.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        pnlBotones.add(crearBtn("Azul", controlColor.getAzul()));
-        pnlBotones.add(crearBtn("Rojo", controlColor.getRojo()));
-        pnlBotones.add(crearBtn("Amarillo", controlColor.getAmarillo()));
-        pnlBotones.add(crearBtn("Verde", controlColor.getVerde()));
+        pnlBotones.add(crearBtn("Azul", controlColor.getAzul(), Colores.AZUL));
+        pnlBotones.add(crearBtn("Rojo", controlColor.getRojo(), Colores.ROJO));
+        pnlBotones.add(crearBtn("Amarillo", controlColor.getAmarillo(), Colores.AMARILLO));
+        pnlBotones.add(crearBtn("Verde", controlColor.getVerde(), Colores.VERDE));
 
         principal.add(pnlBotones, BorderLayout.CENTER);
         add(principal);
     }
 
-    private JButton crearBtn(String texto, Color c) {
+    private JButton crearBtn(String texto, Color c, Colores valor) {
         JButton btn = new JButton(texto.toUpperCase());
         btn.setBackground(c);
         btn.setFont(new Font("Arial", Font.BOLD, 12));
         btn.setPreferredSize(new Dimension(120, 60));
         btn.setFocusPainted(false);
-        
+
         double brillo = (0.299 * c.getRed() + 0.587 * c.getGreen() + 0.114 * c.getBlue()) / 255;
         btn.setForeground(brillo > 0.6 ? Color.BLACK : Color.WHITE);
 
         btn.addActionListener(e -> {
-            controlColor.seleccionarColor(c, texto.toLowerCase());
-            this.dispose(); 
+            controlColor.seleccionarColor(valor);
+            this.dispose();
         });
         return btn;
     }
