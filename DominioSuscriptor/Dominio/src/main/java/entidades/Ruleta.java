@@ -61,7 +61,6 @@ public class Ruleta {
     }
 
     private void aplicarPuntuacionBaja() {
-        // El jugador con menos puntos totales pierde una carta al azar
         Jugador victima = tablero.getJugadores().stream()
                 .min((j1, j2) -> Integer.compare(calcularPuntos(j1), calcularPuntos(j2)))
                 .orElse(null);
@@ -75,14 +74,19 @@ public class Ruleta {
     }
 
     private void aplicarCasiUno() {
-        // El jugador actual se queda solo con 2 cartas
         Jugador victima = tablero.getJugadorActual();
         List<Carta> cartas = victima.getMano().getCartasReales();
+
         if (cartas.size() > 2) {
             System.out.println("[Ruleta] Casi Uno para: " + victima.getNombre());
             while (cartas.size() > 2) {
                 cartas.remove(cartas.size() - 1);
             }
+            Mano nuevaMano = new Mano();
+            for(Carta c : cartas) {
+                nuevaMano.agregarCarta(c);
+            }
+            victima.setMano(nuevaMano);
         }
         tablero.siguienteTurno();
     }
