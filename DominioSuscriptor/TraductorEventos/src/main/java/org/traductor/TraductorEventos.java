@@ -19,8 +19,8 @@ public class TraductorEventos {
     private final IDispatcher dispatcher;
     private final IDeserializador<EventoAccion> deserializador;
     private final ISerializador<Evento> serializador;
-    private final String BROKER_IP = "192.168.100.12";
-    private final int BROKER_PUERTO = 5002;
+    private final String BROKER_IP = "192.168.100.97";
+    private final int BROKER_PUERTO = 5001;
 
     public TraductorEventos(FachadaDominio fachada, IDispatcher dispatcher) {
         this.fachada = fachada;

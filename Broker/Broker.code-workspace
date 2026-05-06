@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../DominioSuscriptor"
+		},
+		{
+			"path": "../Uno_Spin_Java"
 		}
 	]
 }

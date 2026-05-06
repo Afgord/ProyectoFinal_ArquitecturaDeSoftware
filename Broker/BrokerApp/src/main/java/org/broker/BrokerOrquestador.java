@@ -24,7 +24,7 @@ public class BrokerOrquestador {
         this.directorio = DirectorioFactory.crearNuevoDirectorio();
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
-        directorio.registrarConexion(new Conexion(ID_DOMINIO, "192.168.100.12", 5000));
+        directorio.registrarConexion(new Conexion(ID_DOMINIO, "192.168.100.97", 5000));
     }
 
     public void rutarEvento(byte[] bytes) {
@@ -35,8 +35,6 @@ public class BrokerOrquestador {
 
         if (evento instanceof EventoAccion) {
             enviarAEntidad(ID_DOMINIO, bytesAEnviar);
-        } else if (evento instanceof EventoFallo) {
-            enviarAEntidad("J1", bytesAEnviar);
         } else {
             hacerBroadcast(bytesAEnviar);
         }
