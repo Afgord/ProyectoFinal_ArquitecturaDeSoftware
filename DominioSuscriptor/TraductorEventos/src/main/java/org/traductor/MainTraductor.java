@@ -20,7 +20,7 @@ import java.util.List;
 public class MainTraductor {
 
     public static void main(String[] args) {
-        final String MI_IP = "192.168.100.12";
+        final String MI_IP = "192.168.100.97";
         final int PUERTO = 5000;
         
         System.out.println("=== [SISTEMA] Iniciando Servidor en " + MI_IP + " ===");

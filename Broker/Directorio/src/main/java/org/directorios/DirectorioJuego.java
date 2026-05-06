@@ -21,7 +21,7 @@ class DirectorioJuego implements IDirectorio{
 
     @Override
     public void registrarConexion(Conexion conexion) {
-        if (conexion != null && conexiones.size() < 4) {
+        if (conexion != null && conexiones.size() < 5) {
             conexiones.put(conexion.getIdJugador(), conexion);
         }
     }
