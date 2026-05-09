@@ -4,49 +4,30 @@
  */
 package org.traductor;
 
-import entidades.*;
 import entrada.Receptor;
 import fachadas.FachadaDominio;
 import fachadas.FachadaJuego;
 import entrada.ServidorTCP;
 import salida.DispatcherFactory;
 import salida.IDispatcher;
-import java.util.ArrayList;
-import java.util.List;
 /**
- * 
- * @author lagar
+ * Punto de entrada del subscriptor de dominio.
+ *
+ * Cablea el ServidorTCP del puerto del dominio con un TraductorEventos
+ * que delega en una FachadaJuego "vacia" (sin Tablero). El estado real
+ * de la partida lo construye la fachada cuando llega EventoCrearPartida
+ * + EventoUnirsePartida + EventoSolicitarInicio + todas las
+ * EventoResponderSolicitudInicio del lobby (caso de uso Iniciar Partida).
  */
 public class MainTraductor {
 
     public static void main(String[] args) {
         final String MI_IP = "192.168.100.97";
         final int PUERTO = 5000;
-        
+
         System.out.println("=== [SISTEMA] Iniciando Servidor en " + MI_IP + " ===");
 
-        Mazo mazo = new Mazo(0, 9, true, true, true, true, true);
-        Carta inicio = mazo.sacarCartaInicialValida();
-        Descarte descarte = new Descarte(inicio);
-        Ruleta ruleta = new Ruleta();
-        
-        List<Jugador> listaJugadores = new ArrayList<>();
-        listaJugadores.add(new Jugador("1", "Rafael", "avatar1.png", new Mano()));
-        listaJugadores.add(new Jugador("2", "Jugador 2", "avatar2.png", new Mano()));
-        listaJugadores.add(new Jugador("3", "Jugador 3", "avatar3.png", new Mano()));
-        listaJugadores.add(new Jugador("4", "Jugador 4", "avatar4.png", new Mano()));
-
-        for (Jugador jugador : listaJugadores) {
-            for (int i = 0; i < 7; i++) {
-                Carta c = mazo.tomarUnaCarta();
-                if (c != null) {
-                    jugador.agregarCarta(c);
-                }
-            }
-        }
-
-        Tablero tablero = new Tablero(mazo, descarte, listaJugadores, ruleta);
-        FachadaDominio fachada = new FachadaJuego(tablero);
+        FachadaDominio fachada = new FachadaJuego();
         ServidorTCP servidor = new ServidorTCP(PUERTO);
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
         TraductorEventos traductor = new TraductorEventos(fachada, dispatcher);

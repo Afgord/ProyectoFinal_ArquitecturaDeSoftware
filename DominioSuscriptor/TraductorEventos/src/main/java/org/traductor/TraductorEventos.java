@@ -10,6 +10,7 @@ import org.codedesc.*;
 import org.eventos.ejercer_turno.*;
 import dtos.*;
 import entidades.TipoEvento;
+import java.util.UUID;
 /**
  * 
  * @author lagar
@@ -32,6 +33,34 @@ public class TraductorEventos {
         EventoAccion eventoEntrante = deserializador.bytesAObjeto(bytes);
         if (eventoEntrante == null) return;
 
+        // Lobby / Iniciar Partida
+        if (eventoEntrante instanceof EventoCrearPartida e) {
+            ResultadoLobbyDTO r = fachada.crearPartida(e.getHost());
+            emitirResultadoLobby(r);
+            return;
+        }
+        if (eventoEntrante instanceof EventoUnirsePartida e) {
+            ResultadoLobbyDTO r = fachada.unirsePartida(e.getIdPartida(), e.getJugador());
+            emitirResultadoLobby(r);
+            return;
+        }
+        if (eventoEntrante instanceof EventoAbandonarLobby e) {
+            ResultadoLobbyDTO r = fachada.abandonarLobby(e.getIdJugador());
+            emitirResultadoLobby(r);
+            return;
+        }
+        if (eventoEntrante instanceof EventoSolicitarInicio e) {
+            ResultadoSolicitudDTO r = fachada.solicitarInicio(e.getIdJugador());
+            emitirResultadoSolicitud(r, true);
+            return;
+        }
+        if (eventoEntrante instanceof EventoResponderSolicitudInicio e) {
+            ResultadoSolicitudDTO r = fachada.responderSolicitud(e.getIdJugador(), e.isAcepta());
+            emitirResultadoSolicitud(r, false);
+            return;
+        }
+
+        // Juego en curso
         Object resultadoDominio = null;
         if (eventoEntrante instanceof EventoTirarCarta) {
             resultadoDominio = fachada.validarYPlay(((EventoTirarCarta) eventoEntrante).getCarta());
@@ -46,6 +75,65 @@ public class TraductorEventos {
         if (resultadoDominio != null) {
             enviarRespuesta(resultadoDominio);
         }
+    }
+
+    private void emitirResultadoLobby(ResultadoLobbyDTO r) {
+        if (r == null) return;
+        if (!r.isExito()) {
+            System.out.println("[Traductor] Operacion lobby fallida: " + r.getMensajeError());
+            // Fallo silencioso por ahora; no broadcasteamos el error.
+            return;
+        }
+        EventoLobbyActualizado evt = new EventoLobbyActualizado(
+                r.getIdPartida(),
+                r.getJugadores(),
+                r.getIdHost(),
+                generarId());
+        publicar(evt);
+    }
+
+    private void emitirResultadoSolicitud(ResultadoSolicitudDTO r, boolean nuevaSolicitud) {
+        if (r == null || !r.isExito()) {
+            System.out.println("[Traductor] Operacion solicitud fallida: "
+                    + (r == null ? "null" : r.getMensajeError()));
+            return;
+        }
+        if (nuevaSolicitud) {
+            EventoSolicitudInicioRecibida evt = new EventoSolicitudInicioRecibida(
+                    r.getIdJugadorSolicitante(),
+                    r.getNombreSolicitante(),
+                    r.getAceptaciones(),
+                    generarId());
+            publicar(evt);
+            return;
+        }
+        // Respuesta a una solicitud existente: siempre broadcast del estado.
+        EventoEstadoAceptacionActualizado evtEstado = new EventoEstadoAceptacionActualizado(
+                r.getAceptaciones(),
+                generarId());
+        publicar(evtEstado);
+        // Si el resultado dispara el inicio de partida, broadcasteamos tambien el snapshot.
+        if (r.getPartida() != null) {
+            EstadoPartidaInicialDTO p = r.getPartida();
+            EventoPartidaIniciada evtPartida = new EventoPartidaIniciada(
+                    p.getIdPartida(),
+                    p.getJugadores(),
+                    p.getDescarteInicial(),
+                    p.getIdJugadorTurnoActual(),
+                    generarId());
+            publicar(evtPartida);
+        }
+    }
+
+    private void publicar(Evento evt) {
+        byte[] bytesAEnviar = serializador.objetoABytes(evt);
+        if (bytesAEnviar != null) {
+            dispatcher.dispatch(BROKER_IP, BROKER_PUERTO, bytesAEnviar);
+        }
+    }
+
+    private static String generarId() {
+        return UUID.randomUUID().toString();
     }
 
     private void enviarRespuesta(Object resultado) {

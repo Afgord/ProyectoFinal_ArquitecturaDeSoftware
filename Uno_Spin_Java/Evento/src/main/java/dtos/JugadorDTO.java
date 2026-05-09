@@ -16,6 +16,7 @@ public class JugadorDTO implements Serializable{
     private final String nombre;
     private List<CartaDTO> mano; 
     private boolean grito;
+    private String urlAvatar;
     
     public JugadorDTO(String idJugador, String nombre) {
         this.idJugador = idJugador;
@@ -28,9 +29,28 @@ public class JugadorDTO implements Serializable{
         this.mano = mano;
     }
     
+    public JugadorDTO(String idJugador, String nombre, String urlAvatar) {
+        this.idJugador = idJugador;
+        this.nombre = nombre;
+        this.urlAvatar = urlAvatar;
+    }
+    
+    public JugadorDTO(String idJugador, String nombre, List<CartaDTO> mano, boolean grito, String urlAvatar) {
+        this.idJugador = idJugador;
+        this.nombre = nombre;
+        this.mano = mano;
+        this.grito = grito;
+        this.urlAvatar = urlAvatar;
+    }
+    
     public boolean isGrito() { return grito; }
     public String idJugador(){ return idJugador; }
+    public String getIdJugador(){ return idJugador; }
     public String getNombre() { return nombre; }
     public List<CartaDTO> getMano() { return mano; }
-    public int getNumCartas() { return mano.size(); }
+    public int getNumCartas() { return mano == null ? 0 : mano.size(); }
+    public String getUrlAvatar() { return urlAvatar; }
+    public void setMano(List<CartaDTO> mano) { this.mano = mano; }
+    public void setGrito(boolean grito) { this.grito = grito; }
+    public void setUrlAvatar(String urlAvatar) { this.urlAvatar = urlAvatar; }
 }

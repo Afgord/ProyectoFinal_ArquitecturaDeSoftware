@@ -5,7 +5,7 @@
 package org.directorios;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 /**
@@ -13,16 +13,30 @@ import java.util.Map;
  * @author lagar
  */
 class DirectorioJuego implements IDirectorio{
-    private Map<String, Conexion> conexiones;
+    private final Map<String, Conexion> conexiones;
 
     public DirectorioJuego() {
-        this.conexiones = new HashMap<>();
+        this.conexiones = new LinkedHashMap<>();
     }
 
     @Override
     public void registrarConexion(Conexion conexion) {
-        if (conexion != null && conexiones.size() < 5) {
+        if (conexion == null) return;
+        if (conexiones.containsKey(conexion.getIdJugador()) || conexiones.size() < 5) {
             conexiones.put(conexion.getIdJugador(), conexion);
+            System.out.println("[Directorio] Registrada conexion idJugador=" + conexion.getIdJugador()
+                    + " ip=" + conexion.getIp() + " puerto=" + conexion.getPuerto());
+        } else {
+            System.out.println("[Directorio] Capacidad llena, ignorando registro de " + conexion.getIdJugador());
+        }
+    }
+
+    @Override
+    public void removerConexion(String idJugador) {
+        if (idJugador == null) return;
+        Conexion removida = conexiones.remove(idJugador);
+        if (removida != null) {
+            System.out.println("[Directorio] Removida conexion idJugador=" + idJugador);
         }
     }
 

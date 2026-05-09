@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface IDirectorio {
     public void registrarConexion(Conexion conexion);
+    public void removerConexion(String idJugador);
     public Conexion obtenerConexion(String idJugador);
     public List<Conexion> obtenerTodos();
 

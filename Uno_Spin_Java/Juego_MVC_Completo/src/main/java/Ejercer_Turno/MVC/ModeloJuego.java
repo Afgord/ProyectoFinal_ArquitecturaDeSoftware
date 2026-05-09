@@ -7,19 +7,15 @@ import dtos.JugadorDTO;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.eventos.ejercer_turno.EventoActualizarTurno;
-import org.eventos.ejercer_turno.EventoAnuciarGanador;
-import org.eventos.ejercer_turno.EventoFallo;
-import org.eventos.ejercer_turno.EventoResultadoGrito;
-import org.eventos.ejercer_turno.EventoResultadoRuleta;
 
 /**
  * Modelo del MVC en modo event-driven.
  *
- * Su estado solo se modifica al recibir eventos entrantes desde la red
- * (a través de los métodos aplicarXxx que invoca el ReceptorProcesador).
- * No toca FachadaDominio: cualquier validación corre en el subscriptor
- * Dominio del otro lado del broker.
+ * Su estado solo se modifica al recibir actualizaciones desde la red,
+ * pero los metodos aplicar* aceptan unicamente DTOs/primitivos. La
+ * traduccion desde Evento* la hace un aplicador en la frontera de red
+ * (EventoTraductor). Por diseno, este modulo MVC no conoce el paquete
+ * org.eventos.*.
  */
 public class ModeloJuego implements IModeloDatos {
 
@@ -49,37 +45,37 @@ public class ModeloJuego implements IModeloDatos {
         }
     }
 
-    public void aplicarActualizacion(EventoActualizarTurno e) {
-        this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
-        this.cartaCima = e.getCartaEnCima();
-        this.idJugadorTurnoActual = e.getIdJugadorTurnoActual();
+    public void aplicarActualizacion(List<JugadorDTO> jugadores, CartaDTO cartaCima, String idJugadorTurnoActual) {
+        this.jugadores = (jugadores != null) ? new ArrayList<>(jugadores) : new ArrayList<>();
+        this.cartaCima = cartaCima;
+        this.idJugadorTurnoActual = idJugadorTurnoActual;
         this.ultimaJugadaValida = true;
         notificar();
     }
 
-    public void aplicarFallo(EventoFallo e) {
+    public void aplicarFallo() {
         this.ultimaJugadaValida = false;
         notificar();
     }
 
-    public void aplicarResultadoRuleta(EventoResultadoRuleta e) {
-        this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
-        this.cartaCima = e.getCartaEnCima();
-        this.idJugadorTurnoActual = e.getIdJugadorTurnoActual();
+    public void aplicarResultadoRuleta(List<JugadorDTO> jugadores, CartaDTO cartaCima, String idJugadorTurnoActual) {
+        this.jugadores = (jugadores != null) ? new ArrayList<>(jugadores) : new ArrayList<>();
+        this.cartaCima = cartaCima;
+        this.idJugadorTurnoActual = idJugadorTurnoActual;
         this.ultimaJugadaValida = true;
         notificar();
     }
 
-    public void aplicarResultadoGrito(EventoResultadoGrito e) {
-        if (e.getEstadoJugadores() != null) {
-            this.jugadores = new ArrayList<>(e.getEstadoJugadores());
+    public void aplicarResultadoGrito(List<JugadorDTO> jugadores) {
+        if (jugadores != null) {
+            this.jugadores = new ArrayList<>(jugadores);
         }
         notificar();
     }
 
-    public void aplicarGanador(EventoAnuciarGanador e) {
-        if (e.getGanador() != null) {
-            this.ganador = e.getGanador().getNombre();
+    public void aplicarGanador(String nombreGanador) {
+        if (nombreGanador != null) {
+            this.ganador = nombreGanador;
         }
         notificar();
     }

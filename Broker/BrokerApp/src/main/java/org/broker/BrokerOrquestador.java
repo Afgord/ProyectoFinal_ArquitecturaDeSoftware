@@ -31,6 +31,16 @@ public class BrokerOrquestador {
         Evento evento = deserializador.bytesAObjeto(bytes);
         if (evento == null) return;
 
+        // Eventos del sistema del broker: actualizan el Directorio y NO se reenvian.
+        if (evento instanceof EventoRegistroConexion reg) {
+            directorio.registrarConexion(new Conexion(reg.getIdJugador(), reg.getIp(), reg.getPuerto()));
+            return;
+        }
+        if (evento instanceof EventoBajaConexion baja) {
+            directorio.removerConexion(baja.getIdJugador());
+            return;
+        }
+
         byte[] bytesAEnviar = serializador.objetoABytes(evento);
 
         if (evento instanceof EventoAccion) {

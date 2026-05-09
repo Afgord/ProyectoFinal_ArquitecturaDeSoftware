@@ -1,37 +1,35 @@
 package com.mycompany.eventotraductor;
 
-import Ejercer_Turno.MVC.ModeloJuego;
 import entrada.IReceptorExterno;
+import java.util.List;
 import org.codedesc.IDeserializador;
 import org.eventos.ejercer_turno.Evento;
 import org.eventos.ejercer_turno.EventoAccion;
-import org.eventos.ejercer_turno.EventoActualizarTurno;
-import org.eventos.ejercer_turno.EventoAnuciarGanador;
-import org.eventos.ejercer_turno.EventoFallo;
-import org.eventos.ejercer_turno.EventoResultadoGrito;
-import org.eventos.ejercer_turno.EventoResultadoRuleta;
 
 /**
  * Flujo Inbound.
  *
- * Recibe bytes desde el ComponenteConexion (a través de Receptor),
- * los deserializa y enruta los eventos de estado al ModeloJuego.
+ * Recibe bytes desde el ComponenteConexion (a traves de Receptor),
+ * los deserializa y los ofrece a una lista ordenada de aplicadores
+ * (AplicadorEventosLobby, AplicadorEventosJuego, ...). Cada aplicador
+ * decide si el evento le concierne y lo traduce a llamadas aplicar*
+ * sobre el modelo MVC correspondiente.
  *
- * Solo procesa eventos de estado (los que produce el subscriptor Dominio).
- * Si el broker eventualmente nos reenviase un evento de intención propio,
- * el filtro de eco lo descarta.
+ * Antes de propagar, descarta los ecos de eventos de accion propios
+ * (el broker podria reenviarnos accidentalmente nuestro propio
+ * EventoAccion en algun camino del directorio).
  */
 public class ReceptorProcesador implements IReceptorExterno {
 
     private final IDeserializador<Evento> deserializador;
-    private final ModeloJuego modelo;
+    private final List<IAplicadorEventos> aplicadores;
     private final String idJugadorLocal;
 
     public ReceptorProcesador(IDeserializador<Evento> deserializador,
-                              ModeloJuego modelo,
+                              List<IAplicadorEventos> aplicadores,
                               String idJugadorLocal) {
         this.deserializador = deserializador;
-        this.modelo = modelo;
+        this.aplicadores = aplicadores;
         this.idJugadorLocal = idJugadorLocal;
     }
 
@@ -46,16 +44,10 @@ public class ReceptorProcesador implements IReceptorExterno {
             return;
         }
 
-        if (evento instanceof EventoActualizarTurno e) {
-            modelo.aplicarActualizacion(e);
-        } else if (evento instanceof EventoFallo e) {
-            modelo.aplicarFallo(e);
-        } else if (evento instanceof EventoResultadoRuleta e) {
-            modelo.aplicarResultadoRuleta(e);
-        } else if (evento instanceof EventoResultadoGrito e) {
-            modelo.aplicarResultadoGrito(e);
-        } else if (evento instanceof EventoAnuciarGanador e) {
-            modelo.aplicarGanador(e);
+        for (IAplicadorEventos a : aplicadores) {
+            if (a.aplicar(evento)) {
+                return;
+            }
         }
     }
 }
