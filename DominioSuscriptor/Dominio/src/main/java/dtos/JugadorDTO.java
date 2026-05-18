@@ -14,6 +14,7 @@ public class JugadorDTO implements Serializable{
     private static final long serialVersionUID = 1L;
     private final String idJugador;
     private final String nombre;
+    private String urlAvatar;
     private List<CartaDTO> mano; 
     private boolean grito;
     
@@ -27,6 +28,19 @@ public class JugadorDTO implements Serializable{
         this.nombre = nombre;
         this.mano = mano;
     }
+
+    public JugadorDTO(String idJugador, String nombre, String urlAvatar, List<CartaDTO> mano) {
+        this.idJugador = idJugador;
+        this.nombre = nombre;
+        this.urlAvatar = urlAvatar;
+        this.mano = mano;
+    }
+
+    public String getUrlAvatar() {
+        return urlAvatar;
+    }
+    
+    
     
     public boolean isGrito() { return grito; }
     public String idJugador(){ return idJugador; }

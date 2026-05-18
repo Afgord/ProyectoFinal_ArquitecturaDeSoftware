@@ -6,6 +6,9 @@ package fachadas;
 
 import dtos.CartaDTO;
 import dtos.JugadorDTO;
+import dtos.ResultadoGritoDTO;
+import dtos.ResultadoJugadaDTO;
+import dtos.ResultadoUnirseDTO;
 import entidades.Tablero;
 
 public class FachadaJuego implements FachadaDominio {
@@ -16,26 +19,32 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public Object validarYPlay(CartaDTO carta) {
+    public ResultadoJugadaDTO validarYPlay(CartaDTO carta) {
         System.out.println("[Fachada] Procesando jugada...");
         return tablero.ejecutarJugada(carta);
     }
 
     @Override
-    public Object robarCarta() {
+    public ResultadoJugadaDTO robarCarta() {
         System.out.println("[Fachada] Procesando robo...");
         return tablero.robarYPasar();
     }
 
     @Override
-    public Object pasarTurno() {
+    public ResultadoJugadaDTO pasarTurno() {
         System.out.println("[Fachada] Procesando pasar turno...");
         return tablero.pasarTurno();
     }
     
     @Override
-    public Object gritarUno(JugadorDTO datosGrito) {
+    public ResultadoGritoDTO gritarUno(JugadorDTO datosGrito) {
         System.out.println("[Fachada] Procesando grito de UNO...");
         return tablero.procesarGritoUno(datosGrito);
+    }
+
+    @Override
+    public ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO) {
+        System.out.println("[Fachada] Procesando unirse a partida...");
+        return tablero.unirseAPartida(jugadorDTO);
     }
 }

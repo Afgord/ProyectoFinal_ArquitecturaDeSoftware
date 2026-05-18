@@ -1,6 +1,7 @@
 entidades\Mano.class
 entidades\Carta.class
 dtos\CartaDTO.class
+dtos\ResultadoUnirseDTO.class
 entidades\Valor.class
 fachadas\FachadaJuego.class
 entidades\Colores.class
@@ -11,6 +12,7 @@ entidades\Tablero$1.class
 dtos\JugadorDTO.class
 Ejecutador\Ejecutador.class
 dtos\ResultadoJugadaDTO.class
+entidades\EstadoPartida.class
 entidades\Descarte.class
 entidades\ResultadoRuleta.class
 entidades\Ruleta.class

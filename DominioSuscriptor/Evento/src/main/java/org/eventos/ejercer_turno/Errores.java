@@ -11,5 +11,7 @@ package org.eventos.ejercer_turno;
 public enum Errores {
    ERROR_GENERICO,
    ERROR_DESCARTE,
-   GRITO_INVALIDO
+   GRITO_INVALIDO,
+   SALA_LLENA,
+   PARTIDA_EN_CURSO
 }

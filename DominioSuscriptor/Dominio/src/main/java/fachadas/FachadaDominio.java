@@ -6,14 +6,18 @@ package fachadas;
 
 import dtos.CartaDTO;
 import dtos.JugadorDTO;
+import dtos.ResultadoGritoDTO;
+import dtos.ResultadoJugadaDTO;
+import dtos.ResultadoUnirseDTO;
 
 /**
  * 
  * @author lagar
  */
 public interface FachadaDominio {
-    public Object robarCarta();
-    public Object validarYPlay(CartaDTO carta);
-    public Object pasarTurno();
-    public Object gritarUno(JugadorDTO datosGrito);
+    public ResultadoJugadaDTO robarCarta();
+    public ResultadoJugadaDTO validarYPlay(CartaDTO carta);
+    public ResultadoJugadaDTO pasarTurno();
+    public ResultadoGritoDTO gritarUno(JugadorDTO datosGrito);
+    public ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO);
 }
