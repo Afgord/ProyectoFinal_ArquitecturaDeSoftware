@@ -1,5 +1,6 @@
 package com.mycompany.eventotraductor;
 
+import Configurar_Partida.MVC.ModeloConfigurarPartida;
 import Ejercer_Turno.MVC.ModeloJuego;
 import comunes.IPublicador;
 import entrada.Receptor;
@@ -14,23 +15,32 @@ import salida.IDispatcher;
 /**
  * Punto único de cableado de la frontera de red del publicador/consumidor.
  *
- * Ensambla el flujo outbound (Dispatcher + PublicadorTCP + EventoTraductor)
- * y el flujo inbound (ServidorTCP + Receptor + ReceptorProcesador), y
- * devuelve el ModeloJuego y el EventoTraductor listos para conectarse al
- * MVC desde el Ejecutador.
+ * Ensambla el flujo outbound (Dispatcher + PublicadorTCP + EventoTraductor) y
+ * el flujo inbound (ServidorTCP + Receptor + ReceptorProcesador), y devuelve el
+ * ModeloJuego y el EventoTraductor listos para conectarse al MVC desde el
+ * Ejecutador.
  *
- * El idJugadorLocal, host y puertos los provee el Directorio (lobby) en
- * una iteración futura; mientras tanto el Ejecutador los pasa hardcoded
- * para debug.
+ * El idJugadorLocal, host y puertos los provee el Directorio (lobby) en una
+ * iteración futura; mientras tanto el Ejecutador los pasa hardcoded para debug.
  */
 public final class BootstrapRed {
 
     private final ModeloJuego modelo;
     private final EventoTraductor traductor;
+    private final ModeloConfigurarPartida modeloConfiguracion;
 
-    private BootstrapRed(ModeloJuego modelo, EventoTraductor traductor) {
+    private BootstrapRed(
+            ModeloJuego modelo,
+            ModeloConfigurarPartida modeloConfiguracion,
+            EventoTraductor traductor
+    ) {
         this.modelo = modelo;
+        this.modeloConfiguracion = modeloConfiguracion;
         this.traductor = traductor;
+    }
+
+    public ModeloConfigurarPartida getModeloConfiguracion() {
+        return modeloConfiguracion;
     }
 
     public ModeloJuego getModelo() {
@@ -49,15 +59,17 @@ public final class BootstrapRed {
         IDeserializador<Evento> deserializador = CodeDescFactory.crearDeserializador();
 
         ModeloJuego modelo = new ModeloJuego(idJugadorLocal);
+        ModeloConfigurarPartida modeloConfiguracion = new ModeloConfigurarPartida();
         EventoTraductor traductor = new EventoTraductor(publicador, serializador, idJugadorLocal);
 
-        ReceptorProcesador procesador = new ReceptorProcesador(deserializador, modelo, idJugadorLocal);
+        ReceptorProcesador procesador
+                = new ReceptorProcesador(deserializador, modelo, modeloConfiguracion, idJugadorLocal);
         Receptor receptor = new Receptor(procesador);
 
         ServidorTCP servidor = new ServidorTCP(puertoLocal);
         servidor.addObserver(receptor);
         servidor.iniciar();
 
-        return new BootstrapRed(modelo, traductor);
+        return new BootstrapRed(modelo, modeloConfiguracion, traductor);
     }
 }
