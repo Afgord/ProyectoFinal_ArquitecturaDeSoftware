@@ -10,11 +10,13 @@ import org.codedesc.*;
 import org.eventos.ejercer_turno.*;
 import dtos.*;
 import entidades.TipoEvento;
+
 /**
- * 
+ *
  * @author lagar
  */
 public class TraductorEventos {
+
     private final FachadaDominio fachada;
     private final IDispatcher dispatcher;
     private final IDeserializador<EventoAccion> deserializador;
@@ -28,9 +30,12 @@ public class TraductorEventos {
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
     }
+
     public void procesarEntrada(byte[] bytes) {
         EventoAccion eventoEntrante = deserializador.bytesAObjeto(bytes);
-        if (eventoEntrante == null) return;
+        if (eventoEntrante == null) {
+            return;
+        }
 
         Object resultadoDominio = null;
         if (eventoEntrante instanceof EventoTirarCarta) {
@@ -41,6 +46,13 @@ public class TraductorEventos {
             resultadoDominio = fachada.pasarTurno();
         } else if (eventoEntrante instanceof EventoGritar) {
             resultadoDominio = fachada.gritarUno(((EventoGritar) eventoEntrante).getJugador());
+        } else if (eventoEntrante instanceof EventoConfigurarPartida) {
+            EventoConfigurarPartida eventoConfigurar
+                    = (EventoConfigurarPartida) eventoEntrante;
+
+            resultadoDominio = fachada.configurarPartida(
+                    eventoConfigurar.getConfiguracion()
+            );
         }
 
         if (resultadoDominio != null) {
@@ -53,47 +65,58 @@ public class TraductorEventos {
 
         if (resultado instanceof ResultadoJugadaDTO) {
             ResultadoJugadaDTO dto = (ResultadoJugadaDTO) resultado;
-            
+
             if (!dto.isExito()) {
-                Errores tipoError = (dto.getEventoTipo() == TipoEvento.ERROR) 
-                                    ? Errores.ERROR_DESCARTE 
-                                    : Errores.ERROR_GENERICO;
+                Errores tipoError = (dto.getEventoTipo() == TipoEvento.ERROR)
+                        ? Errores.ERROR_DESCARTE
+                        : Errores.ERROR_GENERICO;
                 eventoSalida = new EventoFallo(tipoError, "OPERACION_INVALIDA");
-            } 
-            else if (dto.getGanador() != null) {
+            } else if (dto.getGanador() != null) {
                 eventoSalida = new EventoAnuciarGanador(dto.getGanador(), "FIN_PARTIDA");
-            }
-            else if (dto.getEventoTipo() == TipoEvento.RULETA_ACTIVADA) {
-                org.eventos.ejercer_turno.ResultadoRuleta resultadoRuleta = 
-                    org.eventos.ejercer_turno.ResultadoRuleta.valueOf(dto.getResultadoRuleta().name());
+            } else if (dto.getEventoTipo() == TipoEvento.RULETA_ACTIVADA) {
+                org.eventos.ejercer_turno.ResultadoRuleta resultadoRuleta
+                        = org.eventos.ejercer_turno.ResultadoRuleta.valueOf(dto.getResultadoRuleta().name());
 
                 eventoSalida = new EventoResultadoRuleta(
-                    resultadoRuleta,
-                    dto.getEstadoJugadores(),
-                    dto.getCartaCima(),
-                    dto.getIdJugadorActual(),
-                    "RULETA"
+                        resultadoRuleta,
+                        dto.getEstadoJugadores(),
+                        dto.getCartaCima(),
+                        dto.getIdJugadorActual(),
+                        "RULETA"
                 );
-            }
-            else {
+            } else {
                 eventoSalida = new EventoActualizarTurno(
-                    dto.getEstadoJugadores(), 
-                    dto.getCartaCima(), 
-                    dto.getIdJugadorActual(),
-                    "ACT_SISTEMA"
+                        dto.getEstadoJugadores(),
+                        dto.getCartaCima(),
+                        dto.getIdJugadorActual(),
+                        "ACT_SISTEMA"
                 );
             }
         } else if (resultado instanceof ResultadoGritoDTO) {
             ResultadoGritoDTO dto = (ResultadoGritoDTO) resultado;
-            
+
             if (!dto.isExitoGrito()) {
                 eventoSalida = new EventoFallo(Errores.GRITO_INVALIDO, "GRITO_NO_VALIDO");
             } else {
                 eventoSalida = new EventoResultadoGrito(
-                    dto.isExitoGrito(), 
-                    dto.getIdCastigado(), 
-                    dto.getEstadoJugadores(),
-                    "RES_GRITO"
+                        dto.isExitoGrito(),
+                        dto.getIdCastigado(),
+                        dto.getEstadoJugadores(),
+                        "RES_GRITO"
+                );
+            }
+        } else if (resultado instanceof ResultadoConfiguracionDTO) {
+            ResultadoConfiguracionDTO dto
+                    = (ResultadoConfiguracionDTO) resultado;
+
+            if (dto.isExito()) {
+                eventoSalida = new EventoPartidaConfigurada(
+                        "PARTIDA_CONFIGURADA"
+                );
+            } else {
+                eventoSalida = new EventoConfiguracionRechazada(
+                        dto.getMotivo(),
+                        "CONFIGURACION_RECHAZADA"
                 );
             }
         }
