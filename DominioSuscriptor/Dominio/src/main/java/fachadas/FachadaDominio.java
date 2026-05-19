@@ -5,7 +5,9 @@
 package fachadas;
 
 import dtos.CartaDTO;
+import dtos.ConfiguracionPartidaDTO;
 import dtos.JugadorDTO;
+import dtos.ResultadoConfiguracionDTO;
 
 /**
  * 
@@ -16,4 +18,5 @@ public interface FachadaDominio {
     public Object validarYPlay(CartaDTO carta);
     public Object pasarTurno();
     public Object gritarUno(JugadorDTO datosGrito);
+    public ResultadoConfiguracionDTO configurarPartida(ConfiguracionPartidaDTO configuracion);
 }

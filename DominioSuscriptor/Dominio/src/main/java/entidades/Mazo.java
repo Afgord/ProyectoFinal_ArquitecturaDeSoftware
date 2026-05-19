@@ -10,27 +10,40 @@ import java.util.List;
 
 /**
  * Clase que gestiona la baraja del juego.
+ *
  * @author lagar
  */
 public class Mazo {
+
     private final List<Carta> baraja;
 
-    public Mazo(int rangoInicio, int rangoFinal, boolean masDos, boolean prohibido, 
-                boolean reversa, boolean masCuatro, boolean cambioColor) {
-        this.baraja = new ArrayList<>();       
-        System.out.println("[Mazo] --- Iniciando generación de baraja ---");       
-        generarCartas(rangoInicio, rangoFinal, masDos, prohibido, reversa, masCuatro, cambioColor);        
+    public Mazo(int rangoInicio, int rangoFinal, boolean masDos, boolean prohibido,
+            boolean reversa, boolean masCuatro, boolean cambioColor) {
+        this.baraja = new ArrayList<>();
+        System.out.println("[Mazo] --- Iniciando generación de baraja ---");
+        generarCartas(rangoInicio, rangoFinal, masDos, prohibido, reversa, masCuatro, cambioColor);
         System.out.println("[Mazo] Total de cartas en baraja: " + baraja.size());
         Collections.shuffle(baraja);
         System.out.println("[Mazo] Baraja mezclada correctamente.");
     }
 
+    public Mazo(int rangoInicio, int rangoFinal, int numeroCartasAccion, int numeroComodines) {
+        this.baraja = new ArrayList<>();
+
+        System.out.println("[Mazo] --- Iniciando generación de baraja configurada ---");
+        generarCartasConfiguradas(rangoInicio, rangoFinal, numeroCartasAccion, numeroComodines);
+        System.out.println("[Mazo] Total de cartas en baraja: " + baraja.size());
+
+        Collections.shuffle(baraja);
+        System.out.println("[Mazo] Baraja configurada y mezclada correctamente.");
+    }
+
     private void generarCartas(int rI, int rF, boolean m2, boolean pro, boolean rev, boolean m4, boolean cc) {
         Colores[] coloresValidos = {Colores.AZUL, Colores.ROJO, Colores.AMARILLO, Colores.VERDE};
-        Valor[] valoresNumericos = Valor.values(); 
+        Valor[] valoresNumericos = Valor.values();
 
         System.out.println("[Mazo] Generando cartas numéricas (Rango: " + rI + " a " + rF + ")...");
-        
+
         for (int n = rI; n <= rF; n++) {
             for (Colores col : coloresValidos) {
                 baraja.add(new Carta(valoresNumericos[n], col));
@@ -72,6 +85,54 @@ public class Mazo {
         }
     }
 
+    private void generarCartasConfiguradas(
+            int rangoInicio,
+            int rangoFinal,
+            int numeroCartasAccion,
+            int numeroComodines
+    ) {
+        Colores[] coloresValidos = {
+            Colores.AZUL,
+            Colores.ROJO,
+            Colores.AMARILLO,
+            Colores.VERDE
+        };
+
+        Valor[] valoresNumericos = Valor.values();
+
+        System.out.println("[Mazo] Generando cartas numéricas configuradas...");
+        for (int numero = rangoInicio; numero <= rangoFinal; numero++) {
+            for (Colores color : coloresValidos) {
+                baraja.add(new Carta(valoresNumericos[numero], color));
+                baraja.add(new Carta(valoresNumericos[numero], color));
+            }
+        }
+
+        System.out.println("[Mazo] Generando cartas de acción configuradas...");
+        Valor[] acciones = {
+            Valor.MASDOS,
+            Valor.REVERSA,
+            Valor.PROHIBIDO
+        };
+
+        for (int i = 0; i < numeroCartasAccion; i++) {
+            Valor accion = acciones[i % acciones.length];
+            Colores color = coloresValidos[i % coloresValidos.length];
+            baraja.add(new Carta(accion, color));
+        }
+
+        System.out.println("[Mazo] Generando comodines configurados...");
+        Valor[] comodines = {
+            Valor.MASCUATRO,
+            Valor.CAMBIOCOLOR
+        };
+
+        for (int i = 0; i < numeroComodines; i++) {
+            Valor comodin = comodines[i % comodines.length];
+            baraja.add(new Carta(comodin, Colores.NEGRO));
+        }
+    }
+
     public Carta sacarCartaInicialValida() {
         System.out.println("[Mazo] Buscando carta inicial válida (Numérica)...");
         for (int i = 0; i < baraja.size(); i++) {
@@ -99,9 +160,11 @@ public class Mazo {
         return c;
     }
 
-    public boolean estaVacio() { 
+    public boolean estaVacio() {
         boolean vacio = baraja.isEmpty();
-        if (vacio) System.out.println("[Mazo] El mazo se ha agotado.");
-        return vacio; 
+        if (vacio) {
+            System.out.println("[Mazo] El mazo se ha agotado.");
+        }
+        return vacio;
     }
 }
