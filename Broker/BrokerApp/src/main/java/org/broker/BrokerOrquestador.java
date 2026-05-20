@@ -24,7 +24,7 @@ public class BrokerOrquestador {
         this.directorio = DirectorioFactory.crearNuevoDirectorio();
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
-        directorio.registrarConexion(new Conexion(ID_DOMINIO, "192.168.100.97", 5000));
+        directorio.registrarConexion(new Conexion(ID_DOMINIO, "127.0.0.1", 5000));
     }
 
     public void rutarEvento(byte[] bytes) {

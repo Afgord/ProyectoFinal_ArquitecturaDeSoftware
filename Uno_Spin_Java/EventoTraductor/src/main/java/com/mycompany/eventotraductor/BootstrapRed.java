@@ -2,7 +2,6 @@ package com.mycompany.eventotraductor;
 
 import Configurar_Partida.MVC.ModeloConfigurarPartida;
 import Ejercer_Turno.MVC.ModeloJuego;
-import comunes.IPublicador;
 import entrada.Receptor;
 import entrada.ServidorTCP;
 import org.codedesc.CodeDescFactory;
@@ -15,7 +14,7 @@ import salida.IDispatcher;
 /**
  * Punto único de cableado de la frontera de red del publicador/consumidor.
  *
- * Ensambla el flujo outbound (Dispatcher + PublicadorTCP + EventoTraductor) y
+ * Ensambla el flujo outbound (Dispatcher + EventoTraductor) y
  * el flujo inbound (ServidorTCP + Receptor + ReceptorProcesador), y devuelve el
  * ModeloJuego y el EventoTraductor listos para conectarse al MVC desde el
  * Ejecutador.
@@ -53,14 +52,20 @@ public final class BootstrapRed {
 
     public static BootstrapRed iniciar(String hostBroker, int puertoBroker, int puertoLocal, String idJugadorLocal) {
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
-        IPublicador publicador = new PublicadorTCP(dispatcher, hostBroker, puertoBroker);
 
         ISerializador<Evento> serializador = CodeDescFactory.crearSerializador();
         IDeserializador<Evento> deserializador = CodeDescFactory.crearDeserializador();
 
         ModeloJuego modelo = new ModeloJuego(idJugadorLocal);
         ModeloConfigurarPartida modeloConfiguracion = new ModeloConfigurarPartida();
-        EventoTraductor traductor = new EventoTraductor(publicador, serializador, idJugadorLocal);
+        EventoTraductor traductor
+                = new EventoTraductor(
+                        dispatcher,
+                        serializador,
+                        idJugadorLocal,
+                        hostBroker,
+                        puertoBroker
+                );
 
         ReceptorProcesador procesador
                 = new ReceptorProcesador(deserializador, modelo, modeloConfiguracion, idJugadorLocal);

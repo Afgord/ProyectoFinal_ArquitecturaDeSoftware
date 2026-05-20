@@ -25,7 +25,7 @@ import org.eventos.ejercer_turno.EventoActualizarTurno;
 public class Ejecutador {
 
     /** Misma IP que el directorio del broker para recibir broadcasts. */
-    private static final String HOST_BROKER = "192.168.100.97";
+    private static final String HOST_BROKER = "127.0.0.1";
     private static final int PUERTO_BROKER = 5001;
     /** Coincide con MainBroker / SimuladorCliente: jugador "n" escucha en 5001+n. */
     private static final String ID_JUGADOR_LOCAL = "1";

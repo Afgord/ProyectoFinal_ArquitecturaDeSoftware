@@ -4,12 +4,30 @@
  */
 package org.traductor;
 
-import salida.IDispatcher;
-import fachadas.FachadaDominio;
-import org.codedesc.*;
-import org.eventos.ejercer_turno.*;
-import dtos.*;
+import dtos.ResultadoConfiguracionDTO;
+import dtos.ResultadoGritoDTO;
+import dtos.ResultadoJugadaDTO;
 import entidades.TipoEvento;
+import fachadas.FachadaDominio;
+import org.codedesc.CodeDescFactory;
+import org.codedesc.IDeserializador;
+import org.codedesc.ISerializador;
+import org.eventos.ejercer_turno.Errores;
+import org.eventos.ejercer_turno.Evento;
+import org.eventos.ejercer_turno.EventoAccion;
+import org.eventos.ejercer_turno.EventoActualizarTurno;
+import org.eventos.ejercer_turno.EventoAnuciarGanador;
+import org.eventos.ejercer_turno.EventoConfiguracionRechazada;
+import org.eventos.ejercer_turno.EventoConfigurarPartida;
+import org.eventos.ejercer_turno.EventoFallo;
+import org.eventos.ejercer_turno.EventoGritar;
+import org.eventos.ejercer_turno.EventoPartidaConfigurada;
+import org.eventos.ejercer_turno.EventoPasarTurno;
+import org.eventos.ejercer_turno.EventoResultadoGrito;
+import org.eventos.ejercer_turno.EventoResultadoRuleta;
+import org.eventos.ejercer_turno.EventoRobarCarta;
+import org.eventos.ejercer_turno.EventoTirarCarta;
+import salida.IDispatcher;
 
 /**
  *
@@ -21,7 +39,7 @@ public class TraductorEventos {
     private final IDispatcher dispatcher;
     private final IDeserializador<EventoAccion> deserializador;
     private final ISerializador<Evento> serializador;
-    private final String BROKER_IP = "192.168.100.97";
+    private final String BROKER_IP = "127.0.0.1";
     private final int BROKER_PUERTO = 5001;
 
     public TraductorEventos(FachadaDominio fachada, IDispatcher dispatcher) {

@@ -4,15 +4,21 @@
  */
 package org.traductor;
 
-import entidades.*;
 import entrada.Receptor;
+import entrada.ServidorTCP;
+import entidades.Carta;
+import entidades.Descarte;
+import entidades.Jugador;
+import entidades.Mano;
+import entidades.Mazo;
+import entidades.Ruleta;
+import entidades.Tablero;
 import fachadas.FachadaDominio;
 import fachadas.FachadaJuego;
-import entrada.ServidorTCP;
-import salida.DispatcherFactory;
-import salida.IDispatcher;
 import java.util.ArrayList;
 import java.util.List;
+import salida.DispatcherFactory;
+import salida.IDispatcher;
 /**
  * 
  * @author lagar
@@ -20,7 +26,7 @@ import java.util.List;
 public class MainTraductor {
 
     public static void main(String[] args) {
-        final String MI_IP = "192.168.100.97";
+        final String MI_IP = "127.0.0.1";
         final int PUERTO = 5000;
         
         System.out.println("=== [SISTEMA] Iniciando Servidor en " + MI_IP + " ===");
