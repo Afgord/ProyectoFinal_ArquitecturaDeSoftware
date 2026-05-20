@@ -101,7 +101,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblSubtituloConfiguracionPartida">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Define los par&#xe1;metros iniciales de la partida antes de dejarla disponible para otros jugadores."/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;Define los par&#xe1;metros iniciales de la partida antes de dejarla disponible para otros jugadores.&lt;/html&gt;"/>
           </Properties>
         </Component>
       </SubComponents>

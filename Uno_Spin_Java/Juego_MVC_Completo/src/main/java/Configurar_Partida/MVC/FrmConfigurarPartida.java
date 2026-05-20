@@ -56,6 +56,7 @@ public class FrmConfigurarPartida extends javax.swing.JFrame implements Observad
         lblSegundoMostrarMano.setText(String.valueOf(tiempoMaximoMostrarCartas));
 
         inicializarVentana();
+        aplicarEstilosVisuales();
     }
 
     /**
@@ -104,7 +105,7 @@ public class FrmConfigurarPartida extends javax.swing.JFrame implements Observad
         lblTituloConfigurarPartida.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTituloConfigurarPartida.setText("Configurar Partida");
 
-        lblSubtituloConfiguracionPartida.setText("Define los parámetros iniciales de la partida antes de dejarla disponible para otros jugadores.");
+        lblSubtituloConfiguracionPartida.setText("<html>Define los parámetros iniciales de la partida antes de dejarla disponible para otros jugadores.</html>");
 
         javax.swing.GroupLayout pnlTituloConfiguracionPartidaLayout = new javax.swing.GroupLayout(pnlTituloConfiguracionPartida);
         pnlTituloConfiguracionPartida.setLayout(pnlTituloConfiguracionPartidaLayout);
@@ -114,7 +115,7 @@ public class FrmConfigurarPartida extends javax.swing.JFrame implements Observad
                 .addContainerGap()
                 .addGroup(pnlTituloConfiguracionPartidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTituloConfigurarPartida)
-                    .addComponent(lblSubtituloConfiguracionPartida))
+                    .addComponent(lblSubtituloConfiguracionPartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlTituloConfiguracionPartidaLayout.setVerticalGroup(
@@ -123,7 +124,7 @@ public class FrmConfigurarPartida extends javax.swing.JFrame implements Observad
                 .addContainerGap()
                 .addComponent(lblTituloConfigurarPartida)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblSubtituloConfiguracionPartida)
+                .addComponent(lblSubtituloConfiguracionPartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -530,7 +531,73 @@ public class FrmConfigurarPartida extends javax.swing.JFrame implements Observad
         setTitle("UNO Spin - Configurar partida");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(560, 720);
+        setSize(700, 820);
         setLocationRelativeTo(null);
+    }
+
+    private void aplicarEstilosVisuales() {
+        // Fondo general
+        getContentPane().setBackground(new java.awt.Color(246, 247, 249));
+
+        // Panel superior
+        pnlTituloConfiguracionPartida.setBackground(new java.awt.Color(255, 255, 255));
+
+        // Secciones de configuración
+        pnlCartasNumericas.setBackground(new java.awt.Color(250, 244, 247));
+        pnlCartasComodines.setBackground(new java.awt.Color(255, 252, 232));
+        pnlCartasAccion.setBackground(new java.awt.Color(236, 250, 241));
+        pnlTiempoMaximoMostrarCartas.setBackground(new java.awt.Color(248, 243, 252));
+
+        // Panel inferior
+        pnlConfirmarCancelar.setBackground(new java.awt.Color(246, 247, 249));
+
+        // Borde suave en paneles
+        javax.swing.border.Border bordeTarjeta
+                = javax.swing.BorderFactory.createCompoundBorder(
+                        javax.swing.BorderFactory.createLineBorder(
+                                new java.awt.Color(220, 224, 230),
+                                1,
+                                true
+                        ),
+                        javax.swing.BorderFactory.createEmptyBorder(10, 14, 10, 14)
+                );
+
+        pnlCartasNumericas.setBorder(bordeTarjeta);
+        pnlCartasComodines.setBorder(bordeTarjeta);
+        pnlCartasAccion.setBorder(bordeTarjeta);
+        pnlTiempoMaximoMostrarCartas.setBorder(bordeTarjeta);
+
+        // Botón principal
+        btnConfirmarConfiguracion.setBackground(new java.awt.Color(235, 0, 35));
+        btnConfirmarConfiguracion.setForeground(java.awt.Color.WHITE);
+        btnConfirmarConfiguracion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        btnConfirmarConfiguracion.setFocusPainted(false);
+
+        // Botón secundario
+        btnCancelar.setBackground(new java.awt.Color(225, 229, 235));
+        btnCancelar.setForeground(new java.awt.Color(25, 35, 55));
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        btnCancelar.setFocusPainted(false);
+
+        // Botones de incremento/decremento
+        estilizarBotonContador(btnMenorComodin);
+        estilizarBotonContador(btnMayorComodin);
+        estilizarBotonContador(btnMenorAccion);
+        estilizarBotonContador(btnMayorAccion);
+        estilizarBotonContador(btnMenorTiempo);
+        estilizarBotonContador(btnMayorTiempo);
+
+        // Etiquetas numéricas más visibles
+        lblNumeroCartasComodin.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        lblNumeroCartasAccion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        lblTiempoMostrarMano.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        lblSegundoMostrarMano.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+    }
+
+    private void estilizarBotonContador(javax.swing.JButton boton) {
+        boton.setFocusPainted(false);
+        boton.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        boton.setBackground(new java.awt.Color(230, 233, 239));
+        boton.setForeground(new java.awt.Color(35, 45, 65));
     }
 }
