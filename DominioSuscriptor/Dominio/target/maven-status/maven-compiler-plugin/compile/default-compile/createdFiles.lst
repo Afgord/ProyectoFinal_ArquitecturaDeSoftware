@@ -1,5 +1,6 @@
 entidades\Mano.class
 entidades\Carta.class
+dtos\ResultadoIniciarPartidaDTO.class
 dtos\CartaDTO.class
 dtos\ResultadoUnirseDTO.class
 entidades\Valor.class
@@ -15,6 +16,7 @@ dtos\ResultadoJugadaDTO.class
 entidades\EstadoPartida.class
 entidades\Descarte.class
 entidades\ResultadoRuleta.class
+entidades\Partida.class
 entidades\Ruleta.class
 fachadas\FachadaDominio.class
 entidades\TipoEvento.class

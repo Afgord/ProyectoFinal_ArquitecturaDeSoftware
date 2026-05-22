@@ -8,8 +8,12 @@ import dtos.CartaDTO;
 import dtos.JugadorDTO;
 import dtos.ResultadoGritoDTO;
 import dtos.ResultadoJugadaDTO;
+import dtos.ResultadoIniciarPartidaDTO;
 import dtos.ResultadoUnirseDTO;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static entidades.Valor.*;
@@ -19,7 +23,7 @@ import static entidades.Valor.*;
  */
 public class Tablero {
 
-    private static final int CAPACIDAD_MAXIMA = 4;
+    public static final int CAPACIDAD_MAXIMA = 4;
 
     private final Mazo mazo;
     private final Descarte descarte;
@@ -31,6 +35,8 @@ public class Tablero {
     private TipoEvento estadoPendienteRuleta = null;
 
     private EstadoPartida estadoPartida;
+    private final Partida partida = new Partida();
+    private final Set<String> jugadoresListos = new HashSet<>();
 
     public Tablero(Mazo mazo, Descarte descarte, List<Jugador> jugadores, Ruleta ruleta) {
         this.sentidoReloj = true;
@@ -48,13 +54,23 @@ public class Tablero {
         for (Jugador existente : jugadores) {
             if (existente.getIdJugador().equals(jugadorDTO.idJugador())) {
                 System.out.println("[Tablero] Reconexión de jugador existente: " + existente.getNombre());
+
+                if (estadoPartida == EstadoPartida.EN_CURSO) {
+                    return new ResultadoUnirseDTO(
+                        true,
+                        TipoEvento.UNIRSE_EXITOSO,
+                        new JugadorDTO(existente.getIdJugador(), existente.getNombre()),
+                        generarEstadoDTO(),
+                        obtenerCartaCimaDTO(),
+                        getJugadorActual().getIdJugador()
+                    );
+                }
+
                 return new ResultadoUnirseDTO(
                     true,
                     TipoEvento.UNIRSE_EXITOSO,
                     new JugadorDTO(existente.getIdJugador(), existente.getNombre()),
-                    generarEstadoDTO(),
-                    obtenerCartaCimaDTO(),
-                    getJugadorActual().getIdJugador()
+                    generarEstadoSalaDTO()
                 );
             }
         }
@@ -107,6 +123,93 @@ public class Tablero {
             jugadorUnidoDTO,
             generarEstadoSalaDTO()
         );
+    }
+
+    public ResultadoIniciarPartidaDTO iniciarPartida() {
+        return partida.iniciar(this);
+    }
+
+    public ResultadoIniciarPartidaDTO registrarListoParaIniciar(String idJugador) {
+        if (estadoPartida == EstadoPartida.EN_CURSO) {
+            System.out.println("[Tablero] Rechazo: la partida ya está en curso.");
+            return new ResultadoIniciarPartidaDTO(
+                false,
+                TipoEvento.PARTIDA_EN_CURSO,
+                null,
+                null,
+                null
+            );
+        }
+
+        boolean jugadorEnSala = jugadores.stream()
+            .anyMatch(j -> j.getIdJugador().equals(idJugador));
+
+        if (!jugadorEnSala) {
+            System.out.println("[Tablero] Rechazo: jugador desconocido " + idJugador);
+            return new ResultadoIniciarPartidaDTO(
+                false,
+                TipoEvento.INICIO_RECHAZADO,
+                null,
+                null,
+                null
+            );
+        }
+
+        if (jugadores.size() < Partida.JUGADORES_MINIMOS) {
+            System.out.println(
+                "[Tablero] Rechazo: jugadores insuficientes ("
+                + jugadores.size() + "/" + Partida.JUGADORES_MINIMOS + ")"
+            );
+            return new ResultadoIniciarPartidaDTO(
+                false,
+                TipoEvento.INICIO_RECHAZADO,
+                null,
+                null,
+                null
+            );
+        }
+
+        jugadoresListos.add(idJugador);
+        System.out.println(
+            "[Tablero] Jugador " + idJugador + " listo para iniciar ("
+            + jugadoresListos.size() + "/" + jugadores.size() + ")"
+        );
+
+        boolean todosListos = jugadores.stream()
+            .allMatch(j -> jugadoresListos.contains(j.getIdJugador()));
+
+        if (todosListos) {
+            jugadoresListos.clear();
+            return partida.iniciar(this);
+        }
+
+        return new ResultadoIniciarPartidaDTO(
+            true,
+            TipoEvento.INICIO_PENDIENTE,
+            null,
+            null,
+            null,
+            new ArrayList<>(jugadoresListos),
+            jugadores.size()
+        );
+    }
+
+    public void ejecutarRepartoInicial() {
+        for (Jugador jugador : jugadores) {
+            jugador.setMano(new Mano());
+        }
+
+        turnoActual = 0;
+        sentidoReloj = true;
+
+        for (Jugador jugador : jugadores) {
+            for (int i = 0; i < Partida.CARTAS_POR_JUGADOR; i++) {
+                darCartaAJugador(jugador);
+            }
+        }
+
+        Carta cartaInicial = mazo.sacarCartaInicialValida();
+        descarte.colocarCartaInicial(cartaInicial);
     }
 
     private List<JugadorDTO> generarEstadoSalaDTO() {
@@ -350,7 +453,7 @@ public class Tablero {
         return null;
     }
 
-    private List<JugadorDTO> generarEstadoDTO() {
+    public List<JugadorDTO> generarEstadoDTO() {
         return jugadores.stream().map(j -> {
 
             List<CartaDTO> manoDto = j.getMano().getCartasReales().stream()
@@ -367,8 +470,11 @@ public class Tablero {
         }).collect(Collectors.toList());
     }
 
-    private CartaDTO obtenerCartaCimaDTO() {
+    public CartaDTO obtenerCartaCimaDTO() {
         Carta cima = descarte.getCartaCima();
+        if (cima == null) {
+            return null;
+        }
         return new CartaDTO(cima.getValor(), cima.getColor());
     }
 

@@ -5,9 +5,11 @@ import dtos.CartaDTO;
 import java.util.UUID;
 
 import Ejercer_Turno.Interfaces.IModelEventos;
+import Iniciar_Partida.Interfaces.IModelEventosLobby;
 import org.codedesc.ISerializador;
 import org.eventos.ejercer_turno.Evento;
 import org.eventos.ejercer_turno.EventoGritar;
+import org.eventos.ejercer_turno.EventoIniciarPartida;
 import org.eventos.ejercer_turno.EventoPasarTurno;
 import org.eventos.ejercer_turno.EventoRobarCarta;
 import org.eventos.ejercer_turno.EventoTirarCarta;
@@ -22,7 +24,7 @@ import dtos.JugadorDTO;
  * antes (en ControlJuego), por lo que la carta que llega aquí ya trae el
  * Colores elegido.
  */
-public class EventoTraductor implements IModelEventos {
+public class EventoTraductor implements IModelEventos, IModelEventosLobby {
 
     private final IPublicador publicador;
     private final ISerializador<Evento> serializador;
@@ -41,6 +43,12 @@ public class EventoTraductor implements IModelEventos {
 
     public void emitirUnirsePartida(JugadorDTO jugador) {
         Evento evt = new EventoUnirsePartida(idJugadorLocal, generarId(), jugador);
+        enviar(evt);
+    }
+
+    @Override
+    public void emitirIniciarPartida() {
+        Evento evt = new EventoIniciarPartida(idJugadorLocal, generarId());
         enviar(evt);
     }
 

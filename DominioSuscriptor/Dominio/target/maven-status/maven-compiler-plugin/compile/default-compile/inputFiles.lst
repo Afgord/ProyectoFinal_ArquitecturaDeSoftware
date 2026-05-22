@@ -1,6 +1,7 @@
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\dtos\CartaDTO.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\dtos\JugadorDTO.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\dtos\ResultadoGritoDTO.java
+C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\dtos\ResultadoIniciarPartidaDTO.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\dtos\ResultadoJugadaDTO.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\dtos\ResultadoUnirseDTO.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\Ejecutador\Ejecutador.java
@@ -11,6 +12,7 @@ C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSo
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\Jugador.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\Mano.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\Mazo.java
+C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\Partida.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\ResultadoRuleta.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\Ruleta.java
 C:\Users\angel\OneDrive\Desktop\Progra6toSemestre\ProyectoFinal_ArquitecturaDeSoftware\DominioSuscriptor\Dominio\src\main\java\entidades\Tablero.java

@@ -8,6 +8,7 @@ import dtos.CartaDTO;
 import dtos.JugadorDTO;
 import dtos.ResultadoGritoDTO;
 import dtos.ResultadoJugadaDTO;
+import dtos.ResultadoIniciarPartidaDTO;
 import dtos.ResultadoUnirseDTO;
 
 /**
@@ -19,5 +20,6 @@ public interface FachadaDominio {
     ResultadoJugadaDTO validarYPlay(String idJugador, CartaDTO carta);
     ResultadoJugadaDTO pasarTurno(String idJugador);
     ResultadoGritoDTO gritarUno(JugadorDTO datosGrito);
-    ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO);
+    Object unirseAPartida(JugadorDTO jugadorDTO);
+    ResultadoIniciarPartidaDTO iniciarPartida(String idSolicitante);
 }

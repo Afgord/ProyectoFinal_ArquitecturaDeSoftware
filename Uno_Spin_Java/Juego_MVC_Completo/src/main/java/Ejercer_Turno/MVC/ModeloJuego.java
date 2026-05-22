@@ -10,8 +10,10 @@ import java.util.List;
 import org.eventos.ejercer_turno.EventoActualizarTurno;
 import org.eventos.ejercer_turno.EventoAnuciarGanador;
 import org.eventos.ejercer_turno.EventoFallo;
+import org.eventos.ejercer_turno.EventoPartidaIniciada;
 import org.eventos.ejercer_turno.EventoResultadoGrito;
 import org.eventos.ejercer_turno.EventoResultadoRuleta;
+import org.eventos.ejercer_turno.EventoUnirseExitoso;
 
 /**
  * Modelo del MVC en modo event-driven.
@@ -54,6 +56,21 @@ public class ModeloJuego implements IModeloDatos {
         this.cartaCima = e.getCartaEnCima();
         this.idJugadorTurnoActual = e.getIdJugadorTurnoActual();
         this.ultimaJugadaValida = true;
+        notificar();
+    }
+
+    public void aplicarPartidaIniciada(EventoPartidaIniciada e) {
+        this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
+        this.cartaCima = e.getCartaEnCima();
+        this.idJugadorTurnoActual = e.getIdJugadorTurnoActual();
+        this.ultimaJugadaValida = true;
+        notificar();
+    }
+
+    public void aplicarUnirseExitoso(EventoUnirseExitoso e) {
+        if (e.getJugadoresEnSala() != null) {
+            this.jugadores = new ArrayList<>(e.getJugadoresEnSala());
+        }
         notificar();
     }
 

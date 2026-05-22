@@ -1,6 +1,7 @@
 package com.mycompany.eventotraductor;
 
 import Ejercer_Turno.MVC.ModeloJuego;
+import Iniciar_Partida.MVC.ModeloLobby;
 import comunes.IPublicador;
 import entrada.Receptor;
 import entrada.ServidorTCP;
@@ -26,15 +27,17 @@ public final class BootstrapRed {
         IDeserializador<Evento> deserializador = CodeDescFactory.crearDeserializador();
 
         ModeloJuego modelo = new ModeloJuego(idJugadorLocal);
+        ModeloLobby modeloLobby = new ModeloLobby(idJugadorLocal);
         EventoTraductor traductor = new EventoTraductor(publicador, serializador, idJugadorLocal);
 
-        ReceptorProcesador procesador = new ReceptorProcesador(deserializador, modelo, idJugadorLocal);
+        ReceptorProcesador procesador = new ReceptorProcesador(
+            deserializador, modelo, modeloLobby, idJugadorLocal);
         Receptor receptor = new Receptor(procesador);
 
         ServidorTCP servidor = new ServidorTCP(puertoLocal);
         servidor.addObserver(receptor);
         servidor.iniciar();
 
-        return new SesionCliente(modelo, traductor, procesador);
+        return new SesionCliente(modelo, modeloLobby, traductor, procesador);
     }
 }

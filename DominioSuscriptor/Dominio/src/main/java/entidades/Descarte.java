@@ -12,8 +12,19 @@ import java.util.Stack;
 public class Descarte {
     private Stack<Carta> pila = new Stack<>();
 
+    public Descarte() {
+    }
+
     public Descarte(Carta cartaInicial) {
         this.pila.push(cartaInicial);
+    }
+
+    public void colocarCartaInicial(Carta carta) {
+        if (carta != null && pila.isEmpty()) {
+            pila.push(carta);
+            System.out.println("[Descarte] Carta inicial colocada: "
+                + carta.getValor() + " de color " + carta.getColor());
+        }
     }
 
     public boolean recibirCarta(Carta carta) {

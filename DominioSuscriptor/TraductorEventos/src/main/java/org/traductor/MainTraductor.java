@@ -26,24 +26,10 @@ public class MainTraductor {
         System.out.println("=== [SISTEMA] Iniciando Servidor en " + HOST + " ===");
 
         Mazo mazo = new Mazo(0, 9, true, true, true, true, true);
-        Carta inicio = mazo.sacarCartaInicialValida();
-        Descarte descarte = new Descarte(inicio);
+        Descarte descarte = new Descarte();
         Ruleta ruleta = new Ruleta();
-        
-        List<Jugador> listaJugadores = new ArrayList<>();
-        listaJugadores.add(new Jugador("1", "Rafael", "avatar1.png", new Mano()));
-        listaJugadores.add(new Jugador("2", "Jugador 2", "avatar2.png", new Mano()));
-        listaJugadores.add(new Jugador("3", "Jugador 3", "avatar3.png", new Mano()));
-        listaJugadores.add(new Jugador("4", "Jugador 4", "avatar4.png", new Mano()));
 
-        for (Jugador jugador : listaJugadores) {
-            for (int i = 0; i < 7; i++) {
-                Carta c = mazo.tomarUnaCarta();
-                if (c != null) {
-                    jugador.agregarCarta(c);
-                }
-            }
-        }
+        List<Jugador> listaJugadores = new ArrayList<>();
 
         Tablero tablero = new Tablero(mazo, descarte, listaJugadores, ruleta);
         FachadaDominio fachada = new FachadaJuego(tablero);

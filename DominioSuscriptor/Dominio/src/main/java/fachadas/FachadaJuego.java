@@ -8,6 +8,7 @@ import dtos.CartaDTO;
 import dtos.JugadorDTO;
 import dtos.ResultadoGritoDTO;
 import dtos.ResultadoJugadaDTO;
+import dtos.ResultadoIniciarPartidaDTO;
 import dtos.ResultadoUnirseDTO;
 import entidades.Tablero;
 
@@ -43,8 +44,29 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO) {
+    public Object unirseAPartida(JugadorDTO jugadorDTO) {
         System.out.println("[Fachada] Procesando unirse a partida...");
         return tablero.unirseAPartida(jugadorDTO);
+    }
+
+    @Override
+    public ResultadoIniciarPartidaDTO iniciarPartida(String idSolicitante) {
+        System.out.println("[Fachada] Procesando solicitud de inicio de partida...");
+
+        boolean jugadorValido = tablero.getJugadores().stream()
+            .anyMatch(j -> j.getIdJugador().equals(idSolicitante));
+
+        if (!jugadorValido) {
+            System.out.println("[Fachada] Rechazo: solicitante desconocido " + idSolicitante);
+            return new ResultadoIniciarPartidaDTO(
+                false,
+                entidades.TipoEvento.INICIO_RECHAZADO,
+                null,
+                null,
+                null
+            );
+        }
+
+        return tablero.registrarListoParaIniciar(idSolicitante);
     }
 }

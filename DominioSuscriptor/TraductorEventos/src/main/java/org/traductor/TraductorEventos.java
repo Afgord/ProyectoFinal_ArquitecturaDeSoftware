@@ -50,6 +50,9 @@ public class TraductorEventos {
             resultadoDominio = fachada.unirseAPartida(
                 ((EventoUnirsePartida) eventoEntrante).getJugador()
             );
+
+        } else if (eventoEntrante instanceof EventoIniciarPartida e) {
+            resultadoDominio = fachada.iniciarPartida(e.getIdJugador());
         }
 
         if (resultadoDominio != null) {
@@ -68,6 +71,9 @@ public class TraductorEventos {
 
         } else if (resultado instanceof ResultadoUnirseDTO) {
             eventoSalida = traducirUnirse((ResultadoUnirseDTO) resultado);
+
+        } else if (resultado instanceof ResultadoIniciarPartidaDTO) {
+            eventoSalida = traducirInicio((ResultadoIniciarPartidaDTO) resultado);
         }
 
         if (eventoSalida != null) {
@@ -158,5 +164,32 @@ public class TraductorEventos {
                 "ERROR_UNIRSE"
             );
         };
+    }
+
+    private Evento traducirInicio(ResultadoIniciarPartidaDTO dto) {
+        if (dto.getEventoTipo() == TipoEvento.INICIO_PENDIENTE) {
+            return new EventoListosIniciar(
+                dto.getJugadoresListos(),
+                dto.getTotalJugadoresEnSala(),
+                "LISTOS_INICIAR"
+            );
+        }
+
+        if (!dto.isExito()) {
+            Errores error = switch (dto.getEventoTipo()) {
+                case PARTIDA_EN_CURSO -> Errores.PARTIDA_YA_INICIADA;
+                case INICIO_RECHAZADO -> Errores.JUGADORES_INSUFICIENTES;
+                default -> Errores.ERROR_GENERICO;
+            };
+
+            return new EventoFallo(error, "INICIO_RECHAZADO");
+        }
+
+        return new EventoPartidaIniciada(
+            dto.getEstadoJugadores(),
+            dto.getCartaCima(),
+            dto.getIdJugadorTurnoActual(),
+            "PARTIDA_INICIADA"
+        );
     }
 }
