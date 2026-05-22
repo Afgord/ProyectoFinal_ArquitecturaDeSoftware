@@ -56,30 +56,42 @@ public class TraductorEventos {
         }
 
         if (resultadoDominio != null) {
-            enviarRespuesta(resultadoDominio);
+            enviarRespuestas(resultadoDominio);
         }
     }
 
-    private void enviarRespuesta(Object resultado) {
-        Evento eventoSalida = null;
-
-        if (resultado instanceof ResultadoJugadaDTO) {
-            eventoSalida = traducirJugada((ResultadoJugadaDTO) resultado);
-
-        } else if (resultado instanceof ResultadoGritoDTO) {
-            eventoSalida = traducirGrito((ResultadoGritoDTO) resultado);
-
-        } else if (resultado instanceof ResultadoUnirseDTO) {
-            eventoSalida = traducirUnirse((ResultadoUnirseDTO) resultado);
-
-        } else if (resultado instanceof ResultadoIniciarPartidaDTO) {
-            eventoSalida = traducirInicio((ResultadoIniciarPartidaDTO) resultado);
+    private void enviarRespuestas(Object resultado) {
+        if (resultado instanceof ResultadoUnirseDTO dto) {
+            enviarEvento(traducirUnirse(dto));
+            if (dto.hayInicioAutomatico()) {
+                enviarEvento(traducirInicio(dto.getInicioAutomatico()));
+            }
+            return;
         }
 
-        if (eventoSalida != null) {
-            byte[] bytesAEnviar = serializador.objetoABytes(eventoSalida);
-            dispatcher.dispatch(brokerIp, BROKER_PUERTO, bytesAEnviar);
+        Evento eventoSalida = traducirResultado(resultado);
+        enviarEvento(eventoSalida);
+    }
+
+    private Evento traducirResultado(Object resultado) {
+        if (resultado instanceof ResultadoJugadaDTO jugada) {
+            return traducirJugada(jugada);
         }
+        if (resultado instanceof ResultadoGritoDTO grito) {
+            return traducirGrito(grito);
+        }
+        if (resultado instanceof ResultadoIniciarPartidaDTO inicio) {
+            return traducirInicio(inicio);
+        }
+        return null;
+    }
+
+    private void enviarEvento(Evento evento) {
+        if (evento == null) {
+            return;
+        }
+        byte[] bytesAEnviar = serializador.objetoABytes(evento);
+        dispatcher.dispatch(brokerIp, BROKER_PUERTO, bytesAEnviar);
     }
 
     private Evento traducirJugada(ResultadoJugadaDTO dto) {

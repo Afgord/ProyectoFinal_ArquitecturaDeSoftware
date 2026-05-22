@@ -117,15 +117,26 @@ public class Tablero {
             nuevoJugador.getNombre()
         );
 
+        ResultadoIniciarPartidaDTO inicioAutomatico = evaluarInicioAutomatico();
+
         return new ResultadoUnirseDTO(
             true,
             TipoEvento.UNIRSE_EXITOSO,
             jugadorUnidoDTO,
-            generarEstadoSalaDTO()
+            generarEstadoSalaDTO(),
+            inicioAutomatico
         );
     }
 
-    public ResultadoIniciarPartidaDTO iniciarPartida() {
+    private ResultadoIniciarPartidaDTO evaluarInicioAutomatico() {
+        if (!PoliticaInicioPartida.debeIniciarAutomaticamente(jugadores.size(), estadoPartida)) {
+            return null;
+        }
+
+        System.out.println(
+            "[Tablero] Sala completa (" + jugadores.size() + "/"
+            + CAPACIDAD_MAXIMA + "). Iniciando partida automáticamente..."
+        );
         return partida.iniciar(this);
     }
 
@@ -155,10 +166,10 @@ public class Tablero {
             );
         }
 
-        if (jugadores.size() < Partida.JUGADORES_MINIMOS) {
+        if (!PoliticaInicioPartida.permiteInicioManual(jugadores.size(), estadoPartida)) {
             System.out.println(
-                "[Tablero] Rechazo: jugadores insuficientes ("
-                + jugadores.size() + "/" + Partida.JUGADORES_MINIMOS + ")"
+                "[Tablero] Rechazo: inicio manual no permitido ("
+                + jugadores.size() + "/" + CAPACIDAD_MAXIMA + " jugadores)"
             );
             return new ResultadoIniciarPartidaDTO(
                 false,

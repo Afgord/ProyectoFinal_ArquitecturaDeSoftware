@@ -1,11 +1,10 @@
 package com.mycompany.eventotraductor;
 
-import comunes.IPublicador;
 import dtos.CartaDTO;
-import java.util.UUID;
-
+import dtos.JugadorDTO;
 import Ejercer_Turno.Interfaces.IModelEventos;
 import Iniciar_Partida.Interfaces.IModelEventosLobby;
+import java.util.UUID;
 import org.codedesc.ISerializador;
 import org.eventos.ejercer_turno.Evento;
 import org.eventos.ejercer_turno.EventoGritar;
@@ -14,25 +13,28 @@ import org.eventos.ejercer_turno.EventoPasarTurno;
 import org.eventos.ejercer_turno.EventoRobarCarta;
 import org.eventos.ejercer_turno.EventoTirarCarta;
 import org.eventos.ejercer_turno.EventoUnirsePartida;
-import dtos.JugadorDTO;
+import salida.IDispatcher;
 
 /**
  * Flujo Outbound.
  *
  * Convierte las intenciones del MVC (IModelEventos) en eventos serializables
- * y los publica vía IPublicador. La selección de color para comodines ocurre
- * antes (en ControlJuego), por lo que la carta que llega aquí ya trae el
- * Colores elegido.
+ * y los publica al broker vía IDispatcher.
  */
 public class EventoTraductor implements IModelEventos, IModelEventosLobby {
 
-    private final IPublicador publicador;
+    private final IDispatcher dispatcher;
+    private final String hostBroker;
+    private final int puertoBroker;
     private final ISerializador<Evento> serializador;
     private final String idJugadorLocal;
     private boolean bloqueadoPorRed = false;
 
-    public EventoTraductor(IPublicador publicador, ISerializador<Evento> serializador, String idJugadorLocal) {
-        this.publicador = publicador;
+    public EventoTraductor(IDispatcher dispatcher, String hostBroker, int puertoBroker,
+                           ISerializador<Evento> serializador, String idJugadorLocal) {
+        this.dispatcher = dispatcher;
+        this.hostBroker = hostBroker;
+        this.puertoBroker = puertoBroker;
         this.serializador = serializador;
         this.idJugadorLocal = idJugadorLocal;
     }
@@ -87,7 +89,7 @@ public class EventoTraductor implements IModelEventos, IModelEventosLobby {
     private void enviar(Evento evt) {
         byte[] datos = serializador.objetoABytes(evt);
         if (datos != null) {
-            publicador.enviar(datos);
+            dispatcher.dispatch(hostBroker, puertoBroker, datos);
         }
     }
 }

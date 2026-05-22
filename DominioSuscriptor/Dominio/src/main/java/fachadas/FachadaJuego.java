@@ -11,6 +11,7 @@ import dtos.ResultadoJugadaDTO;
 import dtos.ResultadoIniciarPartidaDTO;
 import dtos.ResultadoUnirseDTO;
 import entidades.Tablero;
+import entidades.TipoEvento;
 
 public class FachadaJuego implements FachadaDominio {
     private Tablero tablero;
@@ -60,7 +61,7 @@ public class FachadaJuego implements FachadaDominio {
             System.out.println("[Fachada] Rechazo: solicitante desconocido " + idSolicitante);
             return new ResultadoIniciarPartidaDTO(
                 false,
-                entidades.TipoEvento.INICIO_RECHAZADO,
+                TipoEvento.INICIO_RECHAZADO,
                 null,
                 null,
                 null

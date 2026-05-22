@@ -1,6 +1,7 @@
 package Iniciar_Partida.MVC;
 
 import Iniciar_Partida.Interfaces.IModeloLobby;
+import Iniciar_Partida.Interfaces.IReceptorEstadoLobby;
 import Iniciar_Partida.Interfaces.ObservadorLobby;
 import dtos.JugadorDTO;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import org.eventos.ejercer_turno.EventoFallo;
 import org.eventos.ejercer_turno.EventoListosIniciar;
 import org.eventos.ejercer_turno.EventoUnirseExitoso;
 
-public class ModeloLobby implements IModeloLobby {
+public class ModeloLobby implements IModeloLobby, IReceptorEstadoLobby {
 
     private static final int CAPACIDAD_MAXIMA = 4;
     private static final int JUGADORES_MINIMOS = 2;
@@ -36,15 +37,26 @@ public class ModeloLobby implements IModeloLobby {
         }
     }
 
+    @Override
     public void aplicarUnirseExitoso(EventoUnirseExitoso e) {
         if (e.getJugadoresEnSala() != null) {
             this.jugadoresEnSala = new ArrayList<>(e.getJugadoresEnSala());
         }
-        this.mensajeEstado = jugadoresEnSala.size() + "/" + CAPACIDAD_MAXIMA
-                + " jugadores conectados (mín. " + JUGADORES_MINIMOS + " para iniciar)";
+        int total = jugadoresEnSala.size();
+        if (total >= CAPACIDAD_MAXIMA) {
+            this.mensajeEstado = "Sala completa. Iniciando partida...";
+        } else if (total >= JUGADORES_MINIMOS) {
+            this.mensajeEstado = total + "/" + CAPACIDAD_MAXIMA
+                    + " conectados (mín. " + JUGADORES_MINIMOS
+                    + "). Todos deben confirmar para iniciar.";
+        } else {
+            this.mensajeEstado = total + "/" + CAPACIDAD_MAXIMA
+                    + " jugadores conectados (mín. " + JUGADORES_MINIMOS + " para iniciar)";
+        }
         notificar();
     }
 
+    @Override
     public void aplicarListosIniciar(EventoListosIniciar e) {
         if (e.getJugadoresListos() != null) {
             this.jugadoresListos = new HashSet<>(e.getJugadoresListos());
@@ -57,12 +69,14 @@ public class ModeloLobby implements IModeloLobby {
         notificar();
     }
 
+    @Override
     public void aplicarPartidaIniciada() {
         this.partidaIniciada = true;
         this.mensajeEstado = "Partida iniciada";
         notificar();
     }
 
+    @Override
     public void aplicarFallo(EventoFallo e) {
         this.mensajeEstado = "Error: " + e.getError();
         notificar();

@@ -7,11 +7,11 @@ import java.util.List;
 
 public class Partida {
 
-    public static final int JUGADORES_MINIMOS = 2;
+    public static final int JUGADORES_MINIMOS = PoliticaInicioPartida.JUGADORES_MINIMOS;
     public static final int CARTAS_POR_JUGADOR = 7;
 
     public boolean puedeIniciar(EstadoPartida estado, int numJugadores) {
-        return estado == EstadoPartida.EN_ESPERA && numJugadores >= JUGADORES_MINIMOS;
+        return PoliticaInicioPartida.puedeIniciar(estado, numJugadores);
     }
 
     public ResultadoIniciarPartidaDTO iniciar(Tablero tablero) {

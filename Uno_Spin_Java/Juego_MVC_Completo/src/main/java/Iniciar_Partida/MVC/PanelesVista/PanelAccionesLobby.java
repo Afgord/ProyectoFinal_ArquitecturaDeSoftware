@@ -29,10 +29,17 @@ public class PanelAccionesLobby extends JPanel {
 
     public void refrescar() {
         lblEstado.setText(modelo.getMensajeEstado());
-        boolean puedeIniciar = modelo.getJugadoresEnSala().size() >= modelo.getJugadoresMinimos()
+
+        int jugadores = modelo.getJugadoresEnSala().size();
+        int minimo = modelo.getJugadoresMinimos();
+        int maximo = modelo.getCapacidadMaxima();
+        boolean enRangoManual = jugadores >= minimo && jugadores < maximo;
+        boolean puedeConfirmar = enRangoManual
                 && !modelo.isPartidaIniciada()
                 && !modelo.isJugadorLocalListo();
-        btnIniciar.setEnabled(puedeIniciar);
+
+        btnIniciar.setVisible(enRangoManual);
+        btnIniciar.setEnabled(puedeConfirmar);
         btnIniciar.setText(modelo.isJugadorLocalListo()
                 ? "Esperando confirmación..."
                 : "Iniciar partida");

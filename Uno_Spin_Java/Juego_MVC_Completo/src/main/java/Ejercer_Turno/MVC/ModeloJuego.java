@@ -1,6 +1,7 @@
 package Ejercer_Turno.MVC;
 
 import Ejercer_Turno.Interfaces.IModeloDatos;
+import Ejercer_Turno.Interfaces.IReceptorEstadoJuego;
 import Ejercer_Turno.Interfaces.Observador;
 import dtos.CartaDTO;
 import dtos.JugadorDTO;
@@ -23,7 +24,7 @@ import org.eventos.ejercer_turno.EventoUnirseExitoso;
  * No toca FachadaDominio: cualquier validación corre en el subscriptor
  * Dominio del otro lado del broker.
  */
-public class ModeloJuego implements IModeloDatos {
+public class ModeloJuego implements IModeloDatos, IReceptorEstadoJuego {
 
     private final List<Observador> observadores = new ArrayList<>();
     private final String idJugadorLocal;
@@ -51,6 +52,7 @@ public class ModeloJuego implements IModeloDatos {
         }
     }
 
+    @Override
     public void aplicarActualizacion(EventoActualizarTurno e) {
         this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
         this.cartaCima = e.getCartaEnCima();
@@ -59,6 +61,7 @@ public class ModeloJuego implements IModeloDatos {
         notificar();
     }
 
+    @Override
     public void aplicarPartidaIniciada(EventoPartidaIniciada e) {
         this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
         this.cartaCima = e.getCartaEnCima();
@@ -67,6 +70,7 @@ public class ModeloJuego implements IModeloDatos {
         notificar();
     }
 
+    @Override
     public void aplicarUnirseExitoso(EventoUnirseExitoso e) {
         if (e.getJugadoresEnSala() != null) {
             this.jugadores = new ArrayList<>(e.getJugadoresEnSala());
@@ -74,11 +78,13 @@ public class ModeloJuego implements IModeloDatos {
         notificar();
     }
 
+    @Override
     public void aplicarFallo(EventoFallo e) {
         this.ultimaJugadaValida = false;
         notificar();
     }
 
+    @Override
     public void aplicarResultadoRuleta(EventoResultadoRuleta e) {
         this.jugadores = (e.getJugadores() != null) ? new ArrayList<>(e.getJugadores()) : new ArrayList<>();
         this.cartaCima = e.getCartaEnCima();
@@ -87,6 +93,7 @@ public class ModeloJuego implements IModeloDatos {
         notificar();
     }
 
+    @Override
     public void aplicarResultadoGrito(EventoResultadoGrito e) {
         if (e.getEstadoJugadores() != null) {
             this.jugadores = new ArrayList<>(e.getEstadoJugadores());
@@ -94,6 +101,7 @@ public class ModeloJuego implements IModeloDatos {
         notificar();
     }
 
+    @Override
     public void aplicarGanador(EventoAnuciarGanador e) {
         if (e.getGanador() != null) {
             this.ganador = e.getGanador().getNombre();

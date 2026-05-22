@@ -20,9 +20,7 @@ import org.eventos.ejercer_turno.EventoUnirsePartida;
 import salida.DispatcherFactory;
 import salida.IDispatcher;
 
-/**
- * Smoke test headless: 2 jugadores confirman inicio por consenso.
- */
+/** Smoke test: 2 jugadores confirman inicio por consenso. */
 public class SmokeInicioDosJugadores {
 
     private static final String HOST = System.getProperty("uno.host", "127.0.0.1");
@@ -45,7 +43,9 @@ public class SmokeInicioDosJugadores {
             System.out.println("[SMOKE-2] Recibido: " + e.getClass().getSimpleName());
             if (e instanceof EventoUnirseExitoso unirse) {
                 int n = unirse.getJugadoresEnSala() != null ? unirse.getJugadoresEnSala().size() : 0;
-                if (n >= 2) lobby.countDown();
+                if (n == 2) {
+                    lobby.countDown();
+                }
             } else if (e instanceof EventoListosIniciar listosEvt) {
                 int confirmados = listosEvt.getJugadoresListos() != null
                     ? listosEvt.getJugadoresListos().size() : 0;
@@ -58,32 +58,23 @@ public class SmokeInicioDosJugadores {
                 int jugadores = iniciada.getJugadores() != null ? iniciada.getJugadores().size() : 0;
                 boolean manosOk = iniciada.getJugadores() != null
                     && iniciada.getJugadores().stream().allMatch(j -> j.getMano() != null && j.getMano().size() == 7);
-                System.out.println("[SMOKE-2] Partida iniciada. Jugadores=" + jugadores
-                    + ", cartaCima=" + iniciada.getCartaEnCima()
-                    + ", turno=" + iniciada.getIdJugadorTurnoActual()
-                    + ", 7 cartas c/u=" + manosOk);
                 if (jugadores == 2 && iniciada.getCartaEnCima() != null && manosOk) {
                     partida.countDown();
                 } else {
-                    error.set("Estado inválido en EventoPartidaIniciada (esperado 2 jugadores)");
+                    error.set("Estado inválido (esperado 2 jugadores)");
                     partida.countDown();
                 }
             } else if (e instanceof EventoFallo fallo) {
                 error.set("Fallo inesperado: " + fallo.getError());
-                listos.countDown();
                 partida.countDown();
             }
         }));
         servidor.iniciar();
         Thread.sleep(500);
 
-        String[] ids = {"1", "2"};
-        String[] nombres = {"Rafael", "Jugador 2"};
-
-        for (int i = 0; i < ids.length; i++) {
-            EventoUnirsePartida evt = new EventoUnirsePartida(
-                ids[i], "UNIRSE_" + ids[i], new JugadorDTO(ids[i], nombres[i]));
-            dispatcher.dispatch(HOST, BROKER, serializador.objetoABytes(evt));
+        for (String id : new String[] {"1", "2"}) {
+            dispatcher.dispatch(HOST, BROKER, serializador.objetoABytes(
+                new EventoUnirsePartida(id, "UNIRSE_" + id, new JugadorDTO(id, "Jugador " + id))));
             Thread.sleep(300);
         }
 

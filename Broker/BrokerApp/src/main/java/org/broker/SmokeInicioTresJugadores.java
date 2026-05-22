@@ -43,7 +43,9 @@ public class SmokeInicioTresJugadores {
             System.out.println("[SMOKE-3] Recibido: " + e.getClass().getSimpleName());
             if (e instanceof EventoUnirseExitoso unirse) {
                 int n = unirse.getJugadoresEnSala() != null ? unirse.getJugadoresEnSala().size() : 0;
-                if (n >= 3) lobby.countDown();
+                if (n == 3) {
+                    lobby.countDown();
+                }
             } else if (e instanceof EventoListosIniciar listosEvt) {
                 int confirmados = listosEvt.getJugadoresListos() != null
                     ? listosEvt.getJugadoresListos().size() : 0;
@@ -56,9 +58,6 @@ public class SmokeInicioTresJugadores {
                 int jugadores = iniciada.getJugadores() != null ? iniciada.getJugadores().size() : 0;
                 boolean manosOk = iniciada.getJugadores() != null
                     && iniciada.getJugadores().stream().allMatch(j -> j.getMano() != null && j.getMano().size() == 7);
-                System.out.println("[SMOKE-3] Partida iniciada. Jugadores=" + jugadores
-                    + ", turno=" + iniciada.getIdJugadorTurnoActual()
-                    + ", 7 cartas c/u=" + manosOk);
                 if (jugadores == 3 && iniciada.getCartaEnCima() != null && manosOk) {
                     partida.countDown();
                 } else {
@@ -67,19 +66,15 @@ public class SmokeInicioTresJugadores {
                 }
             } else if (e instanceof EventoFallo fallo) {
                 error.set("Fallo inesperado: " + fallo.getError());
-                listos2.countDown();
                 partida.countDown();
             }
         }));
         servidor.iniciar();
         Thread.sleep(500);
 
-        String[] ids = {"1", "2", "3"};
-        String[] nombres = {"Rafael", "Jugador 2", "Jugador 3"};
-
-        for (int i = 0; i < ids.length; i++) {
+        for (String id : new String[] {"1", "2", "3"}) {
             dispatcher.dispatch(HOST, BROKER, serializador.objetoABytes(
-                new EventoUnirsePartida(ids[i], "UNIRSE_" + ids[i], new JugadorDTO(ids[i], nombres[i]))));
+                new EventoUnirsePartida(id, "UNIRSE_" + id, new JugadorDTO(id, "Jugador " + id))));
             Thread.sleep(300);
         }
 
@@ -90,8 +85,6 @@ public class SmokeInicioTresJugadores {
 
         dispatcher.dispatch(HOST, BROKER, serializador.objetoABytes(
             new EventoIniciarPartida("1", "INICIAR_1")));
-        Thread.sleep(300);
-
         dispatcher.dispatch(HOST, BROKER, serializador.objetoABytes(
             new EventoIniciarPartida("2", "INICIAR_2")));
 

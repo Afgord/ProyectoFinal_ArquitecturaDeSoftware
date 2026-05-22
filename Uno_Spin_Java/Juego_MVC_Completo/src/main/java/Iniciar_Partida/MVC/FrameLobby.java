@@ -8,10 +8,12 @@ import javax.swing.SwingUtilities;
 
 public class FrameLobby extends JFrame implements ObservadorLobby {
 
+    private final IModeloLobby modelo;
     private final PanelLobby panelLobby;
     private Runnable onPartidaIniciada;
 
     public FrameLobby(ControlLobby control, IModeloLobby modelo) {
+        this.modelo = modelo;
         modelo.registrarObservador(this);
 
         setTitle("UNO Spin - Lobby");
@@ -29,16 +31,16 @@ public class FrameLobby extends JFrame implements ObservadorLobby {
         this.onPartidaIniciada = callback;
     }
 
+    public void verificarPartidaPendiente() {
+        if (modelo.isPartidaIniciada() && onPartidaIniciada != null) {
+            Runnable callback = onPartidaIniciada;
+            onPartidaIniciada = null;
+            SwingUtilities.invokeLater(callback);
+        }
+    }
+
     @Override
     public void notificarCambio(IModeloLobby contexto) {
-        SwingUtilities.invokeLater(() -> {
-            panelLobby.refrescar();
-
-            if (contexto.isPartidaIniciada() && onPartidaIniciada != null) {
-                Runnable callback = onPartidaIniciada;
-                onPartidaIniciada = null;
-                callback.run();
-            }
-        });
+        SwingUtilities.invokeLater(() -> panelLobby.refrescar());
     }
 }

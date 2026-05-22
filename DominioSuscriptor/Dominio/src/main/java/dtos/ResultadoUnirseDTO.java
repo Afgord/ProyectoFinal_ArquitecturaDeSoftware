@@ -21,13 +21,14 @@ public class ResultadoUnirseDTO implements Serializable {
     private final List<JugadorDTO> jugadoresEnSala;
     private final CartaDTO cartaCima;
     private final String idJugadorTurnoActual;
+    private final ResultadoIniciarPartidaDTO inicioAutomatico;
 
     public ResultadoUnirseDTO(
             boolean exito,
             TipoEvento eventoTipo,
             JugadorDTO jugadorUnido,
             List<JugadorDTO> jugadoresEnSala) {
-        this(exito, eventoTipo, jugadorUnido, jugadoresEnSala, null, null);
+        this(exito, eventoTipo, jugadorUnido, jugadoresEnSala, null, null, null);
     }
 
     public ResultadoUnirseDTO(
@@ -37,6 +38,26 @@ public class ResultadoUnirseDTO implements Serializable {
             List<JugadorDTO> jugadoresEnSala,
             CartaDTO cartaCima,
             String idJugadorTurnoActual) {
+        this(exito, eventoTipo, jugadorUnido, jugadoresEnSala, cartaCima, idJugadorTurnoActual, null);
+    }
+
+    public ResultadoUnirseDTO(
+            boolean exito,
+            TipoEvento eventoTipo,
+            JugadorDTO jugadorUnido,
+            List<JugadorDTO> jugadoresEnSala,
+            ResultadoIniciarPartidaDTO inicioAutomatico) {
+        this(exito, eventoTipo, jugadorUnido, jugadoresEnSala, null, null, inicioAutomatico);
+    }
+
+    public ResultadoUnirseDTO(
+            boolean exito,
+            TipoEvento eventoTipo,
+            JugadorDTO jugadorUnido,
+            List<JugadorDTO> jugadoresEnSala,
+            CartaDTO cartaCima,
+            String idJugadorTurnoActual,
+            ResultadoIniciarPartidaDTO inicioAutomatico) {
 
         this.exito = exito;
         this.eventoTipo = eventoTipo;
@@ -44,6 +65,7 @@ public class ResultadoUnirseDTO implements Serializable {
         this.jugadoresEnSala = jugadoresEnSala;
         this.cartaCima = cartaCima;
         this.idJugadorTurnoActual = idJugadorTurnoActual;
+        this.inicioAutomatico = inicioAutomatico;
     }
 
     public boolean isExito() {
@@ -68,5 +90,13 @@ public class ResultadoUnirseDTO implements Serializable {
 
     public String getIdJugadorTurnoActual() {
         return idJugadorTurnoActual;
+    }
+
+    public ResultadoIniciarPartidaDTO getInicioAutomatico() {
+        return inicioAutomatico;
+    }
+
+    public boolean hayInicioAutomatico() {
+        return inicioAutomatico != null && inicioAutomatico.isExito();
     }
 }
