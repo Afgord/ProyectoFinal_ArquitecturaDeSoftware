@@ -16,10 +16,8 @@ import javax.swing.SwingUtilities;
 /**
  * Mano del jugador local.
  *
- * Se identifica al usuario por idJugadorLocal (no por turno actual): así
- * pinta su mano siempre, incluso cuando es el turno de un rival. Solo
- * permite tirar/seleccionar carta cuando el turno actual coincide con
- * el jugador local.
+ * Un clic selecciona la carta; un segundo clic (o doble clic) la juega.
+ * La vista solo se actualiza cuando el Dominio responde por la red.
  */
 public class PanelMano extends JPanel {
     private final ControlJuego control;
@@ -35,9 +33,11 @@ public class PanelMano extends JPanel {
 
     public void refrescarMano() {
         removeAll();
+        cartaSeleccionadaVista = null;
 
         JugadorDTO local = jugadorLocal();
         if (local == null) {
+            limpiarZoom();
             revalidate();
             repaint();
             return;
@@ -45,6 +45,7 @@ public class PanelMano extends JPanel {
 
         List<CartaDTO> cartas = local.getMano();
         if (cartas == null || cartas.isEmpty()) {
+            limpiarZoom();
             revalidate();
             repaint();
             return;
@@ -89,28 +90,51 @@ public class PanelMano extends JPanel {
     private void configurarEventoCarta(PanelCarta pCarta) {
         pCarta.addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent evt) {
-                if (cartaSeleccionadaVista != null && cartaSeleccionadaVista.getModelo().equals(pCarta.getModelo())) {
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() >= 2) {
                     intentarLanzar(pCarta.getModelo());
-                } else {
-                    if (cartaSeleccionadaVista != null) cartaSeleccionadaVista.setSeleccionada(false);
-                    cartaSeleccionadaVista = pCarta;
-                    cartaSeleccionadaVista.setSeleccionada(true);
-                    actualizarZoom(pCarta.getModelo());
+                    return;
                 }
+
+                if (cartaSeleccionadaVista != null
+                        && cartaSeleccionadaVista.getModelo().equals(pCarta.getModelo())) {
+                    intentarLanzar(pCarta.getModelo());
+                    return;
+                }
+
+                if (cartaSeleccionadaVista != null) {
+                    cartaSeleccionadaVista.setSeleccionada(false);
+                }
+                cartaSeleccionadaVista = pCarta;
+                cartaSeleccionadaVista.setSeleccionada(true);
+                mostrarZoom(pCarta.getModelo());
             }
         });
     }
 
-    private void actualizarZoom(CartaDTO modelo) {
+    private void mostrarZoom(CartaDTO modelo) {
         java.awt.Window ventana = SwingUtilities.getWindowAncestor(this);
         if (ventana instanceof FrameTablero frame) {
             frame.getPanelTablero().getPanelZoom().mostrarCarta(modelo);
+            frame.getPanelTablero().mostrarMensaje("Doble clic (o clic otra vez) para jugar");
+        }
+    }
+
+    private void limpiarZoom() {
+        java.awt.Window ventana = SwingUtilities.getWindowAncestor(this);
+        if (ventana instanceof FrameTablero frame) {
+            frame.getPanelTablero().getPanelZoom().limpiar();
         }
     }
 
     private void intentarLanzar(CartaDTO modeloCarta) {
-        if (!esMiTurno()) return;
+        if (!esMiTurno()) {
+            java.awt.Window ventana = SwingUtilities.getWindowAncestor(this);
+            if (ventana instanceof FrameTablero frame) {
+                frame.getPanelTablero().mostrarMensaje("No es tu turno");
+            }
+            return;
+        }
 
         if (UtilCarta.esComodin(modeloCarta.getValor())) {
             Frame padre = (Frame) SwingUtilities.getWindowAncestor(this);
@@ -118,7 +142,9 @@ public class PanelMano extends JPanel {
         } else {
             control.solicitarTirarCarta(modeloCarta);
         }
-        this.cartaSeleccionadaVista = null;
+
+        cartaSeleccionadaVista = null;
+        limpiarZoom();
         repaint();
     }
 }

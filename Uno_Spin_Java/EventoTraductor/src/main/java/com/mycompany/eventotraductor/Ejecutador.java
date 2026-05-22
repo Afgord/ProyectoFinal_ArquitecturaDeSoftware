@@ -6,86 +6,96 @@ import Ejercer_Turno.MVC.ControlJuego;
 import Ejercer_Turno.MVC.FrameTablero;
 import Ejercer_Turno.MVC.ModeloJuego;
 import contenido.AudioManager;
-import dtos.CartaDTO;
 import dtos.JugadorDTO;
-import entidades.Colores;
-import entidades.Valor;
-import java.util.Arrays;
-import java.util.List;
-import org.eventos.ejercer_turno.EventoActualizarTurno;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.swing.JOptionPane;
 
 /**
  * Punto de entrada del nodo Publicador/Consumidor.
  *
- * Cablea la frontera de red vía BootstrapRed y arranca el MVC. Los
- * parámetros de conexión y la identidad del jugador los suministrará el
- * módulo Directorio (lobby) en una iteración futura; por ahora se
- * hardcodean para debug.
+ * Requiere Dominio Suscriptor y Broker activos. El estado inicial llega
+ * desde el dominio al solicitar unirse/reconectar a la partida.
  */
 public class Ejecutador {
 
-    /** Misma IP que el directorio del broker para recibir broadcasts. */
-    private static final String HOST_BROKER = "192.168.100.97";
+    private static final int PUERTO_DOMINIO = 5000;
     private static final int PUERTO_BROKER = 5001;
-    /** Coincide con MainBroker / SimuladorCliente: jugador "n" escucha en 5001+n. */
-    private static final String ID_JUGADOR_LOCAL = "1";
-    private static final int PUERTO_LOCAL = 5001 + Integer.parseInt(ID_JUGADOR_LOCAL);
+    private static final int TIMEOUT_SINCRONIZACION_MS = 10_000;
 
     public static void main(String[] args) {
-        BootstrapRed bootstrap = BootstrapRed.iniciar(HOST_BROKER, PUERTO_BROKER, PUERTO_LOCAL, ID_JUGADOR_LOCAL);
-        ModeloJuego modelo = bootstrap.getModelo();
-        EventoTraductor eventos = bootstrap.getTraductor();
+        String host = System.getProperty("uno.host", "127.0.0.1");
+        String idJugadorLocal = args.length > 0 ? args[0] : "1";
+        int puertoLocal = PUERTO_BROKER + Integer.parseInt(idJugadorLocal);
 
-        // Estado inicial de demo mientras el Directorio/lobby no provea datos reales.
-        // Equivale al estado que antes construía FachadaDominio en el Ejecutador viejo.
-        List<CartaDTO> manoLocal = Arrays.asList(
-                new CartaDTO(Valor.CINCO,   Colores.ROJO),
-                new CartaDTO(Valor.TRES,    Colores.AZUL),
-                new CartaDTO(Valor.OCHO,    Colores.VERDE),
-                new CartaDTO(Valor.REVERSA, Colores.AMARILLO),
-                new CartaDTO(Valor.MASDOS,  Colores.ROJO),
-                new CartaDTO(Valor.MASCUATRO, Colores.NEGRO),
-                new CartaDTO(Valor.UNO,     Colores.AZUL)
-        );
-        List<CartaDTO> manoRival1 = Arrays.asList(
-                new CartaDTO(Valor.DOS, Colores.VERDE),
-                new CartaDTO(Valor.SEIS, Colores.ROJO),
-                new CartaDTO(Valor.NUEVE, Colores.AMARILLO),
-                new CartaDTO(Valor.PROHIBIDO, Colores.AZUL),
-                new CartaDTO(Valor.CERO, Colores.VERDE),
-                new CartaDTO(Valor.CUATRO, Colores.ROJO),
-                new CartaDTO(Valor.SIETE, Colores.AMARILLO)
-        );
-        List<CartaDTO> manoRival2 = Arrays.asList(
-                new CartaDTO(Valor.CINCO,   Colores.AZUL),
-                new CartaDTO(Valor.TRES,    Colores.VERDE),
-                new CartaDTO(Valor.OCHO,    Colores.ROJO),
-                new CartaDTO(Valor.REVERSA, Colores.VERDE),
-                new CartaDTO(Valor.UNO,     Colores.AMARILLO),
-                new CartaDTO(Valor.DOS,     Colores.ROJO),
-                new CartaDTO(Valor.CUATRO,  Colores.AZUL)
-        );
-        List<CartaDTO> manoRival3 = Arrays.asList(
-                new CartaDTO(Valor.SIETE,   Colores.VERDE),
-                new CartaDTO(Valor.NUEVE,   Colores.AZUL),
-                new CartaDTO(Valor.CERO,    Colores.ROJO),
-                new CartaDTO(Valor.SEIS,    Colores.AMARILLO),
-                new CartaDTO(Valor.MASDOS,  Colores.VERDE),
-                new CartaDTO(Valor.PROHIBIDO, Colores.ROJO),
-                new CartaDTO(Valor.TRES,    Colores.AZUL)
-        );
+        if (!VerificadorConexion.puedeConectar(host, PUERTO_DOMINIO)) {
+            mostrarErrorYSalir(
+                "No se pudo conectar al Dominio Suscriptor en "
+                + host + ":" + PUERTO_DOMINIO
+                + ".\n\nLevanta primero DominioSuscriptor\\TraductorEventos (mvn exec:java)."
+            );
+        }
 
-        List<JugadorDTO> jugadoresDemo = Arrays.asList(
-                new JugadorDTO("1", "Rafael",    manoLocal,  false),
-                new JugadorDTO("2", "Jugador 2", manoRival1, false),
-                new JugadorDTO("3", "Jugador 3", manoRival2, false),
-                new JugadorDTO("4", "Jugador 4", manoRival3, false)
-        );
+        if (!VerificadorConexion.puedeConectar(host, PUERTO_BROKER)) {
+            mostrarErrorYSalir(
+                "No se pudo conectar al Broker en "
+                + host + ":" + PUERTO_BROKER
+                + ".\n\nLevanta primero Broker\\BrokerApp (mvn exec:java)."
+            );
+        }
 
-        CartaDTO descarteInicial = new CartaDTO(Valor.SIETE, Colores.ROJO);
+        System.out.println("=== [CLIENTE] Jugador " + idJugadorLocal
+                + " | broker=" + host + ":" + PUERTO_BROKER
+                + " | escucha=" + puertoLocal + " ===");
 
-        modelo.aplicarActualizacion(new EventoActualizarTurno(
-                jugadoresDemo, descarteInicial, ID_JUGADOR_LOCAL, "init"));
+        SesionCliente sesion = BootstrapRed.iniciar(host, PUERTO_BROKER, puertoLocal, idJugadorLocal);
+        ModeloJuego modelo = sesion.getModelo();
+        EventoTraductor eventos = sesion.getTraductor();
+        ReceptorProcesador procesador = sesion.getProcesador();
+
+        CountDownLatch sincronizado = new CountDownLatch(1);
+        AtomicReference<String> errorSync = new AtomicReference<>();
+
+        procesador.setEscuchaEstadoInicial(new ReceptorProcesador.EscuchaEstadoInicial() {
+            @Override
+            public void onEstadoRecibido() {
+                sincronizado.countDown();
+            }
+
+            @Override
+            public void onErrorConexion(String mensaje) {
+                errorSync.set(mensaje);
+                sincronizado.countDown();
+            }
+        });
+
+        eventos.setRedHabilitada(false);
+        eventos.emitirUnirsePartida(crearJugador(idJugadorLocal));
+
+        try {
+            if (!sincronizado.await(TIMEOUT_SINCRONIZACION_MS, TimeUnit.MILLISECONDS)) {
+                mostrarErrorYSalir(
+                    "Tiempo de espera agotado al sincronizar con el Dominio.\n"
+                    + "Verifica que Dominio y Broker estén corriendo."
+                );
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            mostrarErrorYSalir("Conexión interrumpida.");
+        }
+
+        if (errorSync.get() != null) {
+            mostrarErrorYSalir(errorSync.get());
+        }
+
+        if (modelo.getCartaDescarteDTO() == null || modelo.getJugadoresDTO().isEmpty()) {
+            mostrarErrorYSalir("El servidor no envió el estado inicial de la partida.");
+        }
+
+        eventos.setRedHabilitada(true);
+        System.out.println("=== [CLIENTE] Sincronizado. Turno actual: "
+                + modelo.getIdJugadorTurnoActual() + " ===");
 
         IServicioSeleccionColor servicioColor = new SwingSeleccionColor();
         ControlJuego control = new ControlJuego(eventos, servicioColor);
@@ -98,5 +108,27 @@ public class Ejecutador {
         audioModel.loadEffect("alerta", "/sound/effect/alerta.wav", 5);
 
         java.awt.EventQueue.invokeLater(() -> new FrameTablero(control, modelo, audioModel).setVisible(true));
+    }
+
+    private static JugadorDTO crearJugador(String id) {
+        String nombre = switch (id) {
+            case "1" -> "Rafael";
+            case "2" -> "Jugador 2";
+            case "3" -> "Jugador 3";
+            case "4" -> "Jugador 4";
+            default -> "Jugador " + id;
+        };
+        return new JugadorDTO(id, nombre);
+    }
+
+    private static void mostrarErrorYSalir(String mensaje) {
+        System.err.println("[CLIENTE] " + mensaje);
+        JOptionPane.showMessageDialog(
+            null,
+            mensaje,
+            "UNO Spin - Sin conexión",
+            JOptionPane.ERROR_MESSAGE
+        );
+        System.exit(1);
     }
 }

@@ -20,8 +20,8 @@ public class SimuladorCliente {
 
     public static void main(String[] args) {
         // === CONFIGURACIÓN MANUAL ===
-        final String ID_CLIENTE = "2"; // Cambiar del 1 al 4
-        final String IP_BROKER = "192.168.100.97";
+        final String ID_CLIENTE = args.length > 0 ? args[0] : "1";
+        final String IP_BROKER = System.getProperty("uno.host", "127.0.0.1");
         final int PUERTO_BROKER = 5001;
         final int MI_PUERTO_ESCUCHA = 5001 + Integer.parseInt(ID_CLIENTE);
 

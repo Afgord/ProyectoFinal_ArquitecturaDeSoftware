@@ -19,17 +19,31 @@ public class ResultadoUnirseDTO implements Serializable {
     private final TipoEvento eventoTipo;
     private final JugadorDTO jugadorUnido;
     private final List<JugadorDTO> jugadoresEnSala;
+    private final CartaDTO cartaCima;
+    private final String idJugadorTurnoActual;
 
     public ResultadoUnirseDTO(
             boolean exito,
             TipoEvento eventoTipo,
             JugadorDTO jugadorUnido,
             List<JugadorDTO> jugadoresEnSala) {
+        this(exito, eventoTipo, jugadorUnido, jugadoresEnSala, null, null);
+    }
+
+    public ResultadoUnirseDTO(
+            boolean exito,
+            TipoEvento eventoTipo,
+            JugadorDTO jugadorUnido,
+            List<JugadorDTO> jugadoresEnSala,
+            CartaDTO cartaCima,
+            String idJugadorTurnoActual) {
 
         this.exito = exito;
         this.eventoTipo = eventoTipo;
         this.jugadorUnido = jugadorUnido;
         this.jugadoresEnSala = jugadoresEnSala;
+        this.cartaCima = cartaCima;
+        this.idJugadorTurnoActual = idJugadorTurnoActual;
     }
 
     public boolean isExito() {
@@ -46,5 +60,13 @@ public class ResultadoUnirseDTO implements Serializable {
 
     public List<JugadorDTO> getJugadoresEnSala() {
         return jugadoresEnSala;
+    }
+
+    public CartaDTO getCartaCima() {
+        return cartaCima;
+    }
+
+    public String getIdJugadorTurnoActual() {
+        return idJugadorTurnoActual;
     }
 }

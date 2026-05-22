@@ -16,14 +16,15 @@ import org.directorios.Conexion;
 public class MainBroker {
 
     public static void main(String[] args) {
+        final String HOST = System.getProperty("uno.host", "127.0.0.1");
         final int PUERTO_BROKER = 5001;
         ServidorTCP servidor = new ServidorTCP(PUERTO_BROKER);
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
-        BrokerOrquestador orquestador = new BrokerOrquestador(dispatcher);
-        orquestador.getDirectorio().registrarConexion(new Conexion("1", "192.168.100.97", 5002));
-        orquestador.getDirectorio().registrarConexion(new Conexion("2", "192.168.100.97", 5003));
-        orquestador.getDirectorio().registrarConexion(new Conexion("3", "192.168.100.97", 5004));
-        orquestador.getDirectorio().registrarConexion(new Conexion("4", "192.168.100.97", 5005));
+        BrokerOrquestador orquestador = new BrokerOrquestador(dispatcher, HOST);
+        orquestador.getDirectorio().registrarConexion(new Conexion("1", HOST, 5002));
+        orquestador.getDirectorio().registrarConexion(new Conexion("2", HOST, 5003));
+        orquestador.getDirectorio().registrarConexion(new Conexion("3", HOST, 5004));
+        orquestador.getDirectorio().registrarConexion(new Conexion("4", HOST, 5005));
         Receptor receptorPuente = new Receptor(bytes -> orquestador.rutarEvento(bytes));
         servidor.addObserver(receptorPuente);
 

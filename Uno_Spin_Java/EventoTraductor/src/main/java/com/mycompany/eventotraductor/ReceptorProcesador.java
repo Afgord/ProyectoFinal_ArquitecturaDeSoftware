@@ -16,16 +16,18 @@ import org.eventos.ejercer_turno.EventoResultadoRuleta;
  *
  * Recibe bytes desde el ComponenteConexion (a través de Receptor),
  * los deserializa y enruta los eventos de estado al ModeloJuego.
- *
- * Solo procesa eventos de estado (los que produce el subscriptor Dominio).
- * Si el broker eventualmente nos reenviase un evento de intención propio,
- * el filtro de eco lo descarta.
  */
 public class ReceptorProcesador implements IReceptorExterno {
+
+    public interface EscuchaEstadoInicial {
+        void onEstadoRecibido();
+        void onErrorConexion(String mensaje);
+    }
 
     private final IDeserializador<Evento> deserializador;
     private final ModeloJuego modelo;
     private final String idJugadorLocal;
+    private volatile EscuchaEstadoInicial escuchaEstadoInicial;
 
     public ReceptorProcesador(IDeserializador<Evento> deserializador,
                               ModeloJuego modelo,
@@ -33,6 +35,10 @@ public class ReceptorProcesador implements IReceptorExterno {
         this.deserializador = deserializador;
         this.modelo = modelo;
         this.idJugadorLocal = idJugadorLocal;
+    }
+
+    public void setEscuchaEstadoInicial(EscuchaEstadoInicial escucha) {
+        this.escuchaEstadoInicial = escucha;
     }
 
     @Override
@@ -48,14 +54,35 @@ public class ReceptorProcesador implements IReceptorExterno {
 
         if (evento instanceof EventoActualizarTurno e) {
             modelo.aplicarActualizacion(e);
+            notificarEstadoRecibido();
         } else if (evento instanceof EventoFallo e) {
             modelo.aplicarFallo(e);
+            if (escuchaEstadoInicial != null) {
+                notificarError("El servidor rechazó la conexión: " + e.getError());
+            }
         } else if (evento instanceof EventoResultadoRuleta e) {
             modelo.aplicarResultadoRuleta(e);
+            notificarEstadoRecibido();
         } else if (evento instanceof EventoResultadoGrito e) {
             modelo.aplicarResultadoGrito(e);
         } else if (evento instanceof EventoAnuciarGanador e) {
             modelo.aplicarGanador(e);
+        }
+    }
+
+    private void notificarEstadoRecibido() {
+        EscuchaEstadoInicial escucha = escuchaEstadoInicial;
+        if (escucha != null) {
+            escuchaEstadoInicial = null;
+            escucha.onEstadoRecibido();
+        }
+    }
+
+    private void notificarError(String mensaje) {
+        EscuchaEstadoInicial escucha = escuchaEstadoInicial;
+        if (escucha != null) {
+            escuchaEstadoInicial = null;
+            escucha.onErrorConexion(mensaje);
         }
     }
 }

@@ -17,12 +17,13 @@ public class TraductorEventos {
     private final IDispatcher dispatcher;
     private final IDeserializador<EventoAccion> deserializador;
     private final ISerializador<Evento> serializador;
-    private final String BROKER_IP = "192.168.100.97";
+    private final String brokerIp;
     private final int BROKER_PUERTO = 5001;
 
-    public TraductorEventos(FachadaDominio fachada, IDispatcher dispatcher) {
+    public TraductorEventos(FachadaDominio fachada, IDispatcher dispatcher, String brokerIp) {
         this.fachada = fachada;
         this.dispatcher = dispatcher;
+        this.brokerIp = brokerIp;
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
     }
@@ -33,14 +34,14 @@ public class TraductorEventos {
 
         Object resultadoDominio = null;
 
-        if (eventoEntrante instanceof EventoTirarCarta) {
-            resultadoDominio = fachada.validarYPlay(((EventoTirarCarta) eventoEntrante).getCarta());
+        if (eventoEntrante instanceof EventoTirarCarta e) {
+            resultadoDominio = fachada.validarYPlay(e.getIdJugador(), e.getCarta());
 
-        } else if (eventoEntrante instanceof EventoRobarCarta) {
-            resultadoDominio = fachada.robarCarta();
+        } else if (eventoEntrante instanceof EventoRobarCarta e) {
+            resultadoDominio = fachada.robarCarta(e.getIdJugador());
 
-        } else if (eventoEntrante instanceof EventoPasarTurno) {
-            resultadoDominio = fachada.pasarTurno();
+        } else if (eventoEntrante instanceof EventoPasarTurno e) {
+            resultadoDominio = fachada.pasarTurno(e.getIdJugador());
 
         } else if (eventoEntrante instanceof EventoGritar) {
             resultadoDominio = fachada.gritarUno(((EventoGritar) eventoEntrante).getJugador());
@@ -71,7 +72,7 @@ public class TraductorEventos {
 
         if (eventoSalida != null) {
             byte[] bytesAEnviar = serializador.objetoABytes(eventoSalida);
-            dispatcher.dispatch(BROKER_IP, BROKER_PUERTO, bytesAEnviar);
+            dispatcher.dispatch(brokerIp, BROKER_PUERTO, bytesAEnviar);
         }
     }
 
@@ -126,11 +127,21 @@ public class TraductorEventos {
 
     private Evento traducirUnirse(ResultadoUnirseDTO dto) {
         return switch (dto.getEventoTipo()) {
-            case UNIRSE_EXITOSO -> new EventoUnirseExitoso(
-                dto.getJugadorUnido(),
-                dto.getJugadoresEnSala(),
-                "SALA_ACTUALIZADA"
-            );
+            case UNIRSE_EXITOSO -> {
+                if (dto.getCartaCima() != null && dto.getIdJugadorTurnoActual() != null) {
+                    yield new EventoActualizarTurno(
+                        dto.getJugadoresEnSala(),
+                        dto.getCartaCima(),
+                        dto.getIdJugadorTurnoActual(),
+                        "SYNC"
+                    );
+                }
+                yield new EventoUnirseExitoso(
+                    dto.getJugadorUnido(),
+                    dto.getJugadoresEnSala(),
+                    "SALA_ACTUALIZADA"
+                );
+            }
 
             case PARTIDA_LLENA -> new EventoFallo(
                 Errores.SALA_LLENA,

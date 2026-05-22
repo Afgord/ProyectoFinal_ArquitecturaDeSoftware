@@ -18,7 +18,7 @@ import salida.DispatcherFactory;
 public class PruebaComportamientoTraductor {
 
     public static void main(String[] args) {
-        final String IP_SERVIDOR = "192.168.100.97";
+        final String IP_SERVIDOR = System.getProperty("uno.host", "127.0.0.1");
         final int PUERTO_SERVIDOR = 5000;
         final int PUERTO_CLIENTE = 5001;
 

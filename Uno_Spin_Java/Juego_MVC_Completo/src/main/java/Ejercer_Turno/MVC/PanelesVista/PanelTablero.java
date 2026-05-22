@@ -34,14 +34,14 @@ public class PanelTablero extends JPanel {
         setBackground(Color.RED);
         setLayout(null);
 
-        lbTextoEstado = new JLabel("Selecciona una carta", SwingConstants.CENTER);
+        lbTextoEstado = new JLabel("Doble clic en una carta para jugar", SwingConstants.CENTER);
         lbTextoEstado.setBounds(700, 420, 320, 30);
         lbTextoEstado.setFont(new Font("Arial", Font.BOLD, 18));
         lbTextoEstado.setForeground(Color.WHITE);
         add(lbTextoEstado);
 
         timerError = new Timer(2000, e -> {
-            lbTextoEstado.setText("Carta Seleccionada");
+            lbTextoEstado.setText("Doble clic en una carta para jugar");
             lbTextoEstado.setForeground(Color.WHITE);
         });
         timerError.setRepeats(false);
@@ -54,7 +54,7 @@ public class PanelTablero extends JPanel {
         panelUno.setBounds(1040, 600, 150, 100);
         add(panelUno);
 
-        panelMazo = new PanelMazo(control);
+        panelMazo = new PanelMazo(control, modelo);
         panelMazo.setBounds(610, 280, 100, 120);
         add(panelMazo);
 
@@ -86,9 +86,15 @@ public class PanelTablero extends JPanel {
             timerError.start();
         } else {
             timerError.stop();
-            lbTextoEstado.setText("Carta Seleccionada");
+            lbTextoEstado.setText("Doble clic en una carta para jugar");
             lbTextoEstado.setForeground(Color.WHITE);
         }
+        lbTextoEstado.repaint();
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        lbTextoEstado.setText(mensaje);
+        lbTextoEstado.setForeground(Color.WHITE);
         lbTextoEstado.repaint();
     }
 

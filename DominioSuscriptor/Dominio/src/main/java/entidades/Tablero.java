@@ -45,6 +45,20 @@ public class Tablero {
     public ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO) {
         System.out.println("[Tablero] Solicitud de unirse: " + jugadorDTO.getNombre());
 
+        for (Jugador existente : jugadores) {
+            if (existente.getIdJugador().equals(jugadorDTO.idJugador())) {
+                System.out.println("[Tablero] Reconexión de jugador existente: " + existente.getNombre());
+                return new ResultadoUnirseDTO(
+                    true,
+                    TipoEvento.UNIRSE_EXITOSO,
+                    new JugadorDTO(existente.getIdJugador(), existente.getNombre()),
+                    generarEstadoDTO(),
+                    obtenerCartaCimaDTO(),
+                    getJugadorActual().getIdJugador()
+                );
+            }
+        }
+
         if (estadoPartida == EstadoPartida.EN_CURSO) {
             System.out.println("[Tablero] Rechazo: partida ya en curso.");
 
@@ -101,8 +115,12 @@ public class Tablero {
             .collect(Collectors.toList());
     }
 
-    public ResultadoJugadaDTO ejecutarJugada(CartaDTO cartaDto) {
+    public ResultadoJugadaDTO ejecutarJugada(String idJugador, CartaDTO cartaDto) {
         System.out.println("[Tablero] Solicitud de jugada: " + cartaDto.getValor());
+
+        if (!esTurnoDe(idJugador)) {
+            return rechazoTurno(idJugador);
+        }
 
         if (ejecutarLogicaJugada(buscarCartaEnMano(cartaDto), cartaDto)) {
             JugadorDTO ganador = verificarGanador();
@@ -237,7 +255,11 @@ public class Tablero {
             : (turnoActual - 1 + size) % size;
     }
 
-    public ResultadoJugadaDTO pasarTurno() {
+    public ResultadoJugadaDTO pasarTurno(String idJugador) {
+        if (!esTurnoDe(idJugador)) {
+            return rechazoTurno(idJugador);
+        }
+
         System.out.println(
             "[Tablero] El jugador "
             + getJugadorActual().getNombre()
@@ -261,7 +283,11 @@ public class Tablero {
         sentidoReloj = !sentidoReloj;
     }
 
-    public ResultadoJugadaDTO robarYPasar() {
+    public ResultadoJugadaDTO robarYPasar(String idJugador) {
+        if (!esTurnoDe(idJugador)) {
+            return rechazoTurno(idJugador);
+        }
+
         darCartaAJugador(getJugadorActual());
         siguienteTurno();
 
@@ -364,6 +390,27 @@ public class Tablero {
 
     public Jugador getJugadorActual() {
         return jugadores.get(turnoActual);
+    }
+
+    private boolean esTurnoDe(String idJugador) {
+        return idJugador != null && getJugadorActual().getIdJugador().equals(idJugador);
+    }
+
+    private ResultadoJugadaDTO rechazoTurno(String idSolicitante) {
+        System.out.println(
+            "[Tablero] Rechazo: jugador " + idSolicitante
+            + " intentó actuar fuera de turno. Turno actual: "
+            + getJugadorActual().getIdJugador()
+        );
+        return new ResultadoJugadaDTO(
+            false,
+            TipoEvento.ERROR,
+            null,
+            generarEstadoDTO(),
+            obtenerCartaCimaDTO(),
+            getJugadorActual().getIdJugador(),
+            null
+        );
     }
 
     public Mazo getMazo() {

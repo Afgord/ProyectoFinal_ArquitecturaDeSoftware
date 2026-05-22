@@ -13,35 +13,12 @@ import salida.IDispatcher;
 
 /**
  * Punto único de cableado de la frontera de red del publicador/consumidor.
- *
- * Ensambla el flujo outbound (Dispatcher + PublicadorTCP + EventoTraductor)
- * y el flujo inbound (ServidorTCP + Receptor + ReceptorProcesador), y
- * devuelve el ModeloJuego y el EventoTraductor listos para conectarse al
- * MVC desde el Ejecutador.
- *
- * El idJugadorLocal, host y puertos los provee el Directorio (lobby) en
- * una iteración futura; mientras tanto el Ejecutador los pasa hardcoded
- * para debug.
  */
 public final class BootstrapRed {
 
-    private final ModeloJuego modelo;
-    private final EventoTraductor traductor;
+    private BootstrapRed() {}
 
-    private BootstrapRed(ModeloJuego modelo, EventoTraductor traductor) {
-        this.modelo = modelo;
-        this.traductor = traductor;
-    }
-
-    public ModeloJuego getModelo() {
-        return modelo;
-    }
-
-    public EventoTraductor getTraductor() {
-        return traductor;
-    }
-
-    public static BootstrapRed iniciar(String hostBroker, int puertoBroker, int puertoLocal, String idJugadorLocal) {
+    public static SesionCliente iniciar(String hostBroker, int puertoBroker, int puertoLocal, String idJugadorLocal) {
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
         IPublicador publicador = new PublicadorTCP(dispatcher, hostBroker, puertoBroker);
 
@@ -58,6 +35,6 @@ public final class BootstrapRed {
         servidor.addObserver(receptor);
         servidor.iniciar();
 
-        return new BootstrapRed(modelo, traductor);
+        return new SesionCliente(modelo, traductor, procesador);
     }
 }

@@ -19,21 +19,21 @@ public class FachadaJuego implements FachadaDominio {
     }
 
     @Override
-    public ResultadoJugadaDTO validarYPlay(CartaDTO carta) {
-        System.out.println("[Fachada] Procesando jugada...");
-        return tablero.ejecutarJugada(carta);
+    public ResultadoJugadaDTO validarYPlay(String idJugador, CartaDTO carta) {
+        System.out.println("[Fachada] Procesando jugada del jugador " + idJugador + "...");
+        return tablero.ejecutarJugada(idJugador, carta);
     }
 
     @Override
-    public ResultadoJugadaDTO robarCarta() {
-        System.out.println("[Fachada] Procesando robo...");
-        return tablero.robarYPasar();
+    public ResultadoJugadaDTO robarCarta(String idJugador) {
+        System.out.println("[Fachada] Procesando robo del jugador " + idJugador + "...");
+        return tablero.robarYPasar(idJugador);
     }
 
     @Override
-    public ResultadoJugadaDTO pasarTurno() {
-        System.out.println("[Fachada] Procesando pasar turno...");
-        return tablero.pasarTurno();
+    public ResultadoJugadaDTO pasarTurno(String idJugador) {
+        System.out.println("[Fachada] Procesando pasar turno del jugador " + idJugador + "...");
+        return tablero.pasarTurno(idJugador);
     }
     
     @Override

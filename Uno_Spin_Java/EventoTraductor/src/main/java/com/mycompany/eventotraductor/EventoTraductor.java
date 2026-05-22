@@ -11,6 +11,8 @@ import org.eventos.ejercer_turno.EventoGritar;
 import org.eventos.ejercer_turno.EventoPasarTurno;
 import org.eventos.ejercer_turno.EventoRobarCarta;
 import org.eventos.ejercer_turno.EventoTirarCarta;
+import org.eventos.ejercer_turno.EventoUnirsePartida;
+import dtos.JugadorDTO;
 
 /**
  * Flujo Outbound.
@@ -33,8 +35,13 @@ public class EventoTraductor implements IModelEventos {
         this.idJugadorLocal = idJugadorLocal;
     }
 
-    void setBloqueadoPorRed(boolean bloqueadoPorRed) {
-        this.bloqueadoPorRed = bloqueadoPorRed;
+    public void setRedHabilitada(boolean habilitada) {
+        this.bloqueadoPorRed = !habilitada;
+    }
+
+    public void emitirUnirsePartida(JugadorDTO jugador) {
+        Evento evt = new EventoUnirsePartida(idJugadorLocal, generarId(), jugador);
+        enviar(evt);
     }
 
     @Override

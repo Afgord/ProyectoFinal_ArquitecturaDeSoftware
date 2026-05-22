@@ -24,4 +24,16 @@ public class CartaDTO implements Serializable{
     
     public Valor getValor() { return valor; }
     public Colores getColor() { return color; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof CartaDTO otra)) return false;
+        return valor == otra.valor && color == otra.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(valor, color);
+    }
 }

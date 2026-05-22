@@ -1,5 +1,6 @@
 package Ejercer_Turno.MVC.PanelesVista;
 
+import Ejercer_Turno.Interfaces.IModeloDatos;
 import Ejercer_Turno.MVC.ControlJuego;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -16,10 +17,12 @@ import javax.swing.JPanel;
 public class PanelMazo extends JPanel {
 
     private final ControlJuego control;
+    private final IModeloDatos modelo;
     private BufferedImage imgAtras;
 
-    public PanelMazo(ControlJuego control) {
+    public PanelMazo(ControlJuego control, IModeloDatos modelo) {
         this.control = control;
+        this.modelo = modelo;
 
         setPreferredSize(new Dimension(100, 120));
         setOpaque(false);
@@ -28,9 +31,16 @@ public class PanelMazo extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                if (!esMiTurno()) return;
                 control.solicitarRobarCarta();
             }
         });
+    }
+
+    private boolean esMiTurno() {
+        String idLocal = modelo.getIdJugadorLocal();
+        String idTurno = modelo.getIdJugadorTurnoActual();
+        return idLocal != null && idLocal.equals(idTurno);
     }
 
     private void cargarImagen() {

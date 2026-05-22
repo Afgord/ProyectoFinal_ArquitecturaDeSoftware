@@ -19,12 +19,12 @@ public class BrokerOrquestador {
     private final IDirectorio directorio;
     private final String ID_DOMINIO = "DOMINIO_SISTEMA";
 
-    public BrokerOrquestador(IDispatcher dispatcher) {
+    public BrokerOrquestador(IDispatcher dispatcher, String host) {
         this.dispatcher = dispatcher;
         this.directorio = DirectorioFactory.crearNuevoDirectorio();
         this.deserializador = CodeDescFactory.crearDeserializador();
         this.serializador = CodeDescFactory.crearSerializador();
-        directorio.registrarConexion(new Conexion(ID_DOMINIO, "192.168.100.97", 5000));
+        directorio.registrarConexion(new Conexion(ID_DOMINIO, host, 5000));
     }
 
     public void rutarEvento(byte[] bytes) {

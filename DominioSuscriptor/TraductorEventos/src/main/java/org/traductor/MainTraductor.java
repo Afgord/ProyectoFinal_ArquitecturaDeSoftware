@@ -20,10 +20,10 @@ import java.util.List;
 public class MainTraductor {
 
     public static void main(String[] args) {
-        final String MI_IP = "192.168.100.97";
+        final String HOST = System.getProperty("uno.host", "127.0.0.1");
         final int PUERTO = 5000;
-        
-        System.out.println("=== [SISTEMA] Iniciando Servidor en " + MI_IP + " ===");
+
+        System.out.println("=== [SISTEMA] Iniciando Servidor en " + HOST + " ===");
 
         Mazo mazo = new Mazo(0, 9, true, true, true, true, true);
         Carta inicio = mazo.sacarCartaInicialValida();
@@ -49,7 +49,7 @@ public class MainTraductor {
         FachadaDominio fachada = new FachadaJuego(tablero);
         ServidorTCP servidor = new ServidorTCP(PUERTO);
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
-        TraductorEventos traductor = new TraductorEventos(fachada, dispatcher);
+        TraductorEventos traductor = new TraductorEventos(fachada, dispatcher, HOST);
         Receptor receptorPuente = new Receptor(bytes -> traductor.procesarEntrada(bytes));
         servidor.addObserver(receptorPuente);
 

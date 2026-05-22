@@ -15,9 +15,9 @@ import dtos.ResultadoUnirseDTO;
  * @author lagar
  */
 public interface FachadaDominio {
-    public ResultadoJugadaDTO robarCarta();
-    public ResultadoJugadaDTO validarYPlay(CartaDTO carta);
-    public ResultadoJugadaDTO pasarTurno();
-    public ResultadoGritoDTO gritarUno(JugadorDTO datosGrito);
-    public ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO);
+    ResultadoJugadaDTO robarCarta(String idJugador);
+    ResultadoJugadaDTO validarYPlay(String idJugador, CartaDTO carta);
+    ResultadoJugadaDTO pasarTurno(String idJugador);
+    ResultadoGritoDTO gritarUno(JugadorDTO datosGrito);
+    ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO);
 }
