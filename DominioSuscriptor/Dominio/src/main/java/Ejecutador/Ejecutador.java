@@ -10,7 +10,7 @@ import entidades.Jugador;
 import entidades.Mano;
 import entidades.Mazo;
 import entidades.Ruleta;
-import entidades.Tablero;
+import entidades.Partida;
 import fachadas.FachadaDominio;
 import fachadas.FachadaJuego;
 import java.util.ArrayList;
@@ -33,16 +33,16 @@ public class Ejecutador {
         Carta inicio = mazo.sacarCartaInicialValida();
         Descarte descarte = new Descarte(inicio);
         Ruleta ruleta = new Ruleta();
-        Tablero tablero = new Tablero(mazo, descarte, listaJugadores, ruleta);
+        Partida partida = new Partida(mazo, descarte, listaJugadores, ruleta);
         for (Jugador jugador : listaJugadores) {
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < Partida.CARTAS_POR_JUGADOR_DEFAULT; i++) {
                 Carta c = mazo.tomarUnaCarta();
                 if (c != null) {
                     jugador.agregarCarta(c);
                 }
             }
         }
-        FachadaDominio fachada = new FachadaJuego(tablero);
+        FachadaDominio fachada = new FachadaJuego(partida);
         System.out.println("=== Configuración Exitosa ===");
 
     }   

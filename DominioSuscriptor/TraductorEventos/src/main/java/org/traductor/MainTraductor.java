@@ -31,8 +31,8 @@ public class MainTraductor {
 
         List<Jugador> listaJugadores = new ArrayList<>();
 
-        Tablero tablero = new Tablero(mazo, descarte, listaJugadores, ruleta);
-        FachadaDominio fachada = new FachadaJuego(tablero);
+        Partida partida = new Partida(mazo, descarte, listaJugadores, ruleta);
+        FachadaDominio fachada = new FachadaJuego(partida);
         ServidorTCP servidor = new ServidorTCP(PUERTO);
         IDispatcher dispatcher = DispatcherFactory.crearDispatcher();
         TraductorEventos traductor = new TraductorEventos(fachada, dispatcher, HOST);

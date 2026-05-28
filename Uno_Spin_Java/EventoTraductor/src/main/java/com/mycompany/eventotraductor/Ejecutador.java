@@ -142,7 +142,7 @@ public class Ejecutador {
                 return;
             }
 
-            frameLobby.dispose();
+            frameLobby.cerrarVentana();
             eventos.setRedHabilitada(true);
             System.out.println("=== [CLIENTE] Partida iniciada. Turno actual: "
                     + modelo.getIdJugadorTurnoActual() + " ===");

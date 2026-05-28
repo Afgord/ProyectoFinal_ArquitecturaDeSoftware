@@ -1,0 +1,62 @@
+@startuml MVC_IniciarPartida_Secuencia
+skinparam responseMessageBelowArrow true
+
+actor Jugador
+participant "PanelAccionesLobby" as PAL
+participant "ControlLobby" as CL
+participant "ModeloLobby" as ML
+participant "FrameLobby" as FL
+participant "PanelLobby" as PL
+participant "ModeloJuego" as MJ
+participant "FrameTablero" as FT
+
+== Solicitud saliente (Control → puerto outbound) ==
+Jugador -> PAL : click Iniciar partida
+PAL -> CL : solicitarIniciarPartida()
+CL -> CL : emitirIniciarPartida()\nvia IModelEventosLobby
+
+note over CL
+  La implementación concreta de
+  IModelEventosLobby está fuera del MVC.
+end note
+
+== Estado entrante al lobby (puerto inbound) ==
+note over ML
+  Mensajes encontrados: invocados desde
+  la capa traductor (fuera del MVC).
+end note
+
+-> ML : aplicarUnirseExitoso(e)
+ML -> ML : notificar()
+ML -> FL : notificarCambio(contexto)
+FL -> PL : refrescar()
+
+-> ML : aplicarListosIniciar(e)
+ML -> ML : notificar()
+ML -> FL : notificarCambio(contexto)
+FL -> PL : refrescar()
+
+== Partida iniciada y apertura del tablero ==
+-> MJ : aplicarPartidaIniciada(e)
+MJ -> MJ : notificar()
+
+-> ML : aplicarPartidaIniciada()
+ML -> ML : notificar()
+ML -> FL : notificarCambio(contexto)
+
+FL -> FL : verificarPartidaPendiente()
+FL -> FL : onPartidaIniciada()\n(SwingUtilities.invokeLater)
+FL -> FL : cerrarVentana()
+
+FL -> FT : new FrameTablero(control, modelo, audio)
+FT -> MJ : registrarObservador(this)
+FT -> FT : actualizarManos()
+FT -> FT : setVisible(true)
+
+note over FL, FT
+  Solo participantes de Iniciar_Partida
+  y Ejercer_Turno (Juego_MVC_Completo).
+  Sin Broker, TraductorEventos ni Dominio.
+end note
+
+@enduml

@@ -1,0 +1,76 @@
+@startuml Dominio_IniciarPartida_Secuencia
+skinparam responseMessageBelowArrow true
+
+participant "TraductorEventos" as TE
+participant "FachadaJuego" as FJ
+participant "Partida" as P
+participant "Tablero" as T
+participant "Jugador" as J
+participant "Mazo" as M
+participant "Mano" as MN
+participant "Descarte" as D
+participant "Broker" as B
+
+== Inicio manual (EventoIniciarPartida) ==
+TE -> FJ : iniciarPartida(idJugador)
+FJ -> P : registrarListoParaIniciar(idJugador)
+P -> P : validar jugador y consenso\n(usando estado propio)
+alt Todos listos
+  P -> P : iniciar()
+  P -> T : repartirManosIniciales(getCartasPorJugador())
+  loop por cada jugador
+    T -> J : getMano()
+    loop cartasPorJugador veces
+      T -> M : tomarUnaCarta()
+      M --> T : Carta
+    end
+    T -> MN : recibirCartas(cartasIniciales)
+  end
+  T -> M : sacarCartaInicialValida()
+  T -> D : colocarCartaInicial(carta)
+  P -> P : marcarEnCurso()
+  P --> FJ : ResultadoIniciarPartidaDTO
+else Inicio pendiente
+  P --> FJ : ResultadoIniciarPartidaDTO (INICIO_PENDIENTE)
+end
+FJ --> TE : ResultadoIniciarPartidaDTO
+TE -> TE : traducirInicio(dto)
+TE -> B : enviarEvento(serializado)
+TE --> TE : return
+
+== Unirse con posible auto-inicio (EventoUnirsePartida) ==
+TE -> FJ : unirseAPartida(jugadorDTO)
+FJ -> P : unirseAPartida(jugadorDTO)
+P -> T : registrarJugadorEnSala(jugadorDTO, estado)
+T --> P : ResultadoUnirseDTO (sin auto-inicio)
+P -> P : evaluarInicioAutomatico()
+opt 4 jugadores en sala
+  P -> P : iniciar()
+  P -> T : repartirManosIniciales(getCartasPorJugador())
+  loop por cada jugador
+    T -> J : getMano()
+    T -> MN : recibirCartas(cartasIniciales)
+  end
+  T -> M : sacarCartaInicialValida()
+  T -> D : colocarCartaInicial(carta)
+  P -> P : marcarEnCurso()
+  P --> P : ResultadoIniciarPartidaDTO
+  P --> FJ : ResultadoUnirseDTO (+ inicioAutomatico)
+else Menos de 4 jugadores
+  P --> FJ : ResultadoUnirseDTO
+end
+FJ --> TE : ResultadoUnirseDTO
+TE -> TE : traducirUnirse(dto)
+TE -> B : enviarEvento(EventoUnirseExitoso)
+opt hay inicioAutomatico
+  TE -> TE : traducirInicio(dto.getInicioAutomatico())
+  TE -> B : enviarEvento(EventoPartidaIniciada)
+  note over TE
+    Mismo hilo, flujo síncrono:
+    traducir → enviar(1) → traducir → enviar(2) → return.
+    No hay hilos paralelos en dominio.
+  end note
+end
+TE --> TE : return
+
+@enduml

@@ -1,0 +1,134 @@
+@startuml Dominio_Clases
+skinparam classAttributeIconSize 0
+
+package "fachadas" {
+  interface FachadaDominio {
+    +unirseAPartida(jugadorDTO)
+    +iniciarPartida(idSolicitante)
+    +validarYPlay(id, carta)
+    +robarCarta(id)
+    +pasarTurno(id)
+    +gritarUno(datosGrito)
+  }
+  class FachadaJuego {
+    -partida: Partida
+    +unirseAPartida(jugadorDTO): ResultadoUnirseDTO
+    +iniciarPartida(id): ResultadoIniciarPartidaDTO
+  }
+}
+
+package "traductor" {
+  class TraductorEventos {
+    -fachada: FachadaDominio
+    +procesarEntrada(bytes)
+    -traducirInicio(dto): Evento
+    -traducirUnirse(dto): Evento
+    -enviarEvento(evento)
+  }
+}
+
+package "entidades" {
+  enum EstadoPartida {
+    EN_ESPERA
+    EN_CURSO
+  }
+  enum TipoEvento
+  enum Colores
+  enum Valor
+
+  class Partida <<agregado raíz>> {
+    -estado: EstadoPartida
+    -cartasPorJugador: int
+    -tablero: Tablero
+    -jugadoresListos: Set<String>
+    +unirseAPartida(jugadorDTO): ResultadoUnirseDTO
+    +registrarListoParaIniciar(id)
+    +evaluarInicioAutomatico()
+    +iniciar(): ResultadoIniciarPartidaDTO
+    +getEstado(): EstadoPartida
+    +getCartasPorJugador(): int
+    #marcarEnCurso()
+    -debeIniciarAutomaticamente(n): boolean
+    -permiteInicioManual(n): boolean
+    -puedeIniciar(n): boolean
+  }
+
+  class Tablero {
+    -mazo: Mazo
+    -descarte: Descarte
+    -jugadores: List<Jugador>
+    -ruleta: Ruleta
+    #registrarJugadorEnSala(jugadorDTO, estado)
+    +repartirManosIniciales(cartasPorJugador)
+    +ejecutarJugada(id, carta)
+  }
+
+  class Carta {
+    -valor: Valor
+    -color: Colores
+  }
+  class Mano {
+    -cartas: List<Carta>
+    +recibirCartas(nuevasCartas)
+    +agregarCarta(carta)
+    +removerCarta(carta)
+  }
+  class Mazo {
+    +tomarUnaCarta(): Carta
+    +sacarCartaInicialValida(): Carta
+  }
+  class Descarte {
+    +colocarCartaInicial(carta)
+    +recibirCarta(carta)
+    +getCartaCima(): Carta
+  }
+  class Jugador {
+    -idJugador: String
+    -nombre: String
+    -mano: Mano
+    +getMano(): Mano
+  }
+  class Ruleta {
+    +girarYAplicar(tablero)
+  }
+}
+
+package "dtos" {
+  class JugadorDTO
+  class CartaDTO
+  class ResultadoUnirseDTO
+  class ResultadoIniciarPartidaDTO
+  class ResultadoJugadaDTO
+  class ResultadoGritoDTO
+}
+
+FachadaJuego ..|> FachadaDominio
+FachadaJuego --> Partida : delega
+TraductorEventos --> FachadaDominio : usa
+
+Partida *-- Tablero : agregado
+Partida --> EstadoPartida
+Tablero ..> Partida : referencia agregado
+
+Tablero --> Mazo
+Tablero --> Descarte
+Tablero --> Ruleta
+Tablero o-- Jugador
+Jugador *-- Mano
+Mano o-- Carta
+Carta --> Valor
+Carta --> Colores
+
+Tablero ..> ResultadoUnirseDTO : crea
+Partida ..> ResultadoUnirseDTO : crea
+Partida ..> ResultadoIniciarPartidaDTO : crea
+
+note bottom of Partida
+  PoliticaInicioPartida absorbida como
+  métodos privados (debeIniciarAutomaticamente,
+  permiteInicioManual, puedeIniciar).
+  Partida conoce su propio estado (getEstado),
+  no consulta estado al Tablero.
+end note
+
+@enduml

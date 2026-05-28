@@ -18,6 +18,15 @@ public class Mano {
         this.cartas = new ArrayList<>();
     }
 
+    public void recibirCartas(List<Carta> nuevasCartas) {
+        if (nuevasCartas == null) {
+            return;
+        }
+        for (Carta carta : nuevasCartas) {
+            agregarCarta(carta);
+        }
+    }
+
     public void agregarCarta(Carta carta) {
         if (carta != null) {
             cartas.add(carta);

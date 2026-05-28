@@ -11,9 +11,7 @@ import dtos.ResultadoJugadaDTO;
 import dtos.ResultadoIniciarPartidaDTO;
 import dtos.ResultadoUnirseDTO;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static entidades.Valor.*;
@@ -34,28 +32,26 @@ public class Tablero {
     private boolean sentidoReloj;
     private TipoEvento estadoPendienteRuleta = null;
 
-    private EstadoPartida estadoPartida;
-    private final Partida partida = new Partida();
-    private final Set<String> jugadoresListos = new HashSet<>();
+    private final Partida partida;
 
-    public Tablero(Mazo mazo, Descarte descarte, List<Jugador> jugadores, Ruleta ruleta) {
+    public Tablero(Mazo mazo, Descarte descarte, List<Jugador> jugadores, Ruleta ruleta, Partida partida) {
         this.sentidoReloj = true;
         this.jugadores = jugadores;
         this.turnoActual = 0;
         this.mazo = mazo;
         this.descarte = descarte;
         this.ruleta = ruleta;
-        this.estadoPartida = EstadoPartida.EN_ESPERA;
+        this.partida = partida;
     }
 
-    public ResultadoUnirseDTO unirseAPartida(JugadorDTO jugadorDTO) {
+    ResultadoUnirseDTO registrarJugadorEnSala(JugadorDTO jugadorDTO, EstadoPartida estado) {
         System.out.println("[Tablero] Solicitud de unirse: " + jugadorDTO.getNombre());
 
         for (Jugador existente : jugadores) {
             if (existente.getIdJugador().equals(jugadorDTO.idJugador())) {
                 System.out.println("[Tablero] Reconexión de jugador existente: " + existente.getNombre());
 
-                if (estadoPartida == EstadoPartida.EN_CURSO) {
+                if (estado == EstadoPartida.EN_CURSO) {
                     return new ResultadoUnirseDTO(
                         true,
                         TipoEvento.UNIRSE_EXITOSO,
@@ -75,7 +71,7 @@ public class Tablero {
             }
         }
 
-        if (estadoPartida == EstadoPartida.EN_CURSO) {
+        if (estado == EstadoPartida.EN_CURSO) {
             System.out.println("[Tablero] Rechazo: partida ya en curso.");
 
             return new ResultadoUnirseDTO(
@@ -117,106 +113,30 @@ public class Tablero {
             nuevoJugador.getNombre()
         );
 
-        ResultadoIniciarPartidaDTO inicioAutomatico = evaluarInicioAutomatico();
-
         return new ResultadoUnirseDTO(
             true,
             TipoEvento.UNIRSE_EXITOSO,
             jugadorUnidoDTO,
-            generarEstadoSalaDTO(),
-            inicioAutomatico
+            generarEstadoSalaDTO()
         );
     }
 
-    private ResultadoIniciarPartidaDTO evaluarInicioAutomatico() {
-        if (!PoliticaInicioPartida.debeIniciarAutomaticamente(jugadores.size(), estadoPartida)) {
-            return null;
-        }
-
-        System.out.println(
-            "[Tablero] Sala completa (" + jugadores.size() + "/"
-            + CAPACIDAD_MAXIMA + "). Iniciando partida automáticamente..."
-        );
-        return partida.iniciar(this);
-    }
-
-    public ResultadoIniciarPartidaDTO registrarListoParaIniciar(String idJugador) {
-        if (estadoPartida == EstadoPartida.EN_CURSO) {
-            System.out.println("[Tablero] Rechazo: la partida ya está en curso.");
-            return new ResultadoIniciarPartidaDTO(
-                false,
-                TipoEvento.PARTIDA_EN_CURSO,
-                null,
-                null,
-                null
-            );
-        }
-
-        boolean jugadorEnSala = jugadores.stream()
-            .anyMatch(j -> j.getIdJugador().equals(idJugador));
-
-        if (!jugadorEnSala) {
-            System.out.println("[Tablero] Rechazo: jugador desconocido " + idJugador);
-            return new ResultadoIniciarPartidaDTO(
-                false,
-                TipoEvento.INICIO_RECHAZADO,
-                null,
-                null,
-                null
-            );
-        }
-
-        if (!PoliticaInicioPartida.permiteInicioManual(jugadores.size(), estadoPartida)) {
-            System.out.println(
-                "[Tablero] Rechazo: inicio manual no permitido ("
-                + jugadores.size() + "/" + CAPACIDAD_MAXIMA + " jugadores)"
-            );
-            return new ResultadoIniciarPartidaDTO(
-                false,
-                TipoEvento.INICIO_RECHAZADO,
-                null,
-                null,
-                null
-            );
-        }
-
-        jugadoresListos.add(idJugador);
-        System.out.println(
-            "[Tablero] Jugador " + idJugador + " listo para iniciar ("
-            + jugadoresListos.size() + "/" + jugadores.size() + ")"
-        );
-
-        boolean todosListos = jugadores.stream()
-            .allMatch(j -> jugadoresListos.contains(j.getIdJugador()));
-
-        if (todosListos) {
-            jugadoresListos.clear();
-            return partida.iniciar(this);
-        }
-
-        return new ResultadoIniciarPartidaDTO(
-            true,
-            TipoEvento.INICIO_PENDIENTE,
-            null,
-            null,
-            null,
-            new ArrayList<>(jugadoresListos),
-            jugadores.size()
-        );
-    }
-
-    public void ejecutarRepartoInicial() {
-        for (Jugador jugador : jugadores) {
-            jugador.setMano(new Mano());
-        }
-
+    public void repartirManosIniciales(int cartasPorJugador) {
         turnoActual = 0;
         sentidoReloj = true;
 
         for (Jugador jugador : jugadores) {
-            for (int i = 0; i < Partida.CARTAS_POR_JUGADOR; i++) {
-                darCartaAJugador(jugador);
+            jugador.setMano(new Mano());
+            List<Carta> cartasIniciales = new ArrayList<>();
+            for (int i = 0; i < cartasPorJugador; i++) {
+                if (!mazo.estaVacio()) {
+                    Carta carta = mazo.tomarUnaCarta();
+                    if (carta != null) {
+                        cartasIniciales.add(carta);
+                    }
+                }
             }
+            jugador.getMano().recibirCartas(cartasIniciales);
         }
 
         Carta cartaInicial = mazo.sacarCartaInicialValida();
@@ -542,12 +462,7 @@ public class Tablero {
         return sentidoReloj;
     }
 
-    public EstadoPartida getEstadoPartida() {
-        return estadoPartida;
-    }
-
-    public void setEstadoPartida(EstadoPartida estado) {
-        System.out.println("[Tablero] Estado de partida → " + estado);
-        this.estadoPartida = estado;
+    public Partida getPartida() {
+        return partida;
     }
 }

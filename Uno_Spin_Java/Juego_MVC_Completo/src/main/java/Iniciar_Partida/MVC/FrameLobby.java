@@ -39,6 +39,10 @@ public class FrameLobby extends JFrame implements ObservadorLobby {
         }
     }
 
+    public void cerrarVentana() {
+        dispose();
+    }
+
     @Override
     public void notificarCambio(IModeloLobby contexto) {
         SwingUtilities.invokeLater(() -> panelLobby.refrescar());

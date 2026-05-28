@@ -1,0 +1,154 @@
+@startuml MVC_IniciarPartida_Clases
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+package "Iniciar_Partida.Interfaces" {
+  interface IModeloLobby
+  interface ObservadorLobby {
+    +notificarCambio(contexto: IModeloLobby)
+  }
+  interface IReceptorEstadoLobby {
+    +aplicarUnirseExitoso(e)
+    +aplicarListosIniciar(e)
+    +aplicarPartidaIniciada()
+    +aplicarFallo(e)
+  }
+  interface IModelEventosLobby {
+    +emitirIniciarPartida()
+  }
+}
+
+package "Iniciar_Partida.MVC" {
+  class ModeloLobby {
+    -observadores: List<ObservadorLobby>
+    +registrarObservador(o)
+    +notificar()
+    +aplicarUnirseExitoso(e)
+    +aplicarListosIniciar(e)
+    +aplicarPartidaIniciada()
+  }
+  class FrameLobby {
+    -modelo: IModeloLobby
+    -panelLobby: PanelLobby
+    +notificarCambio(contexto)
+    +setOnPartidaIniciada(callback)
+    +verificarPartidaPendiente()
+    +cerrarVentana()
+  }
+  class ControlLobby {
+    -eventos: IModelEventosLobby
+    +solicitarIniciarPartida()
+  }
+}
+
+package "Iniciar_Partida.MVC.PanelesVista" {
+  class PanelLobby {
+    +refrescar()
+  }
+  class PanelAccionesLobby {
+    +refrescar()
+  }
+  class PanelSlotsJugadores {
+    +refrescar()
+  }
+}
+
+package "Ejercer_Turno.Interfaces" {
+  interface IModeloDatos
+  interface Observador {
+    +notificarCambio(contexto: IModeloDatos)
+  }
+  interface IReceptorEstadoJuego {
+    +aplicarPartidaIniciada(e)
+    +aplicarActualizacion(e)
+    +aplicarUnirseExitoso(e)
+    +aplicarFallo(e)
+  }
+  interface IModelEventos {
+    +emitirTirarCarta(carta)
+    +emitirRobarCarta()
+    +emitirPasarTurno()
+    +emitirGritar()
+  }
+}
+
+package "Ejercer_Turno.MVC" {
+  class ModeloJuego {
+    -observadores: List<Observador>
+    +registrarObservador(o)
+    +notificar()
+    +aplicarPartidaIniciada(e)
+    +aplicarActualizacion(e)
+  }
+  class FrameTablero {
+    -panelTablero: PanelTablero
+    +notificarCambio(contexto)
+  }
+  class ControlJuego {
+    -eventos: IModelEventos
+    +solicitarTirarCarta(carta)
+    +solicitarRobarCarta()
+    +solicitarPasarTurno()
+  }
+}
+
+package "Ejercer_Turno.MVC.PanelesVista" {
+  class PanelTablero {
+    +actualizarManos()
+    +actualizarEstadoVisual(contexto)
+    +refrescarTurno()
+  }
+}
+
+' --- Iniciar Partida ---
+ModeloLobby ..|> IModeloLobby
+ModeloLobby ..|> IReceptorEstadoLobby
+FrameLobby ..|> ObservadorLobby
+FrameLobby ..> IModeloLobby : usa
+ModeloLobby o-- ObservadorLobby : "1" --> "0..*"
+
+FrameLobby *-- PanelLobby : "1" --> "1"
+PanelLobby *-- PanelSlotsJugadores : "1" --> "1"
+PanelLobby *-- PanelAccionesLobby : "1" --> "1"
+PanelAccionesLobby ..> ControlLobby
+PanelAccionesLobby ..> IModeloLobby
+PanelSlotsJugadores ..> IModeloLobby
+ControlLobby ..> IModelEventosLobby
+
+' --- Ejercer Turno ---
+ModeloJuego ..|> IModeloDatos
+ModeloJuego ..|> IReceptorEstadoJuego
+FrameTablero ..|> Observador
+FrameTablero ..> IModeloDatos : usa
+ModeloJuego o-- Observador : "1" --> "0..*"
+
+FrameTablero *-- PanelTablero : "1" --> "1"
+PanelTablero ..> ControlJuego
+PanelTablero ..> IModeloDatos
+ControlJuego ..> IModelEventos
+
+note bottom of IReceptorEstadoLobby
+  Puertos inbound del MVC.
+  Invocados desde la capa traductor
+  (fuera de Juego_MVC_Completo).
+end note
+
+note bottom of IModelEventosLobby
+  Puertos outbound del MVC.
+  Implementados fuera del módulo;
+  no se dibujan aquí.
+end note
+
+note right of ModeloLobby
+  ModeloLobby es sujeto (Subject),
+  NO implementa ObservadorLobby.
+  Solo FrameLobby implementa la interfaz.
+end note
+
+note right of ModeloJuego
+  ModeloJuego es sujeto (Subject),
+  NO implementa Observador.
+  Solo FrameTablero implementa la interfaz.
+end note
+
+@enduml
