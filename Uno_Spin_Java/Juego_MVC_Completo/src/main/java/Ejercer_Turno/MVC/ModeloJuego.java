@@ -21,8 +21,8 @@ import org.eventos.ejercer_turno.EventoUnirseExitoso;
  *
  * Su estado solo se modifica al recibir eventos entrantes desde la red
  * (a través de los métodos aplicarXxx que invoca el ReceptorProcesador).
- * No toca FachadaDominio: cualquier validación corre en el subscriptor
- * Dominio del otro lado del broker.
+ * No invoca lógica de negocio local: cualquier validación corre en
+ * DominioSuscriptor (remoto), del otro lado del broker.
  */
 public class ModeloJuego implements IModeloDatos, IReceptorEstadoJuego {
 

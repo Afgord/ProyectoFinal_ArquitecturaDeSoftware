@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
  * Mano del jugador local.
  *
  * Un clic selecciona la carta; un segundo clic (o doble clic) la juega.
- * La vista solo se actualiza cuando el Dominio responde por la red.
+ * La vista solo se actualiza cuando DominioSuscriptor responde por la red.
  */
 public class PanelMano extends JPanel {
     private final ControlJuego control;

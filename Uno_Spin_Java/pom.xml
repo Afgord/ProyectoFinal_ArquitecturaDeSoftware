@@ -9,7 +9,6 @@
         <module>Juego_MVC_Completo</module>
         <module>Libreria_Sonido</module>
         <module>ComponenteConexion</module>
-        <module>Dominio</module>
         <module>Code_Desc</module>
         <module>Evento</module>
         <module>EventoTraductor</module>

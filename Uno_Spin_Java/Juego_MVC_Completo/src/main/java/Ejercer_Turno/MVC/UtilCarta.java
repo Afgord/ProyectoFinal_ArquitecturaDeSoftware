@@ -6,7 +6,7 @@ import entidades.Valor;
 import java.awt.Color;
 
 /**
- * Helper estático con todos los mapeos visuales que antes vivían en el Dominio.
+ * Helper estático con mapeos visuales del cliente (sin lógica de DominioSuscriptor).
  *
  * Convierte (Valor, Colores) en propiedades de presentación: Color AWT,
  * ruta de imagen, símbolo a pintar y si se trata de un comodín.

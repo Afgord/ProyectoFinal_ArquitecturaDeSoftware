@@ -32,7 +32,7 @@ import salida.IDispatcher;
 /**
  * Composition root del nodo Publicador/Consumidor.
  *
- * Cablea red, traductores de eventos y MVC. Requiere Dominio y Broker activos.
+ * Cablea red, traductores de eventos y MVC. Requiere DominioSuscriptor (remoto) y Broker activos.
  */
 public class Ejecutador {
 
@@ -96,7 +96,7 @@ public class Ejecutador {
             if (!lobbyListo.await(TIMEOUT_LOBBY_MS, TimeUnit.MILLISECONDS)) {
                 mostrarErrorYSalir(
                     "Tiempo de espera agotado al unirse al lobby.\n"
-                    + "Verifica que Dominio y Broker estén corriendo."
+                    + "Verifica que DominioSuscriptor y Broker estén corriendo."
                 );
             }
         } catch (InterruptedException e) {
