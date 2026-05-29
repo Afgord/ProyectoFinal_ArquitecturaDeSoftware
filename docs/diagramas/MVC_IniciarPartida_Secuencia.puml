@@ -4,59 +4,78 @@ skinparam responseMessageBelowArrow true
 actor Jugador
 participant "PanelAccionesLobby" as PAL
 participant "ControlLobby" as CL
+participant "«interface»\nIModelEventosLobby" as IMEL
+participant "«interface»\nIReceptorEstadoLobby" as IREL
 participant "ModeloLobby" as ML
+participant "«interface»\nObservadorLobby" as OL
 participant "FrameLobby" as FL
 participant "PanelLobby" as PL
+participant "«interface»\nIReceptorEstadoJuego" as IREJ
 participant "ModeloJuego" as MJ
+participant "«interface»\nIModeloDatos" as IMD
 participant "FrameTablero" as FT
 
 == Solicitud saliente (Control → puerto outbound) ==
 Jugador -> PAL : click Iniciar partida
 PAL -> CL : solicitarIniciarPartida()
-CL -> CL : emitirIniciarPartida()\nvia IModelEventosLobby
+CL -> IMEL : emitirIniciarPartida()
 
-note over CL
-  La implementación concreta de
-  IModelEventosLobby está fuera del MVC.
+note over IMEL
+  Implementación concreta
+  fuera de Juego_MVC_Completo.
 end note
 
 == Estado entrante al lobby (puerto inbound) ==
-note over ML
-  Mensajes encontrados: invocados desde
-  la capa traductor (fuera del MVC).
+note over IREL
+  Invocado desde capa traductor
+  vía IReceptorEstadoLobby.
 end note
 
--> ML : aplicarUnirseExitoso(e)
+IREL -> ML : aplicarUnirseExitoso(e)
 ML -> ML : notificar()
-ML -> FL : notificarCambio(contexto)
+ML -> OL : notificarCambio(contexto)
+OL -> FL : notificarCambio(contexto)
 FL -> PL : refrescar()
 
--> ML : aplicarListosIniciar(e)
+IREL -> ML : aplicarListosIniciar(e)
 ML -> ML : notificar()
-ML -> FL : notificarCambio(contexto)
+ML -> OL : notificarCambio(contexto)
+OL -> FL : notificarCambio(contexto)
 FL -> PL : refrescar()
 
 == Partida iniciada y apertura del tablero ==
--> MJ : aplicarPartidaIniciada(e)
+note over IREJ
+  Invocado desde capa traductor
+  vía IReceptorEstadoJuego.
+end note
+
+IREJ -> MJ : aplicarPartidaIniciada(e)
 MJ -> MJ : notificar()
 
--> ML : aplicarPartidaIniciada()
+IREL -> ML : aplicarPartidaIniciada()
 ML -> ML : notificar()
-ML -> FL : notificarCambio(contexto)
+ML -> OL : notificarCambio(contexto)
+OL -> FL : notificarCambio(contexto)
 
 FL -> FL : verificarPartidaPendiente()
+note right of FL
+  Lee estado vía IModeloLobby
+  (isPartidaIniciada)
+end note
 FL -> FL : onPartidaIniciada()\n(SwingUtilities.invokeLater)
 FL -> FL : cerrarVentana()
 
 FL -> FT : new FrameTablero(control, modelo, audio)
-FT -> MJ : registrarObservador(this)
+FT -> IMD : registrarObservador(this)
+IMD -> MJ : registrarObservador(this)
 FT -> FT : actualizarManos()
 FT -> FT : setVisible(true)
 
 note over FL, FT
   Solo participantes de Iniciar_Partida
   y Ejercer_Turno (Juego_MVC_Completo).
-  Sin Broker, TraductorEventos ni Dominio.
+  Interfaces de puerto inbound/outbound;
+  sin EventoTraductor, Broker ni Dominio.
 end note
 
 @enduml

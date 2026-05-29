@@ -20,6 +20,7 @@ alt Todos listos
   P -> T : repartirManosIniciales(getCartasPorJugador())
   loop por cada jugador
     T -> J : getMano()
+    J --> T : Mano
     loop cartasPorJugador veces
       T -> M : tomarUnaCarta()
       M --> T : Carta
@@ -27,6 +28,7 @@ alt Todos listos
     T -> MN : recibirCartas(cartasIniciales)
   end
   T -> M : sacarCartaInicialValida()
+  M --> T : Carta
   T -> D : colocarCartaInicial(carta)
   P -> P : marcarEnCurso()
   P --> FJ : ResultadoIniciarPartidaDTO
@@ -49,9 +51,15 @@ opt 4 jugadores en sala
   P -> T : repartirManosIniciales(getCartasPorJugador())
   loop por cada jugador
     T -> J : getMano()
+    J --> T : Mano
+    loop cartasPorJugador veces
+      T -> M : tomarUnaCarta()
+      M --> T : Carta
+    end
     T -> MN : recibirCartas(cartasIniciales)
   end
   T -> M : sacarCartaInicialValida()
+  M --> T : Carta
   T -> D : colocarCartaInicial(carta)
   P -> P : marcarEnCurso()
   P --> P : ResultadoIniciarPartidaDTO
